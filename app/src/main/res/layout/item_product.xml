@@ -16,8 +16,7 @@
             android:id="@+id/item_product_imageView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/download_logo"
-            android:background="@drawable/white_circle"
+            android:src="@drawable/logo_app"
             android:scaleType="centerCrop"
             />
 
@@ -47,7 +46,6 @@
                 android:id="@+id/item_product_tvBrand"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_textview"
                 android:padding="5dp"
                 android:textAlignment="center"
                 android:textColor="#FFF"

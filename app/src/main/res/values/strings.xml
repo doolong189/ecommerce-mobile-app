@@ -1,3 +1,31 @@
 <resources>
     <string name="app_name">eCommerce Application</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="login_title">Chào mừng \nBạn đã quay trở lại!</string>
+    <string name="no_have_account">Tạo một tài khoản mới? <u><font color='#249DB7'>Đăng ký</font></u> </string>
+    <string name="have_account">Bạn đã có tài khoản? <u><font color='#249DB7'>Đăng Nhập</font></u> </string>
+    <string name="register_text">Bấm vào nút <font color='#FF0000'>Đăng ký</font>, để xác nhận bạn đồng ý với các điều khoản</string>
+    <string name="username_or_email">Tên đăng nhập hoặc email</string>
+    <string name="password">Mật khẩu</string>
+    <string name="login">Đăng nhập</string>
+    <string name="or">Hoặc</string>
+    <string name="create_account">Tạo tài khoản</string>
+    <string name="name">Họ tên</string>
+    <string name="confirm_password">Xác nhận mật khẩu</string>
+    <string name="forgot_password">Quên \nmật khẩu?</string>
+    <string name="create_your_account">Tạo \ntài khoản</string>
+    <string name="email_address">Nhập địa chỉ email của bạn</string>
+    <string name="note_message">*Chúng tôi sẽ gửi một tin nhắn cho bạn để đặt hoặc lấy lại mật khẩu mới</string>
+    <string name="submit">Gửi</string>
+    <string name="nav_messenger">Tin nhắn</string>
+    <string name="nav_shopping">Mua sắm</string>
+    <string name="nav_notification">Thông báo</string>
+    <string name="nav_user">Người dùng</string>
+    <string name="text_search">Tìm kiếm...</string>
+    <string name="text_location">Vị trí</string>
+    <string name="text_scope">Trong vòng 1km</string>
+    <string name="text_category">Hạng mục</string>
+    <string name="text_product">Sản phẩm</string>
+
 </resources>

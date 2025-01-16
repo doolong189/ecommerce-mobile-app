@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.launch.login.LoginFragment">
+
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       >
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:background="#FFFFFF"
+           android:orientation="vertical"
+           android:padding="15dp">
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_margin="10dp"
+               android:orientation="vertical">
+
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="@string/login_title"
+                   android:textSize="30sp"
+                   android:textStyle="bold" />
+           </LinearLayout>
+
+           <EditText
+               android:id="@+id/edEmail"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_margin="10dp"
+               android:background="@drawable/border_shadow"
+               android:hint="@string/username_or_email"
+               android:padding="15dp"
+               android:drawableStart="@drawable/baseline_person_24"
+               android:drawablePadding="10dp"/>
+
+           <EditText
+               android:id="@+id/edPassword"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_margin="10dp"
+               android:background="@drawable/border_shadow"
+               android:hint="@string/password"
+               android:inputType="textPassword"
+               android:padding="15dp"
+               android:drawableStart="@drawable/baseline_lock_24"
+               android:drawablePadding="10dp"
+               android:drawableEnd="@drawable/baseline_remove_red_eye_24"/>
+
+           <TextView
+               android:id="@+id/login_tvForgotPassword"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:padding="5dp"
+               android:text="Quên mật khẩu?"
+               android:textAlignment="textEnd"
+               android:textSize="16sp"
+               android:textStyle="bold" />
+
+           <androidx.appcompat.widget.AppCompatButton
+               android:id="@+id/btnLogin"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_margin="15dp"
+               android:background="@drawable/bg_button"
+               android:padding="15dp"
+               android:text="@string/login"
+               android:textColor="#FFF"
+               android:textSize="18sp"
+               android:textStyle="bold" />
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:gravity="center"
+               android:orientation="horizontal"
+               android:padding="10dp">
+
+               <View
+                   android:layout_width="60dp"
+                   android:layout_height="1dp"
+                   android:background="#000000" />
+
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_margin="10dp"
+                   android:text="@string/or"
+                   android:textSize="16sp"
+                   android:textStyle="bold" />
+
+               <View
+                   android:layout_width="60dp"
+                   android:layout_height="1dp"
+                   android:background="#000000" />
+           </LinearLayout>
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:gravity="center"
+               android:orientation="horizontal"
+               android:padding="10dp">
+
+               <com.google.android.material.card.MaterialCardView
+                   android:layout_width="50dp"
+                   android:layout_height="50dp"
+                   android:layout_margin="5dp"
+                   android:background="@drawable/ic_google"
+                   android:src="@drawable/ic_google"
+                   app:cardCornerRadius="50dp"
+                   >
+                   <ImageView
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:layout_margin="5dp"
+                       android:src="@drawable/ic_google"
+                       android:padding="5dp"/>
+               </com.google.android.material.card.MaterialCardView>
+
+               <com.google.android.material.card.MaterialCardView
+                   android:layout_width="50dp"
+                   android:layout_height="50dp"
+                   android:layout_margin="5dp"
+                   android:background="@drawable/ic_google"
+                   android:src="@drawable/ic_google"
+                   app:cardCornerRadius="50dp"
+                   >
+                   <ImageView
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:layout_margin="5dp"
+                       android:src="@drawable/ic_facebook"
+                       android:padding="5dp"/>
+               </com.google.android.material.card.MaterialCardView>
+           </LinearLayout>
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_margin="10dp"
+               android:gravity="center"
+               android:orientation="horizontal"
+               android:padding="10dp">
+               <TextView
+                   android:id="@+id/tvRegister"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_margin="5dp"
+                   android:text="@string/no_have_account"
+                   android:textSize="16sp"
+                   android:textStyle="bold" />
+
+           </LinearLayout>
+
+
+       </LinearLayout>
+
+       <ProgressBar
+           android:id="@+id/progressBar"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_centerInParent="true"
+           android:visibility="gone" />
+   </RelativeLayout>
+
+</FrameLayout>

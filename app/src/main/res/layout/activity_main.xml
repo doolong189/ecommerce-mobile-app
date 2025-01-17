@@ -9,14 +9,6 @@
     tools:context=".ui.main.MainActivity"
     android:orientation="vertical">
 
-    <androidx.appcompat.widget.Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:id="@+id/main_toolBar"
-        android:background="#FFF"
-        app:titleTextColor="#000000"
-        android:elevation="4dp"
-        android:gravity="center_vertical" />
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
@@ -26,7 +18,7 @@
         android:focusableInTouchMode="true"
         app:defaultNavHost="true"
         app:navGraph="@navigation/nav_main"
-        android:layout_below="@id/main_toolBar"/>
+        />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -44,11 +36,15 @@
             android:layout_alignParentBottom="true"
             />
     </RelativeLayout>
-    <androidx.appcompat.widget.AppCompatButton
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/ic_launcher_foreground"
-        />
+        >
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/baseline_location_on_24"/>
+    </FrameLayout>
 </RelativeLayout>

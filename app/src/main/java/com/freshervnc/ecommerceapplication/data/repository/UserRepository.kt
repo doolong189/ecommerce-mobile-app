@@ -2,12 +2,15 @@ package com.freshervnc.ecommerceapplication.data.repository
 
 import com.freshervnc.ecommerceapplication.data.enity.GetAllUserRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetAllUserResponse
+import com.freshervnc.ecommerceapplication.data.enity.LoginRequest
 import com.freshervnc.ecommerceapplication.data.network.RetrofitInstance
 import com.freshervnc.ecommerceapplication.model.UserInfo
 
 class UserRepository {
 
-    suspend fun getAllUser(request : GetAllUserRequest) = RetrofitInstance.api.requestGetAllUser(request)
+    suspend fun getAllUser(request : GetAllUserRequest) = RetrofitInstance.api.getAllUser(request)
+
+    suspend fun getLogin(request : LoginRequest) = RetrofitInstance.api.getLogin(request)
 
     fun convertGetAllUser(response: GetAllUserResponse): List<UserInfo>? {
         var list: List<UserInfo>  = response.users ?: listOf<UserInfo>()

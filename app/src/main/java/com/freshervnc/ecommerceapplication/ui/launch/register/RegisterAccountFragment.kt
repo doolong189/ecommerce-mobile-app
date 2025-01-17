@@ -5,11 +5,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.freshervnc.ecommerceapplication.R
+import com.freshervnc.ecommerceapplication.common.BaseFragment
+import com.freshervnc.ecommerceapplication.databinding.FragmentRegisterAccountBinding
 
 
-class RegisterAccountFragment : Fragment() {
-
+class RegisterAccountFragment : BaseFragment() {
+    override var isVisibleActionBar = false
+    private lateinit var binding : FragmentRegisterAccountBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -20,6 +24,21 @@ class RegisterAccountFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_register_account, container, false)
+        binding = FragmentRegisterAccountBinding.inflate(layoutInflater, container, false)
+        return binding.root
     }
+
+
+    override fun setView() {
+    }
+
+    override fun setAction() {
+        binding.tvHaveAccount.setOnClickListener {
+            findNavController().popBackStack()
+        }
+    }
+
+    override fun setObserve() {
+    }
+
 }

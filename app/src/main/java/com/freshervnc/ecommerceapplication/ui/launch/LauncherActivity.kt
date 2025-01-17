@@ -15,7 +15,7 @@ class LauncherActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityLauncherBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        supportActionBar?.hide()
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         setupActionBarWithNavController(navHostFragment.navController)

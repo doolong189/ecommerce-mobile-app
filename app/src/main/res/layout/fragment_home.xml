@@ -97,6 +97,9 @@
                         android:layout_height="match_parent"
                         android:id="@+id/rc_product"
                         tools:listitem="@layout/item_product"
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        app:spanCount="2"
+                        tools:itemCount="2"
                         />
                 </RelativeLayout>
             </LinearLayout>

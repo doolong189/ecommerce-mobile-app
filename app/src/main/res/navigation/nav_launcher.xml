@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_loginFragment_to_registerAccountFragment"
             app:destination="@id/registerAccountFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_forgotPasswordFragment"
+            app:destination="@id/forgotPasswordFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerAccountFragment"
@@ -28,4 +31,9 @@
             android:id="@+id/action_splashFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/forgotPasswordFragment"
+        android:name="com.freshervnc.ecommerceapplication.ui.launch.forgotpassword.ForgotPasswordFragment"
+        android:label="fragment_forgot_password"
+        tools:layout="@layout/fragment_forgot_password" />
 </navigation>

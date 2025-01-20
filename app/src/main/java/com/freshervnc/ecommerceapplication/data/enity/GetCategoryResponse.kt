@@ -6,5 +6,5 @@ import com.freshervnc.ecommerceapplication.model.Category
 @Keep
 data class GetCategoryResponse(
     var message : String? = null,
-    var categorys: List<Category>?,
+    var categorys: List<Category>? = null,
 )

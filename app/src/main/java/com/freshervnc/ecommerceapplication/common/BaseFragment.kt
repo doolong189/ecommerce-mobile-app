@@ -24,7 +24,7 @@ abstract class BaseFragment : Fragment() {
     }
     private fun setActionBar(isVisible: Boolean) {
         (requireActivity() as AppCompatActivity).supportActionBar?.apply {
-            setDisplayShowTitleEnabled(false)
+            setDisplayShowTitleEnabled(true)
             if (isVisible) {
                 show()
                 setDisplayHomeAsUpEnabled(true)

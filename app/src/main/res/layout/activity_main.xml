@@ -36,15 +36,5 @@
             android:layout_alignParentBottom="true"
             />
     </RelativeLayout>
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        >
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/baseline_location_on_24"/>
-    </FrameLayout>
+
 </RelativeLayout>

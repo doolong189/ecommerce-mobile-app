@@ -17,7 +17,9 @@
     <item
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:title="" />
+        android:title="@string/nav_search"
+        android:icon="@drawable/map_pointer"
+        />
     <item
         android:id="@+id/navNotification"
         android:layout_width="wrap_content"

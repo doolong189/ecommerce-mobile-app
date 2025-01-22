@@ -95,7 +95,7 @@ class ShoppingFragment : BaseFragment() {
     private fun getProductResult(event: Event<Resource<GetProductResponse>>){
         event.getContentIfNotHandled()?.let { response ->
             when (response) {
-                is Resource.Error -> {
+                is Resource.Success -> {
                     binding.progressBar.visibility = View.GONE
                     response.data?.let {
                         productAdapter.submitList(it.products!!)
@@ -104,7 +104,7 @@ class ShoppingFragment : BaseFragment() {
                 is Resource.Loading -> {
                     binding.progressBar.visibility = View.GONE
                 }
-                is Resource.Success -> {
+                is Resource.Error -> {
                     binding.progressBar.visibility = View.VISIBLE
                 }
             }

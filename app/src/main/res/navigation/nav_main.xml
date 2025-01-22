@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_main"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/shoppingFragment">
     <fragment
-        android:id="@+id/homeFragment"
+        android:id="@+id/shoppingFragment"
         android:name="com.freshervnc.ecommerceapplication.ui.main.shopping.ShoppingFragment"
-        android:label="fragment_home"
+        android:label="fragment_shopping"
         tools:layout="@layout/fragment_shopping" />
 </navigation>

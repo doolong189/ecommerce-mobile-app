@@ -46,7 +46,8 @@ class MainActivity : AppCompatActivity() {
         binding.mainBottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navShopping -> {
-                    ((supportFragmentManager.fragments[0] as NavHostFragment).childFragmentManager.fragments[0] as? ShoppingFragment)
+                    val navController = findNavController(R.id.nav_host_fragment)
+                    navController.navigate(R.id.shoppingFragment)
                 }
                 R.id.navMessenger ->{
                     startActivity(Intent(this,MessageActivity::class.java))

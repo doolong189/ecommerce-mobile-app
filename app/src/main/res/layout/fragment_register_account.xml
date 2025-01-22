@@ -93,7 +93,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:background="@drawable/bg_button"
+                android:background="@drawable/bg_button_save"
                 android:padding="15dp"
                 android:text="@string/create_account"
                 android:textColor="#FFF"

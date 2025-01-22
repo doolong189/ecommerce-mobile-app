@@ -1,19 +1,18 @@
-package com.freshervnc.ecommerceapplication.ui.launch.register
+package com.freshervnc.ecommerceapplication.ui.user
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
 import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.common.BaseFragment
-import com.freshervnc.ecommerceapplication.databinding.FragmentRegisterAccountBinding
 
 
-class RegisterAccountFragment : BaseFragment() {
-    override var isVisibleActionBar = false
-    private lateinit var binding : FragmentRegisterAccountBinding
+class PasswordFragment : BaseFragment() {
+    override var isVisibleActionBar: Boolean = false
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -24,23 +23,21 @@ class RegisterAccountFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentRegisterAccountBinding.inflate(layoutInflater, container, false)
-        return binding.root
+        return inflater.inflate(R.layout.fragment_password, container, false)
     }
-
     override fun initView() {
+        TODO("Not yet implemented")
     }
 
     override fun setView() {
+        TODO("Not yet implemented")
     }
 
     override fun setAction() {
-        binding.tvHaveAccount.setOnClickListener {
-            findNavController().popBackStack()
-        }
+        TODO("Not yet implemented")
     }
 
     override fun setObserve() {
+        TODO("Not yet implemented")
     }
-
 }

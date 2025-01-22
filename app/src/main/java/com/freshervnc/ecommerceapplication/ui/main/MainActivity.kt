@@ -12,6 +12,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.databinding.ActivityMainBinding
+import com.freshervnc.ecommerceapplication.databinding.ActivityMapEcommerceBinding
+import com.freshervnc.ecommerceapplication.ui.findmap.MapEcommerceActivity
 import com.freshervnc.ecommerceapplication.ui.main.shopping.ShoppingFragment
 import com.freshervnc.ecommerceapplication.ui.message.MessageActivity
 import com.freshervnc.ecommerceapplication.ui.notification.NotificationActivity
@@ -48,18 +50,15 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.navMessenger ->{
                     startActivity(Intent(this,MessageActivity::class.java))
-                    finish()
                 }
                 R.id.navFindMap -> {
-
+                    startActivity(Intent(this,MapEcommerceActivity::class.java))
                 }
                 R.id.navNotification -> {
                     startActivity(Intent(this,NotificationActivity::class.java))
-                    finish()
                 }
                 R.id.navUser -> {
                     startActivity(Intent(this,UserActivity::class.java))
-                    finish()
                 }
                 else -> {}
             }

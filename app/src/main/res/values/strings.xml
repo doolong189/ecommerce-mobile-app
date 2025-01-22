@@ -45,4 +45,12 @@
     <string name="last_message">Last message</string>
     <string name="default_time">24-hour HH:mm</string>
     <string name="status_message_user">Đang hoạt động</string>
+    <string name="create_new_password">Tạo mật khẩu mới.</string>
+    <string name="text_change_password">Mật khâu mới của bạn phải nhập khác với mật khẩu bạn đang dùng.</string>
+    <string name="current_password">Mật khẩu hiện tại</string>
+    <string name="new_password">Mật khẩu mới</string>
+    <string name="re_type_new_password">Nhập lại mật khẩu</string>
+    <string name="change_password">Thay đổi mật khẩu</string>
+    <string name="cancel">Hủy bỏ</string>
+    <string name="forgot_your_password">Bạn đã quên mật khẩu?</string>
 </resources>

@@ -16,7 +16,7 @@ import retrofit2.http.POST
 
 interface ApiService {
 
-    @POST("/user/getUsers/{id}")
+    @POST("/user/getUsers")
     suspend fun getAllUser(@Body request : GetAllUserRequest) : Response<GetAllUserResponse>
 
     @POST("/user/login")
@@ -29,4 +29,5 @@ interface ApiService {
 
     @POST("product/getProduct")
     suspend fun getProduct(@Body request : GetProductRequest) : Response<GetProductResponse>
+
 }

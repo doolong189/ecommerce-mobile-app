@@ -12,7 +12,6 @@ class LauncherActivity : AppCompatActivity() {
     private lateinit var binding : ActivityLauncherBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         binding = ActivityLauncherBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()

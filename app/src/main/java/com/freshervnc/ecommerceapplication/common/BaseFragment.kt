@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 
 abstract class BaseFragment : Fragment() {
+    abstract fun initView()
     abstract fun setView()
     abstract fun setAction()
     abstract fun setObserve()
@@ -18,13 +19,14 @@ abstract class BaseFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setActionBar(isVisibleActionBar)
+        initView()
         setView()
         setAction()
         setObserve()
     }
     private fun setActionBar(isVisible: Boolean) {
         (requireActivity() as AppCompatActivity).supportActionBar?.apply {
-            setDisplayShowTitleEnabled(true)
+            setDisplayShowTitleEnabled(false)
             if (isVisible) {
                 show()
                 setDisplayHomeAsUpEnabled(true)

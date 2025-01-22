@@ -4,11 +4,111 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.message.ChatFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical"
+        >
+        <LinearLayout
+            android:id="@+id/linear_top"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="#FFFFFF">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/chat_profile"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_launcher_foreground"
+                android:layout_gravity="center"
+                />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center_vertical"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/username"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:gravity="center_vertical"
+                    android:id="@+id/tvTopChat"/>
 
+                <TextView
+                    android:id="@+id/tvStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="@string/status_message_user"
+                    android:textColor="#A3A1A1"
+                    android:visibility="gone"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:id="@+id/rc_chat"
+
+            />
+        <LinearLayout
+            android:id="@+id/linear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            >
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/ln_camera_photoImage"
+                >
+                <ImageView
+                    android:id="@+id/iconCamera"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/baseline_camera_alt_24"
+                    android:layout_margin="7dp"/>
+                <ImageView
+                    android:id="@+id/iconPhotoImage"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/baseline_image_24"
+                    android:layout_margin="7dp"/>
+
+                <ImageView
+                    android:id="@+id/iconRecord"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/baseline_mic_24"
+                    android:layout_margin="7dp"/>
+            </LinearLayout>
+            <EditText
+                android:id="@+id/edChating"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/border_shadow"
+                android:hint="Aa"
+                android:paddingEnd="5dp"
+                android:inputType="text"
+                android:padding="8dp" />
+            <ImageView
+                android:id="@+id/imageSend"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/baseline_send_24"
+                android:layout_margin="10dp" />
+        </LinearLayout>
+
+    </LinearLayout>
 </FrameLayout>

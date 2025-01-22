@@ -2,6 +2,7 @@ package com.freshervnc.ecommerceapplication.utils
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.freshervnc.ecommerceapplication.model.UserInfo
 import com.google.gson.Gson
 
 class PreferencesUtils(context: Context) {
@@ -11,27 +12,19 @@ class PreferencesUtils(context: Context) {
 
     // Save user data
     fun saveUserData(
-        userId: String?,
-        name: String?,
-        email: String?,
-        passWord: String?,
-        phone: String?,
-        address: String?,
-        image : String?,
-        loc: List<Double>?,
-        token : String?
+        user: UserInfo?
     ) {
         val editor = sharedPreferences.edit()
-        editor.putString(KEY_USER_ID, userId)
-        editor.putString(KEY_USER_NAME, name)
-        editor.putString(KEY_USER_EMAIL, email)
-        editor.putString(KEY_USER_PASSWORD, passWord)
-        editor.putString(KEY_USER_PHONE, phone)
-        editor.putString(KEY_USER_ADDRESS, address)
-        editor.putString(KEY_USER_IMAGE, image)
-        val locJson = Gson().toJson(loc)
+        editor.putString(KEY_USER_ID, user?._id)
+        editor.putString(KEY_USER_NAME, user?.name)
+        editor.putString(KEY_USER_EMAIL, user?.email)
+        editor.putString(KEY_USER_PASSWORD, user?.password)
+        editor.putString(KEY_USER_PHONE, user?.phone)
+        editor.putString(KEY_USER_ADDRESS, user?.address)
+        editor.putString(KEY_USER_IMAGE, user?.image)
+        val locJson = Gson().toJson(user?.loc)
         editor.putString(KEY_USER_LOC, locJson)
-        editor.putString(KEY_TOKEN,token)
+        editor.putString(KEY_TOKEN,user?.token)
         editor.apply()
     }
 

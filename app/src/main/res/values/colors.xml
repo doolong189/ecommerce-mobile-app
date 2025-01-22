@@ -3,5 +3,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="logo_app">#1badbc</color>
-    <color name="colorPrimary">#2196F3</color>
+    <color name="colorPrimary">#249DB7</color>
+    <color name="background">#81A7C3</color>
+    <color name="toolbar">#249DB7</color>
 </resources>

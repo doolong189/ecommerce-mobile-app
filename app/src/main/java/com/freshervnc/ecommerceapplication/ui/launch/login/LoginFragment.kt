@@ -19,6 +19,7 @@ import com.freshervnc.ecommerceapplication.data.enity.LoginResponse
 import com.freshervnc.ecommerceapplication.databinding.FragmentLoginBinding
 import com.freshervnc.ecommerceapplication.ui.main.MainActivity
 import com.freshervnc.ecommerceapplication.utils.Event
+import com.freshervnc.ecommerceapplication.utils.PreferencesUtils
 import com.freshervnc.ecommerceapplication.utils.Resource
 
 
@@ -26,6 +27,8 @@ class LoginFragment : BaseFragment() {
     private lateinit var binding : FragmentLoginBinding
     private val viewModel by activityViewModels<LoginViewModel>()
     override var isVisibleActionBar: Boolean = false
+    private lateinit var preferences : PreferencesUtils
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -42,7 +45,13 @@ class LoginFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initView()
     }
+
+    override fun initView() {
+        preferences = PreferencesUtils(requireContext())
+    }
+
 
     override fun setView() {
     }
@@ -68,6 +77,7 @@ class LoginFragment : BaseFragment() {
             when (response) {
                 is Resource.Success -> {
                     binding.progressBar.visibility = View.GONE
+                    preferences.saveUserData(user = response.data?.user)
                     startActivity(Intent(requireContext(),MainActivity::class.java))
                     requireActivity().finish()
                 }

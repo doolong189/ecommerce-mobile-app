@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
 }
 
 android {
@@ -45,6 +46,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.play.services.maps)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -57,6 +59,15 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.2.0")
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
+
+
+    implementation("com.google.android.gms:play-services-location:21.3.0")
+    implementation("com.google.android.gms:play-services-analytics:18.0.2")
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
+    implementation ("com.google.android.libraries.places:places:3.2.0")
+    implementation("com.google.maps.android:android-maps-utils:2.3.0")
+    implementation ("com.squareup.picasso:picasso:2.8")
+    implementation("com.google.maps.android:android-maps-utils:3.9.0")
 
     //circle image
     implementation("de.hdodenhof:circleimageview:3.1.0")

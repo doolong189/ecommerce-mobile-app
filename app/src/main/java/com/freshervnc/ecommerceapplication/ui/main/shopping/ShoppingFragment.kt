@@ -1,6 +1,7 @@
 package com.freshervnc.ecommerceapplication.ui.main.shopping
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ import com.freshervnc.ecommerceapplication.data.enity.GetProductRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetProductResponse
 import com.freshervnc.ecommerceapplication.databinding.FragmentShoppingBinding
 import com.freshervnc.ecommerceapplication.ui.launch.login.LoginViewModel
+import com.freshervnc.ecommerceapplication.utils.Contacts
 import com.freshervnc.ecommerceapplication.utils.Event
 import com.freshervnc.ecommerceapplication.utils.PreferencesUtils
 import com.freshervnc.ecommerceapplication.utils.Resource

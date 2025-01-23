@@ -6,8 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.freshervnc.ecommerceapplication.R
+import com.freshervnc.ecommerceapplication.common.BaseFragment
 
-class ChatFragment : Fragment() {
+class ChatFragment : BaseFragment() {
+    override var isVisibleActionBar: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,4 +23,15 @@ class ChatFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_chat, container, false)
     }
 
+    override fun initView() {
+    }
+
+    override fun setView() {
+    }
+
+    override fun setAction() {
+    }
+
+    override fun setObserve() {
+    }
 }

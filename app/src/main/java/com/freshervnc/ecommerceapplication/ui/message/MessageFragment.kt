@@ -14,24 +14,29 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.Orientation
 import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.adapter.CategoryAdapter
+import com.freshervnc.ecommerceapplication.adapter.MessageAdapter
 import com.freshervnc.ecommerceapplication.adapter.UserAdapter
 import com.freshervnc.ecommerceapplication.common.BaseFragment
 import com.freshervnc.ecommerceapplication.data.enity.GetAllUserRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetAllUserResponse
+import com.freshervnc.ecommerceapplication.data.enity.GetMessageRequest
 import com.freshervnc.ecommerceapplication.databinding.FragmentMessageBinding
 import com.freshervnc.ecommerceapplication.ui.launch.login.LoginViewModel
 import com.freshervnc.ecommerceapplication.ui.main.MainActivity
 import com.freshervnc.ecommerceapplication.utils.Event
 import com.freshervnc.ecommerceapplication.utils.PreferencesUtils
 import com.freshervnc.ecommerceapplication.utils.Resource
+import com.google.firebase.FirebaseApp
 
 
 class MessageFragment : BaseFragment() {
-    override var isVisibleActionBar: Boolean = false
+    override var isVisibleActionBar: Boolean = true
     private lateinit var binding : FragmentMessageBinding
     private val viewModel by activityViewModels<MessageViewModel>()
     private lateinit var preferences : PreferencesUtils
     private var userAdapter = UserAdapter()
+    private lateinit var messageAdapter: MessageAdapter
+    var senderRoom = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +48,7 @@ class MessageFragment : BaseFragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentMessageBinding.inflate(layoutInflater, container, false)
+        FirebaseApp.initializeApp(requireContext())
         return binding.root
     }
 
@@ -73,6 +79,14 @@ class MessageFragment : BaseFragment() {
                     binding.progressBar.visibility = View.GONE
                     response.data?.let {
                         userAdapter.submitList(it.users!!)
+
+                        val senderId = preferences.userId!!
+                        for (item in it.users!!){
+                            senderRoom = senderId + item._id
+                        }
+                        messageAdapter = MessageAdapter()
+                        binding.rcHistoryChat.adapter = messageAdapter
+                        viewModel.fetchHistoryMessage(GetMessageRequest(users = it.users,preferences.userId!!))
                     }
                 }
 

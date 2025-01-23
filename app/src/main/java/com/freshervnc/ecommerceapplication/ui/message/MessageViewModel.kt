@@ -1,6 +1,7 @@
 package com.freshervnc.ecommerceapplication.ui.message
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -18,7 +19,9 @@ import com.freshervnc.ecommerceapplication.data.repository.UserRepository
 import com.freshervnc.ecommerceapplication.model.MessageModel
 import com.freshervnc.ecommerceapplication.model.UserInfo
 import com.freshervnc.ecommerceapplication.ui.launch.login.LoginViewModel
+import com.freshervnc.ecommerceapplication.utils.Contacts
 import com.freshervnc.ecommerceapplication.utils.Event
+import com.freshervnc.ecommerceapplication.utils.PreferencesUtils
 import com.freshervnc.ecommerceapplication.utils.Resource
 import com.freshervnc.ecommerceapplication.utils.Utils
 import com.google.firebase.database.DataSnapshot
@@ -33,6 +36,9 @@ import java.io.IOException
 class MessageViewModel (private val application: Application)  : AndroidViewModel(application) {
     private var repository : UserRepository = UserRepository()
     private val getAllUsersResult = MutableLiveData<Event<Resource<GetAllUserResponse>>>()
+    private var mySharedPreferences: PreferencesUtils = PreferencesUtils(application)
+    private val _messagesList = MutableLiveData<List<MessageModel>>()
+    val messagesList: LiveData<List<MessageModel>> get() = _messagesList
     fun getUsersResult(): LiveData<Event<Resource<GetAllUserResponse>>> {
         return getAllUsersResult
     }
@@ -77,36 +83,72 @@ class MessageViewModel (private val application: Application)  : AndroidViewMode
     }
 
 
-    fun fetchHistoryMessage(request : GetMessageRequest){
-        var senderRoom = ""
-        for (item in request.users!!){
-            senderRoom = request.senderId + item._id
-            FirebaseDatabase.getInstance().reference
-                .child("Chats")
-                .child(senderRoom)
-                .orderByChild("lastMsgTime")
-                .addValueEventListener(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        val messagesList = mutableListOf<MessageModel>()
-                        if (snapshot.exists()) {
-                            for (messageSnapshot in snapshot.children) {
-                                val lastMsg = messageSnapshot.child("lastMsg").getValue(String::class.java)
-                                val time = messageSnapshot.child("lastMsgTime").getValue(Long::class.java) ?: 0L
-                                if (lastMsg != null) {
-                                    messagesList.add(
-                                        MessageModel(
-                                            messageText = lastMsg,
-                                            timestamp = time))
+//    fun fetchHistoryMessage(request : GetMessageRequest){
+//        var senderRoom = ""
+//        for (item in request.users!!){
+//            senderRoom = request.senderId + item._id
+//            FirebaseDatabase.getInstance().reference
+//                .child("Chats")
+//                .child(senderRoom)
+//                .orderByChild("lastMsgTime")
+//                .addValueEventListener(object : ValueEventListener {
+//                    override fun onDataChange(snapshot: DataSnapshot) {
+//                        val messagesList = mutableListOf<MessageModel>()
+//                        if (snapshot.exists()) {
+//                            for (messageSnapshot in snapshot.children) {
+//                                val lastMsg = messageSnapshot.child("lastMsg").getValue(String::class.java)
+//                                val time = messageSnapshot.child("lastMsgTime").getValue(Long::class.java) ?: 0L
+//                                if (lastMsg != null) {
+//                                    messagesList.add(
+//                                        MessageModel(
+//                                            messageText = lastMsg,
+//                                            timestamp = time)
+//                                    )
+//                                }
+//                            }
+//                            messagesList.sortByDescending { it.timestamp }
+//                            Log.e(Contacts.TAG,"${messagesList.size}")
+//                            getMessageResult.postValue(messagesList)
+//                        }
+//                    }
+//                    override fun onCancelled(error: DatabaseError) {}
+//                })
+//        }
+//    }
+        fun fetchHistoryMessage(users : List<UserInfo>){
+            val senderId = mySharedPreferences.userId!!
+            var senderRoom = ""
+            for (item in users){
+                senderRoom = senderId + item._id
+                FirebaseDatabase.getInstance().reference
+                    .child("Chats")
+                    .child(senderRoom)
+                    .orderByChild("lastMsgTime")
+                    .addValueEventListener(object : ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            val messagesList = mutableListOf<MessageModel>()
+                            if (snapshot.exists()) {
+                                for (messageSnapshot in snapshot.children) {
+                                    val lastMsg = messageSnapshot.child("lastMsg").getValue(String::class.java)
+                                    val time = messageSnapshot.child("lastMsgTime").getValue(Long::class.java) ?: 0L
+                                    if (lastMsg != null) {
+                                        messagesList.add(
+                                            MessageModel(
+                                                messageText = lastMsg,
+                                                timestamp = time
+                                            )
+                                        )
+                                        println("log123 ${messagesList}")
+                                    }
                                 }
+                                messagesList.sortByDescending { it.timestamp }
+                                _messagesList.postValue(messagesList)
                             }
-                            messagesList.sortByDescending { it.timestamp }
-                            getMessageResult.postValue(messagesList)
                         }
-                    }
-                    override fun onCancelled(error: DatabaseError) {}
-                })
+                        override fun onCancelled(error: DatabaseError) {}
+                    })
+            }
         }
-    }
 
 
     class MessageViewModelFactory(val application : Application) : ViewModelProvider.Factory{

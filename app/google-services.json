@@ -1,0 +1,131 @@
+{
+  "project_info": {
+    "project_number": "876732120875",
+    "firebase_url": "https://organic-poetry-373016-default-rtdb.firebaseio.com",
+    "project_id": "organic-poetry-373016",
+    "storage_bucket": "organic-poetry-373016.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:876732120875:android:e44af767fd3d745a53cf6e",
+        "android_client_info": {
+          "package_name": "com.freshervnc.ecommerceapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "876732120875-v2ia8s94kuvjvdahf90ofjakq12rj36t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANlLgaSyaoK2YPS0P11n4Ny_HIXRZtFG8"
+        },
+        {
+          "current_key": "AIzaSyBQvFy4hVLtx8x5fbckRwyDz2hdanIPD18"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "876732120875-v2ia8s94kuvjvdahf90ofjakq12rj36t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:876732120875:android:2a120c1a51cc165653cf6e",
+        "android_client_info": {
+          "package_name": "com.hoanglong180903.shoppingease"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "876732120875-pqab26o0kh0lhlja3chppoi6s9bekatc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hoanglong180903.shoppingease",
+            "certificate_hash": "401a31ac51e717e590183bde22d87bd21ee4e020"
+          }
+        },
+        {
+          "client_id": "876732120875-v2ia8s94kuvjvdahf90ofjakq12rj36t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANlLgaSyaoK2YPS0P11n4Ny_HIXRZtFG8"
+        },
+        {
+          "current_key": "AIzaSyBQvFy4hVLtx8x5fbckRwyDz2hdanIPD18"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "876732120875-v2ia8s94kuvjvdahf90ofjakq12rj36t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:876732120875:android:c8cc671cc74a8ab853cf6e",
+        "android_client_info": {
+          "package_name": "hoanglong180903.myproject.socialhub"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "876732120875-000l8d8eudsrddqjvd7rom9v5sjcck2h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "hoanglong180903.myproject.socialhub",
+            "certificate_hash": "49be2215e4d965e24f714f55be700e51b461105c"
+          }
+        },
+        {
+          "client_id": "876732120875-8963b82hs1ffv3qe44ggd0rkqaaqg6le.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "hoanglong180903.myproject.socialhub",
+            "certificate_hash": "e70e30ce7159fd2c41fd3045aae24babfb92f500"
+          }
+        },
+        {
+          "client_id": "876732120875-v2ia8s94kuvjvdahf90ofjakq12rj36t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANlLgaSyaoK2YPS0P11n4Ny_HIXRZtFG8"
+        },
+        {
+          "current_key": "AIzaSyBQvFy4hVLtx8x5fbckRwyDz2hdanIPD18"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "876732120875-v2ia8s94kuvjvdahf90ofjakq12rj36t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

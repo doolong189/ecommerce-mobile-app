@@ -11,11 +11,9 @@ import com.freshervnc.ecommerceapplication.R
 class UserActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_user)
-
         val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_user) as NavHostFragment
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         setupActionBarWithNavController(navHostFragment.navController)
     }
 }

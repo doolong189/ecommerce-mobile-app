@@ -5,6 +5,8 @@ import com.freshervnc.ecommerceapplication.data.enity.GetAllUserResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetCategoryResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetProductRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetProductResponse
+import com.freshervnc.ecommerceapplication.data.enity.GetUserInfoRequest
+import com.freshervnc.ecommerceapplication.data.enity.GetUserInfoResponse
 import com.freshervnc.ecommerceapplication.data.enity.LoginRequest
 import com.freshervnc.ecommerceapplication.data.enity.LoginResponse
 import com.freshervnc.ecommerceapplication.data.enity.RegisterRequest
@@ -29,5 +31,8 @@ interface ApiService {
 
     @POST("product/getProduct")
     suspend fun getProduct(@Body request : GetProductRequest) : Response<GetProductResponse>
+
+    @POST("/user/getUserInfo")
+    suspend fun getUserInfo(@Body request : GetUserInfoRequest) : Response<GetUserInfoResponse>
 
 }

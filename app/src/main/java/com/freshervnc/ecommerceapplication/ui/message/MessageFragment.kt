@@ -2,6 +2,7 @@ package com.freshervnc.ecommerceapplication.ui.message
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -23,6 +24,7 @@ import com.freshervnc.ecommerceapplication.data.enity.GetMessageRequest
 import com.freshervnc.ecommerceapplication.databinding.FragmentMessageBinding
 import com.freshervnc.ecommerceapplication.ui.launch.login.LoginViewModel
 import com.freshervnc.ecommerceapplication.ui.main.MainActivity
+import com.freshervnc.ecommerceapplication.utils.Contacts
 import com.freshervnc.ecommerceapplication.utils.Event
 import com.freshervnc.ecommerceapplication.utils.PreferencesUtils
 import com.freshervnc.ecommerceapplication.utils.Resource
@@ -70,6 +72,7 @@ class MessageFragment : BaseFragment() {
         viewModel.getUsersResult().observe(viewLifecycleOwner, Observer {
             getUsersResult(it)
         })
+
     }
 
     private fun getUsersResult(event: Event<Resource<GetAllUserResponse>>){
@@ -86,7 +89,7 @@ class MessageFragment : BaseFragment() {
                         }
                         messageAdapter = MessageAdapter()
                         binding.rcHistoryChat.adapter = messageAdapter
-                        viewModel.fetchHistoryMessage(GetMessageRequest(users = it.users,preferences.userId!!))
+                        viewModel.fetchHistoryMessage(it.users!!)
                     }
                 }
 

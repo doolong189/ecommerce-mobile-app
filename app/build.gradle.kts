@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
+    id("com.google.gms.google-services")
+
 }
 
 android {
@@ -47,6 +49,8 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.play.services.maps)
+    implementation(libs.firebase.messaging)
+    implementation(libs.firebase.database.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -74,10 +78,14 @@ dependencies {
     //glide
     implementation("com.github.bumptech.glide:glide:4.16.0")
 
-    implementation(platform("com.google.firebase:firebase-bom:33.2.0"))
+    // Import the Firebase BoM
+    implementation(platform("com.google.firebase:firebase-bom:33.8.0"))
+
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+
+    // Add the dependency for the Firebase SDK for Google Analytics
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth")
-    implementation("com.google.firebase:firebase-database")
-    implementation("com.google.firebase:firebase-storage")
-    implementation("com.google.firebase:firebase-messaging-ktx:24.0.1")
+    implementation("com.google.firebase:firebase-firestore")
+
 }

@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/nav_notification">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_notification"
+    app:startDestination="@id/notificationFragment">
 
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.freshervnc.ecommerceapplication.ui.notification.NotificationFragment"
+        android:label="fragment_notification"
+        tools:layout="@layout/fragment_notification" >
+        <action
+            android:id="@+id/action_notificationFragment_to_detailNotificationFragment"
+            app:destination="@id/detailNotificationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailNotificationFragment"
+        android:name="com.freshervnc.ecommerceapplication.ui.notification.DetailNotificationFragment"
+        android:label="fragment_detail_notification"
+        tools:layout="@layout/fragment_detail_notification" />
 </navigation>

@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.freshervnc.ecommerceapplication" />
+                  <option name="mobileSdkAppId" value="1:876732120875:android:e44af767fd3d745a53cf6e" />
+                  <option name="projectId" value="organic-poetry-373016" />
+                  <option name="projectNumber" value="876732120875" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

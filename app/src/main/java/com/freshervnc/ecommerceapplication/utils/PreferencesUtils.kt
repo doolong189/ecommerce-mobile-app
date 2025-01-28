@@ -12,7 +12,8 @@ class PreferencesUtils(context: Context) {
 
     // Save user data
     fun saveUserData(
-        user: UserInfo?
+        user: UserInfo?,
+        token : String?
     ) {
         val editor = sharedPreferences.edit()
         editor.putString(KEY_USER_ID, user?._id)
@@ -24,7 +25,7 @@ class PreferencesUtils(context: Context) {
         editor.putString(KEY_USER_IMAGE, user?.image)
         val locJson = Gson().toJson(user?.loc)
         editor.putString(KEY_USER_LOC, locJson)
-        editor.putString(KEY_TOKEN,user?.token)
+        editor.putString(KEY_TOKEN,token)
         editor.apply()
     }
 
@@ -68,6 +69,8 @@ class PreferencesUtils(context: Context) {
         editor.remove(KEY_USER_PHONE)
         editor.remove(KEY_USER_ADDRESS)
         editor.remove(KEY_USER_IMAGE)
+        editor.remove(KEY_USER_LOC)
+        editor.remove(KEY_TOKEN)
         editor.apply()
     }
 

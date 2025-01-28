@@ -1,6 +1,6 @@
 package com.freshervnc.ecommerceapplication.model
 
-class MessageModel(
+class Message(
     val messageId: String = "",
     var messageText: String = "",
     var senderId: String = "",

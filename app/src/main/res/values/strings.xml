@@ -53,4 +53,6 @@
     <string name="change_password">Thay đổi mật khẩu</string>
     <string name="cancel">Hủy bỏ</string>
     <string name="forgot_your_password">Bạn đã quên mật khẩu?</string>
+    <string name="title">Title</string>
+    <string name="body">Body</string>
 </resources>

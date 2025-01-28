@@ -89,7 +89,7 @@ class MessageFragment : BaseFragment() {
                         }
                         messageAdapter = MessageAdapter()
                         binding.rcHistoryChat.adapter = messageAdapter
-                        viewModel.fetchHistoryMessage(it.users!!)
+                        viewModel.fetchHistoryMessage(GetMessageRequest(it.users!!,preferences.userId))
                     }
                 }
 

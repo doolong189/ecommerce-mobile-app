@@ -1,14 +1,20 @@
 package com.freshervnc.ecommerceapplication.data.network
 
+import com.freshervnc.ecommerceapplication.data.enity.AddNotificationRequest
+import com.freshervnc.ecommerceapplication.data.enity.AddNotificationResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetAllUserRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetAllUserResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetCategoryResponse
+import com.freshervnc.ecommerceapplication.data.enity.GetNotificationRequest
+import com.freshervnc.ecommerceapplication.data.enity.GetNotificationResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetProductRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetProductResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetUserInfoRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetUserInfoResponse
 import com.freshervnc.ecommerceapplication.data.enity.LoginRequest
 import com.freshervnc.ecommerceapplication.data.enity.LoginResponse
+import com.freshervnc.ecommerceapplication.data.enity.PushNotificationRequest
+import com.freshervnc.ecommerceapplication.data.enity.PushNotificationResponse
 import com.freshervnc.ecommerceapplication.data.enity.RegisterRequest
 import com.freshervnc.ecommerceapplication.data.enity.RegisterResponse
 import retrofit2.Response
@@ -35,4 +41,12 @@ interface ApiService {
     @POST("/user/getUserInfo")
     suspend fun getUserInfo(@Body request : GetUserInfoRequest) : Response<GetUserInfoResponse>
 
+    @POST("ntf/pushNotification")
+    suspend fun pushNotification(@Body request : PushNotificationRequest) : Response<PushNotificationResponse>
+
+    @POST("ntf/addNotification")
+    suspend fun addNotification(@Body request : AddNotificationRequest) : Response<AddNotificationResponse>
+
+    @POST("ntf/getNotification")
+    suspend fun getNotification(@Body request : GetNotificationRequest) : Response<GetNotificationResponse>
 }

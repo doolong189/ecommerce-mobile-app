@@ -1,25 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:layout_margin="5dp"
-   >
-
-    <ImageView
-        android:id="@+id/item_category_imageView"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:src="@drawable/logo_app"
-        />
-
-    <TextView
-        android:id="@+id/item_category_tvName"
-        android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="16dp"
+    android:layout_margin="5dp">
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Hạng mục"
-        android:textSize="13sp"
-        android:textStyle="bold" />
-</LinearLayout>
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        >
+        <ImageView
+            android:id="@+id/item_category_imageView"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/logo_app"
+            android:layout_margin="5dp"
+            />
+
+        <TextView
+            android:id="@+id/item_category_tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hạng mục"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

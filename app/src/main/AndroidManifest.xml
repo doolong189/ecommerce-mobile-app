@@ -10,12 +10,14 @@
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="32"
         tools:ignore="ScopedStorage" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
     <application
         android:name=".app.MyApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fitsSystemWindows="true"
         android:fullBackupContent="@xml/backup_rules"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
@@ -24,11 +26,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ECommerceApplication"
         android:usesCleartextTraffic="true"
-        tools:targetApi="31"
-        android:fitsSystemWindows="true"
         tools:ignore="LockedOrientationActivity"
         tools:replace="android:allowBackup,android:label,android:supportsRtl"
-        >
+        tools:targetApi="31">
+        <activity
+            android:name=".ui.cart.CartActivity"
+            android:exported="false" />
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
@@ -46,6 +49,7 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
         <activity
             android:name=".ui.main.MainActivity"
             android:exported="false" />
@@ -58,7 +62,6 @@
         <activity
             android:name=".ui.message.MessageActivity"
             android:exported="false" />
-
         <activity
             android:name=".ui.findmap.MapEcommerceActivity"
             android:exported="false" />
@@ -71,6 +74,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <service
             android:name=".service.FCMService"
             android:exported="true">

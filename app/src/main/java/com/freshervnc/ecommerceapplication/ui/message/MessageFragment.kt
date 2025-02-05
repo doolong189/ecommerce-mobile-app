@@ -22,6 +22,7 @@ import com.freshervnc.ecommerceapplication.data.enity.GetAllUserRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetAllUserResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetMessageRequest
 import com.freshervnc.ecommerceapplication.databinding.FragmentMessageBinding
+import com.freshervnc.ecommerceapplication.model.Message
 import com.freshervnc.ecommerceapplication.ui.launch.login.LoginViewModel
 import com.freshervnc.ecommerceapplication.ui.main.MainActivity
 import com.freshervnc.ecommerceapplication.utils.Contacts
@@ -59,8 +60,14 @@ class MessageFragment : BaseFragment() {
     }
 
     override fun setView() {
+        binding.rcUser.setHasFixedSize(true)
         binding.rcUser.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
         binding.rcUser.run { adapter = UserAdapter().also { userAdapter = it } }
+
+
+        binding.rcHistoryChat.setHasFixedSize(true)
+        binding.rcHistoryChat.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+
 
         viewModel.getUsers(GetAllUserRequest(id = preferences.userId))
     }
@@ -72,7 +79,12 @@ class MessageFragment : BaseFragment() {
         viewModel.getUsersResult().observe(viewLifecycleOwner, Observer {
             getUsersResult(it)
         })
-
+        viewModel.getMessageResult().observe(viewLifecycleOwner, Observer {
+            binding.progressBar.visibility = View.GONE
+            messageAdapter = MessageAdapter()
+            binding.rcHistoryChat.adapter = messageAdapter
+            messageAdapter.setMessage(it)
+        })
     }
 
     private fun getUsersResult(event: Event<Resource<GetAllUserResponse>>){
@@ -87,8 +99,6 @@ class MessageFragment : BaseFragment() {
                         for (item in it.users!!){
                             senderRoom = senderId + item._id
                         }
-                        messageAdapter = MessageAdapter()
-                        binding.rcHistoryChat.adapter = messageAdapter
                         viewModel.fetchHistoryMessage(GetMessageRequest(it.users!!,preferences.userId))
                     }
                 }

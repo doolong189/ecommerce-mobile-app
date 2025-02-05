@@ -13,6 +13,8 @@ import com.freshervnc.ecommerceapplication.data.enity.ErrorResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetCategoryResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetProductRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetProductResponse
+import com.freshervnc.ecommerceapplication.data.enity.GetProductWithCategoryRequest
+import com.freshervnc.ecommerceapplication.data.enity.GetProductWithCategoryResponse
 import com.freshervnc.ecommerceapplication.data.enity.LoginRequest
 import com.freshervnc.ecommerceapplication.data.repository.ShoppingRepository
 import com.freshervnc.ecommerceapplication.ui.launch.login.LoginViewModel
@@ -28,11 +30,16 @@ class ShoppingViewModel(private val application: Application)  : AndroidViewMode
     private var repository : ShoppingRepository = ShoppingRepository()
     private val getCategoryResult = MutableLiveData <Event<Resource<GetCategoryResponse>>>()
     private val getProductResult = MutableLiveData <Event<Resource<GetProductResponse>>>()
+    private val getProductWithCategoryResult = MutableLiveData<Event<Resource<GetProductWithCategoryResponse>>>()
     fun getCategoryResult(): LiveData<Event<Resource<GetCategoryResponse>>> {
         return getCategoryResult
     }
     fun getProductResult(): LiveData<Event<Resource<GetProductResponse>>> {
         return getProductResult
+    }
+    
+    fun getProductWithCategoryResult() : LiveData<Event<Resource<GetProductWithCategoryResponse>>>{
+        return getProductWithCategoryResult
     }
 
     fun getCategory() : Job = viewModelScope.launch{
@@ -97,6 +104,40 @@ class ShoppingViewModel(private val application: Application)  : AndroidViewMode
                 }
                 else -> {
                     getProductResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
+                        R.string.conversion_error))))
+                }
+            }
+        }
+    }
+    
+    fun getProductWithCategory(request : GetProductWithCategoryRequest) : Job = viewModelScope.launch { 
+        getProductWithCategoryResult.postValue(Event(Resource.Loading()))
+        try {
+            if (Utils.hasInternetConnection(getApplication<MyApplication>())){
+                val response = repository.getProductWithCategory(request)
+                if (response.isSuccessful){
+                    response.body()?.let { resultResponse ->
+                        getProductWithCategoryResult.postValue(Event(Resource.Success(resultResponse)))
+                    }
+                }else{
+                    val errorResponse = response.errorBody()?.let {
+                        val gson = Gson()
+                        gson.fromJson(it.string(), ErrorResponse::class.java)
+                    }
+                    getProductWithCategoryResult.postValue(Event(Resource.Error(errorResponse?.message ?: "")))
+                }
+            }else{
+                getProductWithCategoryResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
+                    R.string.no_internet_connection))))
+            }
+        }catch (t: Throwable){
+            when (t) {
+                is IOException -> {
+                    getProductWithCategoryResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
+                        R.string.network_failure))))
+                }
+                else -> {
+                    getProductWithCategoryResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
                         R.string.conversion_error))))
                 }
             }

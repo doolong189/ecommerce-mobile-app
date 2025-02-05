@@ -80,11 +80,45 @@ class MessageViewModel (private val application: Application)  : AndroidViewMode
     }
 
 
+//    fun fetchHistoryMessage(request : GetMessageRequest){
+//        var senderRoom = ""
+//        for (item in request.users!!){
+//            senderRoom = request.senderId + item._id
+//            Log.e(Contacts.TAG,"${senderRoom}")
+//            FirebaseDatabase.getInstance().reference
+//                .child("Chats")
+//                .child(senderRoom)
+//                .orderByChild("lastMsgTime")
+//                .addValueEventListener(object : ValueEventListener {
+//                    override fun onDataChange(snapshot: DataSnapshot) {
+//                        val messagesList = mutableListOf<Message>()
+//                        if (snapshot.exists()) {
+//                            for (messageSnapshot in snapshot.children) {
+//                                val lastMsg = messageSnapshot.child("lastMsg").getValue(String::class.java)
+//                                val time = messageSnapshot.child("lastMsgTime").getValue(Long::class.java) ?: 0L
+//                                if (lastMsg != null) {
+//                                    messagesList.add(
+//                                        Message(
+//                                            messageText = lastMsg,
+//                                            timestamp = time)
+//                                    )
+//                                }
+//                            }
+//                            messagesList.sortByDescending { it.timestamp }
+//                            Log.e(Contacts.TAG,"${messagesList.size}")
+//                            getMessageResult.postValue(messagesList)
+//                        }
+//                    }
+//                    override fun onCancelled(error: DatabaseError) {}
+//                })
+//        }
+//    }
+
     fun fetchHistoryMessage(request : GetMessageRequest){
+        val senderId = mySharedPreferences.userId!!
         var senderRoom = ""
         for (item in request.users!!){
-            senderRoom = request.senderId + item._id
-            Log.e(Contacts.TAG,"${senderRoom}")
+            senderRoom = senderId + item._id
             FirebaseDatabase.getInstance().reference
                 .child("Chats")
                 .child(senderRoom)
@@ -96,17 +130,19 @@ class MessageViewModel (private val application: Application)  : AndroidViewMode
                             for (messageSnapshot in snapshot.children) {
                                 val lastMsg = messageSnapshot.child("lastMsg").getValue(String::class.java)
                                 val time = messageSnapshot.child("lastMsgTime").getValue(Long::class.java) ?: 0L
+
                                 if (lastMsg != null) {
                                     messagesList.add(
                                         Message(
                                             messageText = lastMsg,
-                                            timestamp = time)
+                                            timestamp = time
+                                        )
                                     )
+                                    println("log123 ${messagesList}")
                                 }
                             }
                             messagesList.sortByDescending { it.timestamp }
-                            Log.e(Contacts.TAG,"${messagesList.size}")
-                            getMessageResult.postValue(messagesList)
+                            _messagesList.postValue(messagesList)
                         }
                     }
                     override fun onCancelled(error: DatabaseError) {}

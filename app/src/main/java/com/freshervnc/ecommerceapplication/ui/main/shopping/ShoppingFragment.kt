@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.adapter.CategoryAdapter
@@ -52,7 +53,7 @@ class ShoppingFragment : BaseFragment() {
 
     override fun setView() {
 
-        binding.rcCategory.layoutManager = GridLayoutManager(requireContext(), 4)
+        binding.rcCategory.layoutManager = GridLayoutManager(requireContext(), 3)
         binding.rcCategory.run { adapter = CategoryAdapter().also { categoryAdapter = it } }
 
         binding.rcProduct.layoutManager = GridLayoutManager(requireContext(), 2)
@@ -63,6 +64,9 @@ class ShoppingFragment : BaseFragment() {
     }
 
     override fun setAction() {
+        categoryAdapter.onClickItemCategory { id, position ->
+            findNavController().navigate(R.id.action_shoppingFragment_to_detailProductFragment)
+        }
     }
 
     override fun setObserve() {

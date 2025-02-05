@@ -36,7 +36,6 @@ class NotificationFragment : BaseFragment() {
     private var count = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(

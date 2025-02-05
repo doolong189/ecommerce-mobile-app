@@ -7,7 +7,7 @@ import kotlinx.coroutines.launch
 import java.lang.Exception
 
 object Contacts {
-//        const val BASE_URL = "http://192.168.52.197:8686"
-        const val BASE_URL = "http://192.168.1.2:8686"
+        const val BASE_URL = "http://192.168.52.197:8686"
+//        const val BASE_URL = "http://192.168.1.2:8686"
         const val TAG = "LOG_ECOMMERCE_APP"
 }

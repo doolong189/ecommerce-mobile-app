@@ -9,6 +9,8 @@ import com.freshervnc.ecommerceapplication.data.enity.GetNotificationRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetNotificationResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetProductRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetProductResponse
+import com.freshervnc.ecommerceapplication.data.enity.GetProductWithCategoryRequest
+import com.freshervnc.ecommerceapplication.data.enity.GetProductWithCategoryResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetUserInfoRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetUserInfoResponse
 import com.freshervnc.ecommerceapplication.data.enity.LoginRequest
@@ -38,6 +40,9 @@ interface ApiService {
     @POST("product/getProduct")
     suspend fun getProduct(@Body request : GetProductRequest) : Response<GetProductResponse>
 
+    @POST("product/getProductWithCategory")
+    suspend fun getProductWithCategory(@Body request : GetProductWithCategoryRequest) : Response<GetProductWithCategoryResponse>
+
     @POST("/user/getUserInfo")
     suspend fun getUserInfo(@Body request : GetUserInfoRequest) : Response<GetUserInfoResponse>
 
@@ -49,4 +54,5 @@ interface ApiService {
 
     @POST("ntf/getNotification")
     suspend fun getNotification(@Body request : GetNotificationRequest) : Response<GetNotificationResponse>
+
 }

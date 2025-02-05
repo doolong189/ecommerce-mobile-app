@@ -38,11 +38,11 @@
 
 
     <string name="no_internet_connection">Không có kết nối mạng</string>
-    <string name="network_failure">Network Failure</string>
+    <string name="network_failure">Lỗi mạng</string>
     <string name="conversion_error">Conversion Error</string>
     <string name="nav_search">Tìm kiếm</string>
-    <string name="username">Username</string>
-    <string name="last_message">Last message</string>
+    <string name="username">Tên người dùng</string>
+    <string name="last_message">Tin nhắn cuối</string>
     <string name="default_time">24-hour HH:mm</string>
     <string name="status_message_user">Đang hoạt động</string>
     <string name="create_new_password">Tạo mật khẩu mới.</string>
@@ -55,4 +55,28 @@
     <string name="forgot_your_password">Bạn đã quên mật khẩu?</string>
     <string name="title">Title</string>
     <string name="body">Body</string>
+
+    <string name="zero">0</string>
+    <string name="product">Tên sản phẩm</string>
+    <string name="price">Giá</string>
+    <string name="quantity">Số lượng</string>
+    <string name="description">Mô tả của người bán</string>
+    <string name="info_saler">Thông tin về người bán</string>
+    <string name="name_saler">Tên người bán</string>
+    <string name="address">Địa chỉ</string>
+    <string name="send_message_saler">Gửi tin nhắn cho người bán</string>
+    <string name="text_send_message">Mặt hàng này còn chứ?</string>
+    <string name="hint_send_message">Gửi tin nhắn riêng...</string>
+    <string name="checkout">Thanh toán</string>
+    <string name="total_product_price">Tổng giá sản phẩm</string>
+    <string name="discount">Giảm giá</string>
+    <string name="order_total">Tổng số đơn hàng</string>
+    <string name="my_billoder">Đơn hàng của tôi</string>
+    <string name="search">Tìm kiểm ở đây</string>
+    <string name="store_name">Cửa hàng</string>
+    <string name="active_status_store"><font color='#4CAF50'>Đang mở cửa</font> • Mở lúc 00:00</string>
+    <string name="direction">Đường đi</string>
+    <string name="call">Gọi</string>
+    <string name="message">Nhắn tin</string>
+
 </resources>

@@ -13,7 +13,8 @@ private var onClickItem: ((id: Category, position: Int) -> Unit)? = null
 
 class CategoryAdapter() : RecyclerView.Adapter<CategoryAdapter.ProductViewHolder>() {
     private var list: List<Category> = listOf()
-    fun onClickItemCategory(id: ((id: Category, position: Int) -> Unit)) {
+
+    fun onClickItemCategory(id: ((item : Category, position: Int) -> Unit)) {
         onClickItem = id
     }
 

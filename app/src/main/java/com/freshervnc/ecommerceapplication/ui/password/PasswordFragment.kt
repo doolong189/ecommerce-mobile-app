@@ -1,12 +1,10 @@
-package com.freshervnc.ecommerceapplication.ui.user
+package com.freshervnc.ecommerceapplication.ui.password
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.common.BaseFragment
 import com.freshervnc.ecommerceapplication.databinding.FragmentPasswordBinding
 

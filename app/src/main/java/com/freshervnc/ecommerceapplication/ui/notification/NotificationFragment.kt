@@ -6,9 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.adapter.NotificationAdapter
 import com.freshervnc.ecommerceapplication.common.BaseFragment
@@ -24,6 +26,7 @@ import com.freshervnc.ecommerceapplication.utils.Contacts
 import com.freshervnc.ecommerceapplication.utils.Event
 import com.freshervnc.ecommerceapplication.utils.PreferencesUtils
 import com.freshervnc.ecommerceapplication.utils.Resource
+import com.freshervnc.ecommerceapplication.utils.SwipeHelper
 
 
 class NotificationFragment : BaseFragment() {
@@ -49,22 +52,41 @@ class NotificationFragment : BaseFragment() {
 
     override fun initView() {
         preferences = PreferencesUtils(requireContext())
-
-    }
-
-    override fun setView() {
         Log.e(Contacts.TAG,"${preferences.token}")
-        viewModel.pushNotification(PushNotificationRequest(
-            registrationToken = preferences.token,
-            title = "Test Push Title ${count+1}",
-            body = "Test Push Body ${count+1}"
-        ))
+//        viewModel.pushNotification(PushNotificationRequest(
+//            registrationToken = preferences.token,
+//            title = "Test Push Title ${count+1}",
+//            body = "Test Push Body ${count+1}"
+//        ))
         binding.rcNotification.layoutManager = LinearLayoutManager(requireContext())
         binding.rcNotification.run { adapter = NotificationAdapter().also { notificationAdapter = it }}
         viewModel.getNotification(GetNotificationRequest(id = preferences.userId.toString()))
+
+        object : SwipeHelper(requireContext(), binding.rcNotification) {
+            override fun instantiateUnderlayButton(
+                viewHolder: RecyclerView.ViewHolder?,
+                underlayButtons: MutableList<UnderlayButton>?
+            ) {
+                underlayButtons?.add(
+                    UnderlayButton(
+                        getString(R.string.delete),
+                        0,
+                        ContextCompat.getColor(requireContext(), R.color.red)
+                    ) { position ->
+
+                    }
+                )
+            }
+        }
+    }
+
+    override fun setView() {
     }
 
     override fun setAction() {
+        notificationAdapter.onClickItemNotification { id, position ->
+
+        }
     }
 
     override fun setObserve() {

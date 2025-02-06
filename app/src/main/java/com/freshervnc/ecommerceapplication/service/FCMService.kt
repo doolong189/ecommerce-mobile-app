@@ -26,7 +26,7 @@ class FCMService : FirebaseMessagingService() {
         super.onMessageReceived(message)
         val notification = message.notification
         val activityIntent = Intent(applicationContext, NotificationActivity::class.java)
-        val pendingFlags: Int = if (Build.VERSION.SDK_INT >= 35) {
+        val pendingFlags: Int = if (Build.VERSION.SDK_INT >= 31) {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         } else {
             PendingIntent.FLAG_UPDATE_CURRENT

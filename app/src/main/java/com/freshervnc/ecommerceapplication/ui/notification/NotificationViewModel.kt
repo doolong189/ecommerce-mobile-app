@@ -145,14 +145,4 @@ class NotificationViewModel(private val application: Application)  : AndroidView
             }
         }
     }
-
-    class NotificationViewModelFactory(val application : Application) : ViewModelProvider.Factory{
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return if (modelClass.isAssignableFrom(NotificationViewModel::class.java)){
-                NotificationViewModel(application) as T
-            }else{
-                throw IllegalArgumentException("viewmodel not found")
-            }
-        }
-    }
 }

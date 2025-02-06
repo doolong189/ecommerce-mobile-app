@@ -124,13 +124,5 @@ class UserViewModel(private val application: Application)  : AndroidViewModel(ap
         )
     }
 
-    class UserViewModelFactory(val application : Application) : ViewModelProvider.Factory{
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return if (modelClass.isAssignableFrom(UserViewModel::class.java)){
-                UserViewModel(application) as T
-            }else{
-                throw IllegalArgumentException("viewmodel not found")
-            }
-        }
-    }
+
 }

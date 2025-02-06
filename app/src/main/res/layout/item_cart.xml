@@ -12,9 +12,10 @@
         android:layout_margin="10dp"
         android:orientation="horizontal"
         >
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/item_cart_imgView"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:src="@mipmap/ic_launcher"
             android:background="@drawable/white_circle"
             android:layout_gravity="center_vertical"
@@ -28,23 +29,27 @@
             android:layout_gravity="center_vertical"
             >
             <TextView
+                android:id="@+id/item_cart_tvName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/text_product"
                 android:textStyle="bold"/>
             <TextView
+                android:id="@+id/item_cart_tvPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/price"
                 android:textStyle="bold"
                 />
             <TextView
+                android:id="@+id/item_cart_tvQuanity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/quantity"
                 android:textStyle="bold"/>
         </LinearLayout>
         <ImageView
+            android:id="@+id/item_cart_imgDelete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/baseline_close_24"

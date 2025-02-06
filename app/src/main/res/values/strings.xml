@@ -78,5 +78,9 @@
     <string name="direction">Đường đi</string>
     <string name="call">Gọi</string>
     <string name="message">Nhắn tin</string>
+    <string name="delete">Xóa</string>
+    <string name="process_order">Đang xử lý</string>
+    <string name="completed_order">Hoàn thành</string>
+    <string name="cancel_order">Hủy bỏ</string>
 
 </resources>

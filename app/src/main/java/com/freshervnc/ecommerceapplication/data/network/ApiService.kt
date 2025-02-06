@@ -1,9 +1,13 @@
 package com.freshervnc.ecommerceapplication.data.network
 
+import com.freshervnc.ecommerceapplication.data.enity.AddCartRequest
+import com.freshervnc.ecommerceapplication.data.enity.AddCartResponse
 import com.freshervnc.ecommerceapplication.data.enity.AddNotificationRequest
 import com.freshervnc.ecommerceapplication.data.enity.AddNotificationResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetAllUserRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetAllUserResponse
+import com.freshervnc.ecommerceapplication.data.enity.GetCartRequest
+import com.freshervnc.ecommerceapplication.data.enity.GetCartResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetCategoryResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetNotificationRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetNotificationResponse
@@ -55,4 +59,12 @@ interface ApiService {
     @POST("ntf/getNotification")
     suspend fun getNotification(@Body request : GetNotificationRequest) : Response<GetNotificationResponse>
 
+    @POST("cart/addCart")
+    suspend fun addCart(@Body request : AddCartRequest) : Response<AddCartResponse>
+
+    @POST("cart/getCart")
+    suspend fun getCart(@Body request : GetCartRequest) : Response<GetCartResponse>
+
+    @POST("order/getOrders")
+    suspend fun getOrders(@Body request : )
 }

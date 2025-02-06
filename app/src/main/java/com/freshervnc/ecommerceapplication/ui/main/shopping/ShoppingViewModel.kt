@@ -143,14 +143,4 @@ class ShoppingViewModel(private val application: Application)  : AndroidViewMode
             }
         }
     }
-
-    class ShoppingViewModelFactory(val application : Application) : ViewModelProvider.Factory{
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return if (modelClass.isAssignableFrom(ShoppingViewModel::class.java)){
-                ShoppingViewModel(application) as T
-            }else{
-                throw IllegalArgumentException("viewmodel not found")
-            }
-        }
-    }
 }

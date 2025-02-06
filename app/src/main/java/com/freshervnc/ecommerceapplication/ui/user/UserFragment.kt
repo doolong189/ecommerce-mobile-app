@@ -1,5 +1,6 @@
 package com.freshervnc.ecommerceapplication.ui.user
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -17,6 +18,7 @@ import com.freshervnc.ecommerceapplication.data.enity.GetAllUserRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetUserInfoRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetUserInfoResponse
 import com.freshervnc.ecommerceapplication.databinding.FragmentUserBinding
+import com.freshervnc.ecommerceapplication.ui.cart.CartActivity
 import com.freshervnc.ecommerceapplication.utils.Event
 import com.freshervnc.ecommerceapplication.utils.PreferencesUtils
 import com.freshervnc.ecommerceapplication.utils.Resource
@@ -51,14 +53,20 @@ class UserFragment : BaseFragment() {
     }
 
     override fun setAction() {
+        val navi = requireActivity().supportFragmentManager.fragments[0] as NavHostFragment
         binding.userBtnEditProfile.setOnClickListener { }
 
         binding.userBtnChangePassword.setOnClickListener {
-            val navi = requireActivity().supportFragmentManager.fragments[0] as NavHostFragment
             navi.navController.navigate(R.id.passwordFragment)
         }
 
-        binding.userBtnStore.setOnClickListener {  }
+        binding.userBtnStore.setOnClickListener {
+
+        }
+
+        binding.userBtnBillOder.setOnClickListener {
+            navi.navController.navigate(R.id.orderFragment)
+        }
 
         binding.userBtnHelp.setOnClickListener { }
 

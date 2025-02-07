@@ -1,52 +1,38 @@
 package com.freshervnc.ecommerceapplication.ui.findmap
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.BitmapShader
 import android.graphics.Canvas
 import android.graphics.Color
-import android.graphics.Matrix
-import android.graphics.Paint
-import android.graphics.RectF
-import android.graphics.Shader
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.ImageViewCompat
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
-import androidx.recyclerview.widget.RecyclerView.Orientation
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.adapter.CategoryAdapter
 import com.freshervnc.ecommerceapplication.data.enity.GetCategoryResponse
+import com.freshervnc.ecommerceapplication.data.enity.GetDetailProductRequest
+import com.freshervnc.ecommerceapplication.data.enity.GetDetailProductResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetProductWithCategoryRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetProductWithCategoryResponse
 import com.freshervnc.ecommerceapplication.databinding.ActivityMapEcommerceBinding
 import com.freshervnc.ecommerceapplication.databinding.ViewMapMarkerBinding
 import com.freshervnc.ecommerceapplication.model.MapMarker
+import com.freshervnc.ecommerceapplication.model.Product
 import com.freshervnc.ecommerceapplication.ui.main.shopping.ShoppingViewModel
-import com.freshervnc.ecommerceapplication.utils.Contacts
 import com.freshervnc.ecommerceapplication.utils.Event
 import com.freshervnc.ecommerceapplication.utils.PreferencesUtils
 import com.freshervnc.ecommerceapplication.utils.Resource
@@ -55,7 +41,6 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
@@ -63,11 +48,6 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.libraries.places.api.Places
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.maps.android.clustering.ClusterManager
-import com.squareup.picasso.Picasso
-import kotlin.math.absoluteValue
-import kotlin.math.ceil
-import kotlin.random.Random
 
 
 class MapEcommerceActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -78,11 +58,12 @@ class MapEcommerceActivity : AppCompatActivity(), OnMapReadyCallback {
     private var locationArrayList: ArrayList<MapMarker>? = null
     private val shoppingViewModel by viewModels<ShoppingViewModel>()
     private var categoryAdapter = CategoryAdapter()
-
+    private var mMarker : Marker? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMapEcommerceBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        this.supportActionBar?.hide()
         initView()
         setView()
         setObserve()
@@ -130,10 +111,6 @@ class MapEcommerceActivity : AppCompatActivity(), OnMapReadyCallback {
         for (item in locationArrayList!!) {
             builder.include(LatLng(item.location.latitude, item.location.longitude))
         }
-        gMap.setOnMarkerClickListener { marker ->
-            showBottomSheetDialog(marker)
-            true
-        }
         val bounds = builder.build()
         val padding = 200
         val cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding)
@@ -144,6 +121,7 @@ class MapEcommerceActivity : AppCompatActivity(), OnMapReadyCallback {
         categoryAdapter.onClickItemCategory { item, position ->
             shoppingViewModel.getProductWithCategory(GetProductWithCategoryRequest(idCategory = item._id , idUser = preferences.userId))
         }
+
     }
     private fun setObserve(){
         shoppingViewModel.getCategoryResult().observe(this, Observer {
@@ -152,6 +130,10 @@ class MapEcommerceActivity : AppCompatActivity(), OnMapReadyCallback {
 
         shoppingViewModel.getProductWithCategoryResult().observe(this , Observer {
             getProductWithCategoryResult(it)
+        })
+
+        shoppingViewModel.getDetailProductResult().observe(this, Observer {
+            getDetailProductResult(it)
         })
     }
 
@@ -175,7 +157,6 @@ class MapEcommerceActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    @SuppressLint("PotentialBehaviorOverride")
     private fun getProductWithCategoryResult(event : Event<Resource<GetProductWithCategoryResponse>>){
         event.getContentIfNotHandled()?.let { response ->
             when(response){
@@ -186,10 +167,11 @@ class MapEcommerceActivity : AppCompatActivity(), OnMapReadyCallback {
                     response.data?.products?.map {
                         locationArrayList!!.add(
                              MapMarker(
-                                icon = MapMarker.Icon.Placeholder(url = it.image),
-                                titleText = it.idUser?.name ?: "",
-                                pinColor = COLORS.random(),
-                                location = LatLng(it.idUser?.loc!![1], it.idUser.loc[0])
+                                 id = it._id,
+                                 icon = MapMarker.Icon.Placeholder(url = it.image),
+                                 titleText = it.idUser?.name ?: "",
+                                 pinColor = COLORS.random(),
+                                 location = LatLng(it.idUser?.loc!![1], it.idUser.loc[0])
                             )
                         )
                     }
@@ -203,6 +185,23 @@ class MapEcommerceActivity : AppCompatActivity(), OnMapReadyCallback {
                     response.message?.let { message ->
                         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
                     }
+                }
+            }
+        }
+    }
+
+    private fun getDetailProductResult(event: Event<Resource<GetDetailProductResponse>>){
+        event.getContentIfNotHandled()?.let { response ->
+            when (response) {
+                is Resource.Error -> {
+                    binding.mapPgBar.visibility = View.GONE
+                }
+                is Resource.Loading -> {
+                    binding.mapPgBar.visibility = View.VISIBLE
+                }
+                is Resource.Success -> {
+                    binding.mapPgBar.visibility = View.GONE
+                    showBottomSheetDialog(response.data?.data!!)
                 }
             }
         }
@@ -222,7 +221,8 @@ class MapEcommerceActivity : AppCompatActivity(), OnMapReadyCallback {
             builder.include(LatLng(preferences.getUserLoc()!![1], preferences.getUserLoc()!![0]))
         }
         gMap.setOnMarkerClickListener { marker ->
-            showBottomSheetDialog(marker)
+            Log.e("zzzzz","${mMarker!!.tag}")
+            shoppingViewModel.getDetailProduct(GetDetailProductRequest(id = mMarker!!.tag.toString()))
             true
         }
         val bounds = builder.build()
@@ -247,10 +247,11 @@ class MapEcommerceActivity : AppCompatActivity(), OnMapReadyCallback {
                     val bitmap = Bitmap.createBitmap(binding.root.measuredWidth, binding.root.measuredHeight, Bitmap.Config.ARGB_8888)
                     val canvas = Canvas(bitmap)
                     binding.root.draw(canvas)
-                    gMap.addMarker(
+                    mMarker = gMap.addMarker(
                         MarkerOptions()
                             .position(LatLng(item.location.latitude, item.location.longitude))
                             .icon(BitmapDescriptorFactory.fromBitmap(bitmap)))
+                    mMarker!!.tag = item.id
                 }
 
                 override fun onLoadCleared(placeholder: Drawable?) {}
@@ -258,23 +259,15 @@ class MapEcommerceActivity : AppCompatActivity(), OnMapReadyCallback {
         ImageViewCompat.setImageTintList(binding.mapMarkerViewPin, ColorStateList.valueOf(item.pinColor))
     }
 
-    private fun showBottomSheetDialog(marker: Marker): Boolean {
+    private fun showBottomSheetDialog(item : Product): Boolean {
         val bottomSheetDialog = BottomSheetDialog(this)
         val view = layoutInflater.inflate(R.layout.bottom_sheet, null)
 
         // Cập nhật thông tin tọa độ vào TextView
-        val titleTextView = view.findViewById<TextView>(R.id.location_title)
-        val coordinatesTextView = view.findViewById<TextView>(R.id.location_coordinates)
-        val closeButton = view.findViewById<Button>(R.id.btn_close)
-
-        titleTextView.text = "Location Selected"
-        coordinatesTextView.text = "Latitude: ${marker.position.latitude}\nLongitude: ${marker.position.longitude}"
-
-        // Sự kiện đóng dialog khi nhấn nút
-        closeButton.setOnClickListener {
-            bottomSheetDialog.dismiss()
-        }
-
+        val tvProduct = view.findViewById<TextView>(R.id.dl_info_product_tvProduct)
+        val tvStoreName = view.findViewById<TextView>(R.id.dl_info_product_tvStore)
+        tvProduct.text = item.name
+        tvStoreName.text = "Cửa hàng: "+item.idUser?.name
         bottomSheetDialog.setContentView(view)
         bottomSheetDialog.show()
         return false

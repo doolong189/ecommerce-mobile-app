@@ -12,6 +12,8 @@ import com.freshervnc.ecommerceapplication.data.enity.AddCartResponse
 import com.freshervnc.ecommerceapplication.data.enity.ErrorResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetCartRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetCartResponse
+import com.freshervnc.ecommerceapplication.data.enity.GetOrderRequest
+import com.freshervnc.ecommerceapplication.data.enity.GetOrderResponse
 import com.freshervnc.ecommerceapplication.data.repository.ShoppingRepository
 import com.freshervnc.ecommerceapplication.utils.Event
 import com.freshervnc.ecommerceapplication.utils.Resource
@@ -32,7 +34,7 @@ class CartViewModel(private val application: Application) : AndroidViewModel(app
 
     private val getCartResult = MutableLiveData<Event<Resource<GetCartResponse>>>()
 
-     fun getCartResult(): LiveData<Event<Resource<GetCartResponse>>> {
+    fun getCartResult(): LiveData<Event<Resource<GetCartResponse>>> {
         return getCartResult
     }
 

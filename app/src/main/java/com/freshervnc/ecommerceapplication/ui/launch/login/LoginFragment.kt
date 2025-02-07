@@ -69,7 +69,7 @@ class LoginFragment : BaseFragment() {
     override fun setAction() {
         preferences.clearUserData()
         binding.btnLogin.setOnClickListener {
-            viewModel.getLogin(LoginRequest(email = "test3", password = "123"))
+            viewModel.getLogin(LoginRequest(email = "test2", password = "123"))
         }
         binding.tvRegister.setOnClickListener {
             binding.progressBar.visibility = View.VISIBLE

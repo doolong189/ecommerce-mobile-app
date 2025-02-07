@@ -6,6 +6,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.clustering.ClusterItem
 
 data class MapMarker(
+    val id : String,
     val icon: Icon,
     val titleText: String,
     @ColorInt val pinColor: Int,

@@ -14,7 +14,6 @@ import com.freshervnc.ecommerceapplication.utils.Utils
 
 class CartAdapter() : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
     private var list: List<Product> = listOf()
-
     class CartViewHolder(
         private val binding: ItemCartBinding
     ) : RecyclerView.ViewHolder(binding.root) {
@@ -26,7 +25,7 @@ class CartAdapter() : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
                     .into(itemCartImgView)
                 itemCartTvName.text = item.name
                 itemCartTvPrice.text = "${Utils.formatPrice(item.price!!)} đ"
-                itemCartTvQuanity.text = "Số lượng ${item.quantity}"
+                itemCartTvQuantity.text = "Số lượng ${item.quantity}"
             }
         }
     }

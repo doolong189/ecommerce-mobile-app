@@ -9,4 +9,7 @@
     <color name="red">#F44336</color>
     <color name="def">#4E4E4E</color>
     <color name="text">#249DB7</color>
+    <color name="completed">#347C37</color>
+    <color name="process">#03A9F4</color>
+    <color name="cancel">#474747</color>
 </resources>

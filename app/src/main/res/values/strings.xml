@@ -74,13 +74,19 @@
     <string name="my_billoder">Đơn hàng của tôi</string>
     <string name="search">Tìm kiểm ở đây</string>
     <string name="store_name">Cửa hàng</string>
-    <string name="active_status_store"><font color='#4CAF50'>Đang mở cửa</font> • Mở lúc 00:00</string>
+    <string name="active_status_store"><font color='#4CAF50'>Đang mở cửa</font> • Mở lúc 08:00</string>
     <string name="direction">Đường đi</string>
     <string name="call">Gọi</string>
     <string name="message">Nhắn tin</string>
     <string name="delete">Xóa</string>
     <string name="process_order">Đang xử lý</string>
-    <string name="completed_order">Hoàn thành</string>
-    <string name="cancel_order">Hủy bỏ</string>
+    <string name="completed_order">Đã giao</string>
+    <string name="cancel_order">Đã hủy</string>
+    <string name="order_code">Mã đơn hàng</string>
+    <string name="total_price">Tổng tiền</string>
+    <string name="date">Ngày</string>
+    <string name="status">Trạng thái</string>
+    <string name="delivery_code">Mã người giao hàng</string>
+    <string name="similator_product">Sản phẩm tương tự</string>
 
 </resources>

@@ -7,10 +7,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.bumptech.glide.util.Util
 import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.app.MyApplication
 import com.freshervnc.ecommerceapplication.data.enity.ErrorResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetCategoryResponse
+import com.freshervnc.ecommerceapplication.data.enity.GetDetailProductRequest
+import com.freshervnc.ecommerceapplication.data.enity.GetDetailProductResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetProductRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetProductResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetProductWithCategoryRequest
@@ -31,6 +34,7 @@ class ShoppingViewModel(private val application: Application)  : AndroidViewMode
     private val getCategoryResult = MutableLiveData <Event<Resource<GetCategoryResponse>>>()
     private val getProductResult = MutableLiveData <Event<Resource<GetProductResponse>>>()
     private val getProductWithCategoryResult = MutableLiveData<Event<Resource<GetProductWithCategoryResponse>>>()
+    private val getDetailProductResult = MutableLiveData<Event<Resource<GetDetailProductResponse>>>()
     fun getCategoryResult(): LiveData<Event<Resource<GetCategoryResponse>>> {
         return getCategoryResult
     }
@@ -40,6 +44,10 @@ class ShoppingViewModel(private val application: Application)  : AndroidViewMode
     
     fun getProductWithCategoryResult() : LiveData<Event<Resource<GetProductWithCategoryResponse>>>{
         return getProductWithCategoryResult
+    }
+
+    fun getDetailProductResult() : LiveData<Event<Resource<GetDetailProductResponse>>>{
+        return getDetailProductResult
     }
 
     fun getCategory() : Job = viewModelScope.launch{
@@ -138,6 +146,40 @@ class ShoppingViewModel(private val application: Application)  : AndroidViewMode
                 }
                 else -> {
                     getProductWithCategoryResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
+                        R.string.conversion_error))))
+                }
+            }
+        }
+    }
+
+    fun getDetailProduct(request : GetDetailProductRequest) : Job = viewModelScope.launch {
+        getDetailProductResult.postValue(Event(Resource.Loading()))
+        try {
+            if (Utils.hasInternetConnection(getApplication<MyApplication>())){
+                val response = repository.getDetailProduct(request)
+                if (response.isSuccessful){
+                    response.body()?.let { resultResponse ->
+                        getDetailProductResult.postValue(Event(Resource.Success(resultResponse)))
+                    }
+                }else{
+                    val errorResponse = response.errorBody()?.let {
+                        val gson = Gson()
+                        gson.fromJson(it.string(), ErrorResponse::class.java)
+                    }
+                    getDetailProductResult.postValue(Event(Resource.Error(errorResponse?.message ?: "")))
+                }
+            }else{
+                getDetailProductResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
+                    R.string.no_internet_connection))))
+            }
+        }catch (t: Throwable){
+            when (t) {
+                is IOException -> {
+                    getDetailProductResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
+                        R.string.network_failure))))
+                }
+                else -> {
+                    getDetailProductResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
                         R.string.conversion_error))))
                 }
             }

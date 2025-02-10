@@ -16,6 +16,8 @@ import com.freshervnc.ecommerceapplication.data.enity.GetDetailProductRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetDetailProductResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetProductRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetProductResponse
+import com.freshervnc.ecommerceapplication.data.enity.GetProductSimilarRequest
+import com.freshervnc.ecommerceapplication.data.enity.GetProductSimilarResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetProductWithCategoryRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetProductWithCategoryResponse
 import com.freshervnc.ecommerceapplication.data.enity.LoginRequest
@@ -35,6 +37,7 @@ class ShoppingViewModel(private val application: Application)  : AndroidViewMode
     private val getProductResult = MutableLiveData <Event<Resource<GetProductResponse>>>()
     private val getProductWithCategoryResult = MutableLiveData<Event<Resource<GetProductWithCategoryResponse>>>()
     private val getDetailProductResult = MutableLiveData<Event<Resource<GetDetailProductResponse>>>()
+    private val getProductSimilarResult = MutableLiveData<Event<Resource<GetProductSimilarResponse>>>()
     fun getCategoryResult(): LiveData<Event<Resource<GetCategoryResponse>>> {
         return getCategoryResult
     }
@@ -50,6 +53,9 @@ class ShoppingViewModel(private val application: Application)  : AndroidViewMode
         return getDetailProductResult
     }
 
+    fun getProductSimilarResult() : LiveData<Event<Resource<GetProductSimilarResponse>>>{
+        return getProductSimilarResult
+    }
     fun getCategory() : Job = viewModelScope.launch{
         getCategoryResult.postValue(Event(Resource.Loading()))
         try {
@@ -180,6 +186,40 @@ class ShoppingViewModel(private val application: Application)  : AndroidViewMode
                 }
                 else -> {
                     getDetailProductResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
+                        R.string.conversion_error))))
+                }
+            }
+        }
+    }
+
+    fun getProductSimilar(request : GetProductSimilarRequest) : Job = viewModelScope.launch {
+        getProductSimilarResult.postValue(Event(Resource.Loading()))
+        try {
+            if (Utils.hasInternetConnection(getApplication<MyApplication>())){
+                val response = repository.getProductSimilar(request)
+                if (response.isSuccessful){
+                    response.body()?.let { resultResponse ->
+                        getProductSimilarResult.postValue(Event(Resource.Success(resultResponse)))
+                    }
+                }else{
+                    val errorResponse = response.errorBody()?.let {
+                        val gson = Gson()
+                        gson.fromJson(it.string(), ErrorResponse::class.java)
+                    }
+                    getProductSimilarResult.postValue(Event(Resource.Error(errorResponse?.message ?: "")))
+                }
+            }else{
+                getProductSimilarResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
+                    R.string.no_internet_connection))))
+            }
+        }catch (t: Throwable){
+            when (t) {
+                is IOException -> {
+                    getProductSimilarResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
+                        R.string.network_failure))))
+                }
+                else -> {
+                    getProductSimilarResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
                         R.string.conversion_error))))
                 }
             }

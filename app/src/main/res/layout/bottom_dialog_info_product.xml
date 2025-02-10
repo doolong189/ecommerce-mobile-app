@@ -6,21 +6,21 @@
     android:orientation="vertical"
     android:padding="10dp">
     <TextView
-        android:id="@+id/dl_info_product_tvProduct"
+        android:id="@+id/tvProduct"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/text_product"
         android:textStyle="bold"
         android:textSize="18sp"/>
     <TextView
-        android:id="@+id/dl_info_product_tvStore"
+        android:id="@+id/tvStore"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/store_name"
         android:textStyle="bold"
         android:textSize="16sp"/>
     <TextView
-        android:id="@+id/dl_info_product_tvActiveStatus"
+        android:id="@+id/tvActiveStatus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/active_status_store"
@@ -38,7 +38,7 @@
             android:orientation="horizontal"
             >
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/dl_info_product_btDirection"
+                android:id="@+id/btDirection"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/direction"
@@ -53,7 +53,7 @@
                 />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/dl_info_product_btCall"
+                android:id="@+id/btCall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/call"
@@ -66,7 +66,7 @@
                 android:padding="10dp"
                 android:layout_margin="5dp"/>
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/dl_info_product_btSendMessage"
+                android:id="@+id/btSendMessage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/message"
@@ -86,8 +86,18 @@
         android:text="@string/similator_product"
         android:textStyle="bold"
         android:textSize="16sp"/>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/dl_info_product_rcSimilatorProduct"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        >
+        <ProgressBar
+            android:id="@+id/pbBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcSimilarProduct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
 </LinearLayout>

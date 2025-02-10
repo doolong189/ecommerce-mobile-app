@@ -17,6 +17,8 @@ import com.freshervnc.ecommerceapplication.data.enity.GetOrderRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetOrderResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetProductRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetProductResponse
+import com.freshervnc.ecommerceapplication.data.enity.GetProductSimilarRequest
+import com.freshervnc.ecommerceapplication.data.enity.GetProductSimilarResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetProductWithCategoryRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetProductWithCategoryResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetUserInfoRequest
@@ -74,4 +76,7 @@ interface ApiService {
 
     @POST("product/getDetailProduct")
     suspend fun getDetailProduct(@Body request : GetDetailProductRequest) : Response<GetDetailProductResponse>
+
+    @POST("product/getProductSimilar")
+    suspend fun getProductSimilar(@Body request : GetProductSimilarRequest) : Response<GetProductSimilarResponse>
 }

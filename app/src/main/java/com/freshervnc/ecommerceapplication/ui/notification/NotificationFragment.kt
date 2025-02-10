@@ -53,11 +53,11 @@ class NotificationFragment : BaseFragment() {
     override fun initView() {
         preferences = PreferencesUtils(requireContext())
         Log.e(Contacts.TAG,"${preferences.token}")
-//        viewModel.pushNotification(PushNotificationRequest(
-//            registrationToken = preferences.token,
-//            title = "Test Push Title ${count+1}",
-//            body = "Test Push Body ${count+1}"
-//        ))
+        viewModel.pushNotification(PushNotificationRequest(
+            registrationToken = preferences.token,
+            title = "Test Push Title ${count+1}",
+            body = "Test Push Body ${count+1}"
+        ))
         binding.rcNotification.layoutManager = LinearLayoutManager(requireContext())
         binding.rcNotification.run { adapter = NotificationAdapter().also { notificationAdapter = it }}
         viewModel.getNotification(GetNotificationRequest(id = preferences.userId.toString()))
@@ -132,7 +132,6 @@ class NotificationFragment : BaseFragment() {
             when (response) {
                 is Resource.Success -> {
                     binding.notificationPbBar.visibility = View.GONE
-
                 }
                 is Resource.Loading -> {
                     binding.notificationPbBar.visibility = View.VISIBLE
@@ -160,6 +159,8 @@ class NotificationFragment : BaseFragment() {
 
                 is Resource.Error -> {
                     binding.notificationPbBar.visibility = View.GONE
+                    binding.notificationTvEmptyNtf.visibility = View.VISIBLE
+                    binding.notificationTvEmptyNtf.text = response.message
                 }
             }
         }

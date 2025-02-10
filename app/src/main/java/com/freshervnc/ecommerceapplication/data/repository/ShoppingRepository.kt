@@ -5,6 +5,7 @@ import com.freshervnc.ecommerceapplication.data.enity.GetCartRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetDetailProductRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetOrderRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetProductRequest
+import com.freshervnc.ecommerceapplication.data.enity.GetProductSimilarRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetProductWithCategoryRequest
 import com.freshervnc.ecommerceapplication.data.network.RetrofitInstance
 
@@ -22,4 +23,6 @@ class ShoppingRepository {
     suspend fun getOrder(request : GetOrderRequest) = RetrofitInstance.api.getOrders(request)
 
     suspend fun getDetailProduct(request : GetDetailProductRequest) = RetrofitInstance.api.getDetailProduct(request)
+
+    suspend fun getProductSimilar(request : GetProductSimilarRequest) = RetrofitInstance.api.getProductSimilar(request)
 }

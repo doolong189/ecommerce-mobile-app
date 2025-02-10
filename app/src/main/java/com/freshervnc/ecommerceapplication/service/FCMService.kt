@@ -25,7 +25,9 @@ class FCMService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
         val notification = message.notification
-        val activityIntent = Intent(applicationContext, NotificationActivity::class.java)
+        val activityIntent = Intent(applicationContext, NotificationActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
         val pendingFlags: Int = if (Build.VERSION.SDK_INT >= 31) {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         } else {

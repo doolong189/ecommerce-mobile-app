@@ -49,9 +49,6 @@ class ShoppingFragment : BaseFragment() {
 
     override fun initView() {
         preferences = PreferencesUtils(requireContext())
-    }
-
-    override fun setView() {
 
         binding.rcCategory.layoutManager = GridLayoutManager(requireContext(), 3)
         binding.rcCategory.run { adapter = CategoryAdapter().also { categoryAdapter = it } }
@@ -61,6 +58,9 @@ class ShoppingFragment : BaseFragment() {
 
         viewModel.getCategory()
         viewModel.getProduct(GetProductRequest(id = preferences.userId))
+    }
+
+    override fun setView() {
     }
 
     override fun setAction() {

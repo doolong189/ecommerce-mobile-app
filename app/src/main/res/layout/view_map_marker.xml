@@ -12,7 +12,7 @@
         android:layout_height="48dp"
         android:src="@drawable/map_pin_svgrepo_com"
         android:scaleType="fitCenter"
-        app:tint="@color/background"
+        app:tint="@color/red"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -32,7 +32,7 @@
         android:layout_margin="3dp"
         android:scaleType="centerCrop"
         android:background="@drawable/rounded_background"
-        android:src="@drawable/baseline_person_24"
+        android:src="@drawable/sport"
         app:layout_constraintTop_toTopOf="@id/mapMarkerView_icon_frame"
         app:layout_constraintStart_toStartOf="@id/mapMarkerView_icon_frame"
         app:layout_constraintEnd_toEndOf="@id/mapMarkerView_icon_frame"

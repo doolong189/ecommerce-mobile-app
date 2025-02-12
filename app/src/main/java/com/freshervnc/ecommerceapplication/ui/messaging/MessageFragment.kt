@@ -1,20 +1,15 @@
-package com.freshervnc.ecommerceapplication.ui.message
+package com.freshervnc.ecommerceapplication.ui.messaging
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView.Orientation
 import com.freshervnc.ecommerceapplication.R
-import com.freshervnc.ecommerceapplication.adapter.CategoryAdapter
 import com.freshervnc.ecommerceapplication.adapter.MessageAdapter
 import com.freshervnc.ecommerceapplication.adapter.UserAdapter
 import com.freshervnc.ecommerceapplication.common.BaseFragment
@@ -22,10 +17,6 @@ import com.freshervnc.ecommerceapplication.data.enity.GetAllUserRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetAllUserResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetMessageRequest
 import com.freshervnc.ecommerceapplication.databinding.FragmentMessageBinding
-import com.freshervnc.ecommerceapplication.model.Message
-import com.freshervnc.ecommerceapplication.ui.launch.login.LoginViewModel
-import com.freshervnc.ecommerceapplication.ui.main.MainActivity
-import com.freshervnc.ecommerceapplication.utils.Contacts
 import com.freshervnc.ecommerceapplication.utils.Event
 import com.freshervnc.ecommerceapplication.utils.PreferencesUtils
 import com.freshervnc.ecommerceapplication.utils.Resource
@@ -38,7 +29,7 @@ class MessageFragment : BaseFragment() {
     private val viewModel by activityViewModels<MessageViewModel>()
     private lateinit var preferences : PreferencesUtils
     private var userAdapter = UserAdapter()
-    private lateinit var messageAdapter: MessageAdapter
+    private var messageAdapter = MessageAdapter()
     var senderRoom = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,24 +58,29 @@ class MessageFragment : BaseFragment() {
 
         binding.rcHistoryChat.setHasFixedSize(true)
         binding.rcHistoryChat.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.rcHistoryChat.run {adapter = MessageAdapter().also { messageAdapter = it }}
 
 
         viewModel.getUsers(GetAllUserRequest(id = preferences.userId))
     }
 
     override fun setAction() {
+        messageAdapter.onClickItemMessage{ id, position ->
+            val bundle = Bundle().apply { putString("userId", id._id) }
+            findNavController().navigate(R.id.action_messageFragment_to_chatFragment, bundle)
+        }
     }
 
     override fun setObserve() {
         viewModel.getUsersResult().observe(viewLifecycleOwner, Observer {
             getUsersResult(it)
         })
-        viewModel.getMessageResult().observe(viewLifecycleOwner, Observer {
-            binding.progressBar.visibility = View.GONE
-            messageAdapter = MessageAdapter()
-            binding.rcHistoryChat.adapter = messageAdapter
-            messageAdapter.setMessage(it)
-        })
+//        viewModel.getMessageResult().observe(viewLifecycleOwner, Observer {
+//            binding.progressBar.visibility = View.GONE
+//            messageAdapter = MessageAdapter()
+//            binding.rcHistoryChat.adapter = messageAdapter
+////            messageAdapter.setMessage(it)
+//        })
     }
 
     private fun getUsersResult(event: Event<Resource<GetAllUserResponse>>){
@@ -99,7 +95,9 @@ class MessageFragment : BaseFragment() {
                         for (item in it.users!!){
                             senderRoom = senderId + item._id
                         }
-                        viewModel.fetchHistoryMessage(GetMessageRequest(it.users!!,preferences.userId))
+
+                        messageAdapter.setMessage(it.users!!)
+                        viewModel.fetchHistoryMessage(it.users!!)
                     }
                 }
 

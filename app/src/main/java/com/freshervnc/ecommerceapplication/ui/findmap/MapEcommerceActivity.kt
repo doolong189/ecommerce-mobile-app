@@ -22,7 +22,6 @@ import com.bumptech.glide.request.transition.Transition
 import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.adapter.CategoryAdapter
 import com.freshervnc.ecommerceapplication.data.enity.GetCategoryResponse
-import com.freshervnc.ecommerceapplication.data.enity.GetDetailProductResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetProductWithCategoryRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetProductWithCategoryResponse
 import com.freshervnc.ecommerceapplication.databinding.ActivityMapEcommerceBinding
@@ -51,6 +50,7 @@ class MapEcommerceActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var preferences : PreferencesUtils
     private val shoppingViewModel by viewModels<ShoppingViewModel>()
     private var categoryAdapter = CategoryAdapter()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMapEcommerceBinding.inflate(layoutInflater)
@@ -83,10 +83,11 @@ class MapEcommerceActivity : AppCompatActivity(), OnMapReadyCallback {
         gMap = p0
         val builder = LatLngBounds.Builder()
         builder.include(LatLng(preferences.getUserLoc()!![1], preferences.getUserLoc()!![0]))
+        val latLngOrigin = LatLng(preferences.getUserLoc()!![1], preferences.getUserLoc()!![0])
         val bounds = builder.build()
-        val padding = 200
+        val padding = 5
         val cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding)
-        gMap.moveCamera(cameraUpdate)
+        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngOrigin, 14.5f))
     }
 
     private fun setAction(){
@@ -157,11 +158,12 @@ class MapEcommerceActivity : AppCompatActivity(), OnMapReadyCallback {
         list.map {
             customMarker(it)
             builder.include(LatLng(it.idUser?.loc?.get(1) ?: 0.0, it.idUser?.loc?.get(0) ?: 0.0))
+            val bounds = builder.build()
+            val padding = 200
+            val cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding)
+//          gMap.moveCamera(cameraUpdate)
+            gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it.idUser?.loc?.get(1) ?: 0.0, it.idUser?.loc?.get(0) ?:  0.0), 14.5f))
         }
-        val bounds = builder.build()
-        val padding = 200
-        val cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding)
-        gMap.moveCamera(cameraUpdate)
         gMap.setOnMarkerClickListener { marker ->
             val idProduct = marker.tag as? String
             if (idProduct != null) {
@@ -204,6 +206,14 @@ class MapEcommerceActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun showBottomSheet(idProduct: String) {
         val bottomSheet = DialogBottomDetailProduct.newInstance(idProduct)
         bottomSheet.show(supportFragmentManager, bottomSheet.tag)
+        bottomSheet.setOnClickListener(object :
+            DialogBottomDetailProduct.OnClickListener {
+            override fun onClickListener(loc: List<Double>) {
+                directions()
+            }
+        })
+    }
+    private fun directions(){
     }
 
 

@@ -23,6 +23,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
+
 class DialogBottomDetailProduct : BottomSheetDialogFragment() {
     private lateinit var binding : BottomDialogInfoProductBinding
     private var productAdapter = ProductAdapter()
@@ -40,6 +41,16 @@ class DialogBottomDetailProduct : BottomSheetDialogFragment() {
         }
     }
     private var idProduct: String? = null
+
+    private var onClickListener: OnClickListener? = null
+    interface OnClickListener {
+        fun onClickListener(loc : List<Double>)
+    }
+    fun setOnClickListener(onClickListener: OnClickListener) {
+        this.onClickListener = onClickListener
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         idProduct = arguments?.getString(ARG_ID_PRODUCT)
@@ -69,9 +80,6 @@ class DialogBottomDetailProduct : BottomSheetDialogFragment() {
     }
 
     private fun setAction(){
-        binding.btDirection.setOnClickListener {
-            direction()
-        }
         binding.btCall.setOnClickListener {  }
         binding.btSendMessage.setOnClickListener {  }
     }
@@ -100,8 +108,10 @@ class DialogBottomDetailProduct : BottomSheetDialogFragment() {
                     response.data?.data?.let{
                         binding.tvProduct.text = "Sản phẩm: ${it.name}"
                         binding.tvStore.text = "Của hàng: ${it.idUser?.name}"
-
                         shoppingViewModel.getProductSimilar(GetProductSimilarRequest(idUser = preferences.userId.toString() , idProduct = it._id))
+                    }
+                    binding.btDirection.setOnClickListener {
+                        onClickListener?.onClickListener(response.data?.data?.idUser?.loc!!)
                     }
                 }
             }

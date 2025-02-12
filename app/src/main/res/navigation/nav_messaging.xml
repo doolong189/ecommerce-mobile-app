@@ -6,12 +6,12 @@
     app:startDestination="@id/messageFragment">
     <fragment
         android:id="@+id/chatFragment"
-        android:name="com.freshervnc.ecommerceapplication.ui.message.ChatFragment"
+        android:name="com.freshervnc.ecommerceapplication.ui.messaging.ChatFragment"
         android:label="fragment_chat"
         tools:layout="@layout/fragment_chat" />
     <fragment
         android:id="@+id/messageFragment"
-        android:name="com.freshervnc.ecommerceapplication.ui.message.MessageFragment"
+        android:name="com.freshervnc.ecommerceapplication.ui.messaging.MessageFragment"
         android:label="fragment_message"
         tools:layout="@layout/fragment_message" >
         <action

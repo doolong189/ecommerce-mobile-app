@@ -2,7 +2,6 @@ package com.freshervnc.ecommerceapplication.ui.notification
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +20,6 @@ import com.freshervnc.ecommerceapplication.data.enity.GetNotificationResponse
 import com.freshervnc.ecommerceapplication.data.enity.PushNotificationRequest
 import com.freshervnc.ecommerceapplication.data.enity.PushNotificationResponse
 import com.freshervnc.ecommerceapplication.databinding.FragmentNotificationBinding
-import com.freshervnc.ecommerceapplication.ui.message.MessageViewModel
 import com.freshervnc.ecommerceapplication.utils.Contacts
 import com.freshervnc.ecommerceapplication.utils.Event
 import com.freshervnc.ecommerceapplication.utils.PreferencesUtils

@@ -1,7 +1,6 @@
-package com.freshervnc.ecommerceapplication.ui.message
+package com.freshervnc.ecommerceapplication.ui.messaging
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,7 +15,7 @@ import com.freshervnc.ecommerceapplication.data.enity.GetAllUserResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetMessageRequest
 import com.freshervnc.ecommerceapplication.data.repository.UserRepository
 import com.freshervnc.ecommerceapplication.model.Message
-import com.freshervnc.ecommerceapplication.utils.Contacts
+import com.freshervnc.ecommerceapplication.model.UserInfo
 import com.freshervnc.ecommerceapplication.utils.Event
 import com.freshervnc.ecommerceapplication.utils.PreferencesUtils
 import com.freshervnc.ecommerceapplication.utils.Resource
@@ -33,16 +32,10 @@ import java.io.IOException
 class MessageViewModel (private val application: Application)  : AndroidViewModel(application) {
     private var repository : UserRepository = UserRepository()
     private val getAllUsersResult = MutableLiveData<Event<Resource<GetAllUserResponse>>>()
-    private var mySharedPreferences: PreferencesUtils = PreferencesUtils(application)
+    private var preferences: PreferencesUtils = PreferencesUtils(application)
     private val _messagesList = MutableLiveData<List<Message>>()
-    val messagesList: LiveData<List<Message>> get() = _messagesList
     fun getUsersResult(): LiveData<Event<Resource<GetAllUserResponse>>> {
         return getAllUsersResult
-    }
-    private val getMessageResult = MutableLiveData<List<Message>>()
-
-    fun getMessageResult(): LiveData<List<Message>>{
-        return getMessageResult
     }
 
     fun getUsers(request : GetAllUserRequest) : Job = viewModelScope.launch{
@@ -80,44 +73,10 @@ class MessageViewModel (private val application: Application)  : AndroidViewMode
     }
 
 
-//    fun fetchHistoryMessage(request : GetMessageRequest){
-//        var senderRoom = ""
-//        for (item in request.users!!){
-//            senderRoom = request.senderId + item._id
-//            Log.e(Contacts.TAG,"${senderRoom}")
-//            FirebaseDatabase.getInstance().reference
-//                .child("Chats")
-//                .child(senderRoom)
-//                .orderByChild("lastMsgTime")
-//                .addValueEventListener(object : ValueEventListener {
-//                    override fun onDataChange(snapshot: DataSnapshot) {
-//                        val messagesList = mutableListOf<Message>()
-//                        if (snapshot.exists()) {
-//                            for (messageSnapshot in snapshot.children) {
-//                                val lastMsg = messageSnapshot.child("lastMsg").getValue(String::class.java)
-//                                val time = messageSnapshot.child("lastMsgTime").getValue(Long::class.java) ?: 0L
-//                                if (lastMsg != null) {
-//                                    messagesList.add(
-//                                        Message(
-//                                            messageText = lastMsg,
-//                                            timestamp = time)
-//                                    )
-//                                }
-//                            }
-//                            messagesList.sortByDescending { it.timestamp }
-//                            Log.e(Contacts.TAG,"${messagesList.size}")
-//                            getMessageResult.postValue(messagesList)
-//                        }
-//                    }
-//                    override fun onCancelled(error: DatabaseError) {}
-//                })
-//        }
-//    }
-
-    fun fetchHistoryMessage(request : GetMessageRequest){
-        val senderId = mySharedPreferences.userId!!
+    fun fetchHistoryMessage(users : List<UserInfo>){
+        val senderId = preferences.userId!!
         var senderRoom = ""
-        for (item in request.users!!){
+        for (item in users){
             senderRoom = senderId + item._id
             FirebaseDatabase.getInstance().reference
                 .child("Chats")
@@ -130,7 +89,6 @@ class MessageViewModel (private val application: Application)  : AndroidViewMode
                             for (messageSnapshot in snapshot.children) {
                                 val lastMsg = messageSnapshot.child("lastMsg").getValue(String::class.java)
                                 val time = messageSnapshot.child("lastMsgTime").getValue(Long::class.java) ?: 0L
-
                                 if (lastMsg != null) {
                                     messagesList.add(
                                         Message(
@@ -150,14 +108,4 @@ class MessageViewModel (private val application: Application)  : AndroidViewMode
         }
     }
 
-
-    class MessageViewModelFactory(val application : Application) : ViewModelProvider.Factory{
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return if (modelClass.isAssignableFrom(MessageViewModel::class.java)){
-                MessageViewModel(application) as T
-            }else{
-                throw IllegalArgumentException("viewmodel not found")
-            }
-        }
-    }
 }

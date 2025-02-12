@@ -2,20 +2,15 @@ package com.freshervnc.ecommerceapplication.ui.main
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.databinding.ActivityMainBinding
-import com.freshervnc.ecommerceapplication.databinding.ActivityMapEcommerceBinding
 import com.freshervnc.ecommerceapplication.ui.findmap.MapEcommerceActivity
 import com.freshervnc.ecommerceapplication.ui.main.shopping.ShoppingFragment
-import com.freshervnc.ecommerceapplication.ui.message.MessageActivity
+import com.freshervnc.ecommerceapplication.ui.messaging.MessageActivity
 import com.freshervnc.ecommerceapplication.ui.notification.NotificationActivity
 import com.freshervnc.ecommerceapplication.ui.user.UserActivity
 

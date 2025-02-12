@@ -60,7 +60,7 @@
             android:name=".ui.notification.NotificationActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.message.MessageActivity"
+            android:name=".ui.messaging.MessageActivity"
             android:exported="false" />
         <activity
             android:name=".ui.findmap.MapEcommerceActivity"

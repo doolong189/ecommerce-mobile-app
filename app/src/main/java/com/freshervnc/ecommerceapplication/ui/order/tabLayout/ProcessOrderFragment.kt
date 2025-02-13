@@ -1,4 +1,4 @@
-package com.freshervnc.ecommerceapplication.ui.order.taborder
+package com.freshervnc.ecommerceapplication.ui.order.tabLayout
 
 import android.os.Bundle
 import android.view.LayoutInflater

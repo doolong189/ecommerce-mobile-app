@@ -32,6 +32,27 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
+                    android:text="@string/total_number_product"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/cart_tvTotalNumberProduct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:text="@string/zero"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:visibility="gone"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
                     android:text="@string/total_product_price"
                     android:textStyle="bold"/>
 
@@ -65,7 +86,7 @@
             </RelativeLayout>
             <View
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
+                android:layout_height="1dp"
                 android:background="@color/def"
                 />
             <RelativeLayout
@@ -86,7 +107,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:text="@string/zero"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:textColor="@color/red"/>
             </RelativeLayout>
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/cart_btnCheckOut"
@@ -106,4 +128,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"/>
+    <TextView
+        android:id="@+id/tvEmpty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:text="@string/empty_cart"
+        android:visibility="gone"/>
 </FrameLayout>

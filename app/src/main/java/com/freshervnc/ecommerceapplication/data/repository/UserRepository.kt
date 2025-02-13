@@ -3,6 +3,7 @@ package com.freshervnc.ecommerceapplication.data.repository
 import com.freshervnc.ecommerceapplication.data.enity.GetAllUserRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetAllUserResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetUserInfoRequest
+import com.freshervnc.ecommerceapplication.data.enity.GetUserInfoResponse
 import com.freshervnc.ecommerceapplication.data.enity.LoginRequest
 import com.freshervnc.ecommerceapplication.data.network.RetrofitInstance
 import com.freshervnc.ecommerceapplication.model.UserInfo
@@ -33,4 +34,17 @@ class UserRepository {
         }
     }
 
+    fun convertUserInfo(response: GetUserInfoResponse): UserInfo {
+        return UserInfo(
+            _id = response.user?._id ?: "",
+            name = response.user?.name ?: "",
+            address = response.user?.address ?: "",
+            password = response.user?.password ?: "",
+            email = response.user?.email ?: "",
+            phone = response.user?.phone ?: "",
+            image = response.user?.image ?: "",
+            loc = response.user?.loc ,
+            token = response.user?.token ?: ""
+        )
+    }
 }

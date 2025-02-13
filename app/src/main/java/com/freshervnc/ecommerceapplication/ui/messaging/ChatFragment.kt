@@ -1,24 +1,23 @@
 package com.freshervnc.ecommerceapplication.ui.messaging
 
-import android.Manifest
-import android.annotation.SuppressLint
-import android.content.Context
-import android.content.pm.PackageManager
-import android.media.MediaRecorder
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.freshervnc.ecommerceapplication.R
+import com.freshervnc.ecommerceapplication.adapter.ChatAdapter
+import com.freshervnc.ecommerceapplication.adapter.MessageAdapter
 import com.freshervnc.ecommerceapplication.common.BaseFragment
+import com.freshervnc.ecommerceapplication.data.enity.GetMessageRequest
+import com.freshervnc.ecommerceapplication.data.enity.GetMessageResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetUserInfoRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetUserInfoResponse
 import com.freshervnc.ecommerceapplication.data.enity.PushNotificationRequest
@@ -26,8 +25,6 @@ import com.freshervnc.ecommerceapplication.databinding.FragmentChatBinding
 import com.freshervnc.ecommerceapplication.utils.Event
 import com.freshervnc.ecommerceapplication.utils.PreferencesUtils
 import com.freshervnc.ecommerceapplication.utils.Resource
-import com.google.firebase.storage.FirebaseStorage
-import java.io.File
 import java.util.Date
 
 class ChatFragment : BaseFragment() {
@@ -35,14 +32,9 @@ class ChatFragment : BaseFragment() {
     private lateinit var binding : FragmentChatBinding
     private val viewModel by activityViewModels<ChatViewModel>()
     private lateinit var preferencesUtils : PreferencesUtils
+    private lateinit var chatAdapter : ChatAdapter
     var userId : String = ""
     var token : String = ""
-    companion object {
-        const val REQUEST_RECORD_AUDIO_PERMISSION = 200
-        private const val REQUEST_CODE_READ_EXTERNAL_STORAGE = 100
-        private const val REQUEST_CODE_CAMERA = 101
-    }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,11 +52,16 @@ class ChatFragment : BaseFragment() {
     override fun initView() {
         preferencesUtils = PreferencesUtils(requireContext())
         userId = arguments?.getString("userId") ?: ""
+
+        binding.rcChat.setHasFixedSize(true)
+        binding.rcChat.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.rcChat.run {adapter = ChatAdapter(requireContext()).also { chatAdapter = it }}
+
         viewModel.getUserInfo(GetUserInfoRequest(userId))
+        viewModel.getMessages(GetMessageRequest((userId + preferencesUtils.userId)))
     }
 
-    override fun setView() {
-    }
+    override fun setView() {}
 
     override fun setAction() {
         binding.iconBack.setOnClickListener {
@@ -89,18 +86,23 @@ class ChatFragment : BaseFragment() {
         viewModel.getSuccessful().observe(viewLifecycleOwner, Observer { result ->
             when(result){
                 true -> {
-                    viewModel.pushNotification(
-                        PushNotificationRequest(
-                            registrationToken = preferencesUtils.token,
-                            title = preferencesUtils.userName,
-                            body = binding.edChating.text.toString()
-                        )
-                    )
+                    viewModel.pushNotification(PushNotificationRequest(registrationToken = preferencesUtils.token, title = preferencesUtils.userName, body = binding.edChating.text.toString()))
+                    binding.edChating.setText("")
                 }
                 false -> {
-
+                    Toast.makeText(requireContext(), getString(R.string.error_send_message), Toast.LENGTH_SHORT).show()
                 }
             }
+        })
+
+        viewModel.getMessageResult().observe(viewLifecycleOwner , Observer {
+            it.messages?.let { response ->
+                chatAdapter.submitList(response)
+            }
+        })
+
+        viewModel.getErrorMessageResult().observe(viewLifecycleOwner , Observer {
+            Toast.makeText(requireContext(),it,Toast.LENGTH_SHORT).show()
         })
     }
 

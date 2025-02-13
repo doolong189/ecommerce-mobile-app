@@ -1,6 +1,7 @@
 package com.freshervnc.ecommerceapplication.data.repository
 
 import com.freshervnc.ecommerceapplication.data.enity.AddCartRequest
+import com.freshervnc.ecommerceapplication.data.enity.AddOrderRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetCartRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetDetailProductRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetOrderRequest
@@ -19,6 +20,8 @@ class ShoppingRepository {
     suspend fun addCart(request : AddCartRequest) = RetrofitInstance.api.addCart(request)
 
     suspend fun getCart(request : GetCartRequest) = RetrofitInstance.api.getCart(request)
+
+    suspend fun addOrder(request : AddOrderRequest) = RetrofitInstance.api.addOrder(request)
 
     suspend fun getOrder(request : GetOrderRequest) = RetrofitInstance.api.getOrders(request)
 

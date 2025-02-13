@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.freshervnc.ecommerceapplication.R
@@ -51,14 +52,23 @@ class NotificationFragment : BaseFragment() {
     override fun initView() {
         preferences = PreferencesUtils(requireContext())
         Log.e(Contacts.TAG,"${preferences.token}")
-        viewModel.pushNotification(PushNotificationRequest(
-            registrationToken = preferences.token,
-            title = "Test Push Title ${count+1}",
-            body = "Test Push Body ${count+1}"
-        ))
+//        viewModel.pushNotification(PushNotificationRequest(
+//            registrationToken = preferences.token,
+//            title = "Test Push Title ${count+1}",
+//            body = "Test Push Body ${count+1}"
+//        ))
         binding.rcNotification.layoutManager = LinearLayoutManager(requireContext())
         binding.rcNotification.run { adapter = NotificationAdapter().also { notificationAdapter = it }}
         viewModel.getNotification(GetNotificationRequest(id = preferences.userId.toString()))
+    }
+
+    override fun setView() {
+    }
+
+    override fun setAction() {
+        notificationAdapter.onClickItemNotification { id, position ->
+            findNavController().navigate(R.id.action_notificationFragment_to_detailNotificationFragment)
+        }
 
         object : SwipeHelper(requireContext(), binding.rcNotification) {
             override fun instantiateUnderlayButton(
@@ -75,15 +85,6 @@ class NotificationFragment : BaseFragment() {
                     }
                 )
             }
-        }
-    }
-
-    override fun setView() {
-    }
-
-    override fun setAction() {
-        notificationAdapter.onClickItemNotification { id, position ->
-
         }
     }
 

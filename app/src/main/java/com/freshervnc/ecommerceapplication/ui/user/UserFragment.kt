@@ -46,11 +46,10 @@ class UserFragment : BaseFragment() {
 
     override fun initView() {
         preferences = PreferencesUtils(requireContext())
-    }
-
-    override fun setView() {
         viewModel.getUserInfo(GetUserInfoRequest(preferences.userId!!))
     }
+
+    override fun setView() {}
 
     override fun setAction() {
         val navi = requireActivity().supportFragmentManager.fragments[0] as NavHostFragment
@@ -64,6 +63,11 @@ class UserFragment : BaseFragment() {
 
         }
 
+        binding.userBtnCart.setOnClickListener {
+            startActivity(Intent(requireContext(),CartActivity::class.java))
+            requireActivity().finish()
+        }
+
         binding.userBtnBillOder.setOnClickListener {
             navi.navController.navigate(R.id.orderFragment)
         }
@@ -73,7 +77,6 @@ class UserFragment : BaseFragment() {
         binding.userBtnSetting.setOnClickListener {  }
         binding.userBtnLogOut.setOnClickListener {  }
     }
-
 
     override fun setObserve() {
         viewModel.getUserInfoResult().observe(viewLifecycleOwner, Observer {

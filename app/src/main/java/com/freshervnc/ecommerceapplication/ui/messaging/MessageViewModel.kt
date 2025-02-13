@@ -12,7 +12,6 @@ import com.freshervnc.ecommerceapplication.app.MyApplication
 import com.freshervnc.ecommerceapplication.data.enity.ErrorResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetAllUserRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetAllUserResponse
-import com.freshervnc.ecommerceapplication.data.enity.GetMessageRequest
 import com.freshervnc.ecommerceapplication.data.repository.UserRepository
 import com.freshervnc.ecommerceapplication.model.Message
 import com.freshervnc.ecommerceapplication.model.UserInfo

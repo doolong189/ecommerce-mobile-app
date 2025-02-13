@@ -76,22 +76,29 @@
             >
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:id="@+id/ln_camera_photoImage"
+                android:gravity="center_vertical"
                 >
                 <ImageView
                     android:id="@+id/iconCamera"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:src="@drawable/baseline_camera_alt_24"
-                    android:layout_margin="7dp"/>
+                    android:layout_margin="5dp"/>
                 <ImageView
                     android:id="@+id/iconPhotoImage"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:src="@drawable/baseline_image_24"
-                    android:layout_margin="7dp"/>
+                    android:layout_margin="5dp"/>
+                <ImageView
+                    android:id="@+id/iconEmoji"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/baseline_emoji_emotions_24"
+                    android:layout_margin="5dp"/>
             </LinearLayout>
             <EditText
                 android:id="@+id/edChating"

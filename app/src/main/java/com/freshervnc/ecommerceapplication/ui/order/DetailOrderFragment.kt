@@ -1,4 +1,4 @@
-package com.freshervnc.ecommerceapplication.ui.order.detailorder
+package com.freshervnc.ecommerceapplication.ui.order
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

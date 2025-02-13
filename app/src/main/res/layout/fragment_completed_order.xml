@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.order.taborder.CompletedOrderFragment">
+    tools:context=".ui.order.tabLayout.CompletedOrderFragment">
 
     <ProgressBar
         android:id="@+id/completed_order_pbBar"

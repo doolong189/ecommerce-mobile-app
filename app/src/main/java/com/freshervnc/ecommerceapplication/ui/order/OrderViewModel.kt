@@ -7,6 +7,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.app.MyApplication
+import com.freshervnc.ecommerceapplication.data.enity.AddOrderRequest
+import com.freshervnc.ecommerceapplication.data.enity.AddOrderResponse
 import com.freshervnc.ecommerceapplication.data.enity.ErrorResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetOrderRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetOrderResponse
@@ -21,9 +23,16 @@ import java.io.IOException
 
 class OrderViewModel(private val application: Application) : AndroidViewModel(application) {
     private var repository: ShoppingRepository = ShoppingRepository()
+
+    private val addOrderResult = MutableLiveData<Event<Resource<AddOrderResponse>>>()
     private val getCompressOrderResult = MutableLiveData<Event<Resource<GetOrderResponse>>>()
     private val getCompletedOrderResult = MutableLiveData<Event<Resource<GetOrderResponse>>>()
     private val getCancelOrderResult = MutableLiveData<Event<Resource<GetOrderResponse>>>()
+
+    fun addOrderResult() : LiveData<Event<Resource<AddOrderResponse>>>{
+        return addOrderResult
+    }
+
     fun getCompressOrderResult(): LiveData<Event<Resource<GetOrderResponse>>> {
         return getCompressOrderResult
     }
@@ -169,53 +178,59 @@ class OrderViewModel(private val application: Application) : AndroidViewModel(ap
                             val gson = Gson()
                             gson.fromJson(it.string(), ErrorResponse::class.java)
                         }
-                        getCancelOrderResult.postValue(
-                            Event(
-                                Resource.Error(
-                                    errorResponse?.message ?: ""
-                                )
-                            )
-                        )
+                        getCancelOrderResult.postValue(Event(Resource.Error(errorResponse?.message ?: "")))
                     }
                 } else {
-                    getCancelOrderResult.postValue(
-                        Event(
-                            Resource.Error(
-                                getApplication<MyApplication>().getString(
-                                    R.string.no_internet_connection
-                                )
-                            )
-                        )
-                    )
+                    getCancelOrderResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(R.string.no_internet_connection))))
                 }
             } catch (t: Throwable) {
                 when (t) {
                     is IOException -> {
-                        getCancelOrderResult.postValue(
-                            Event(
-                                Resource.Error(
-                                    getApplication<MyApplication>().getString(
+                        getCancelOrderResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
                                         R.string.network_failure
-                                    )
-                                )
-                            )
-                        )
+                                    ))))
                     }
 
                     else -> {
-                        getCancelOrderResult.postValue(
-                            Event(
-                                Resource.Error(
-                                    getApplication<MyApplication>().getString(
-                                        R.string.conversion_error
-                                    )
-                                )
-                            )
-                        )
+                        getCancelOrderResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(R.string.conversion_error))))
                     }
                 }
             }
         }
     }
+
+    fun addOrder(request: AddOrderRequest): Job = viewModelScope.launch {
+        addOrderResult.postValue(Event(Resource.Loading()))
+        try {
+            if (Utils.hasInternetConnection(getApplication<MyApplication>())) {
+                val response = repository.addOrder(request)
+                if (response.isSuccessful) {
+                    response.body()?.let { resultResponse ->
+                        addOrderResult.postValue(Event(Resource.Success(resultResponse)))
+                    }
+                } else {
+                    val errorResponse = response.errorBody()?.let {
+                        val gson = Gson()
+                        gson.fromJson(it.string(), ErrorResponse::class.java)
+                    }
+                    addOrderResult.postValue(Event(Resource.Error(errorResponse?.message ?: "")))
+                }
+            } else {
+                addOrderResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(R.string.no_internet_connection))))
+            }
+        } catch (t: Throwable) {
+            when (t) {
+                is IOException -> {
+                    addOrderResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
+                                    R.string.network_failure
+                                ))))
+                }
+                else -> {
+                    addOrderResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(R.string.conversion_error))))
+                }
+            }
+        }
+    }
+
 
 }

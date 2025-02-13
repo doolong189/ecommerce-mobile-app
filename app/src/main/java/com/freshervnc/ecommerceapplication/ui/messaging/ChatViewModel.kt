@@ -11,6 +11,8 @@ import androidx.lifecycle.viewModelScope
 import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.app.MyApplication
 import com.freshervnc.ecommerceapplication.data.enity.ErrorResponse
+import com.freshervnc.ecommerceapplication.data.enity.GetMessageRequest
+import com.freshervnc.ecommerceapplication.data.enity.GetMessageResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetUserInfoRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetUserInfoResponse
 import com.freshervnc.ecommerceapplication.data.enity.PushNotificationRequest
@@ -39,6 +41,9 @@ class ChatViewModel(private val application: Application) : AndroidViewModel(app
     private val storage: FirebaseStorage = FirebaseStorage.getInstance()
     private val getUserInfoResult = MutableLiveData<Event<Resource<GetUserInfoResponse>>>()
     private val pushNotificationResult = MutableLiveData<Event<Resource<PushNotificationResponse>>>()
+    private val getMessageResult = MutableLiveData<GetMessageResponse>()
+    private val getErrorMessageResult = MutableLiveData<String>()
+
     val isSuccessful = MutableLiveData<Boolean>()
 
     fun getUserInfoResult(): LiveData<Event<Resource<GetUserInfoResponse>>> {
@@ -85,6 +90,14 @@ class ChatViewModel(private val application: Application) : AndroidViewModel(app
 
     fun pushNotificationResult(): LiveData<Event<Resource<PushNotificationResponse>>> {
         return pushNotificationResult
+    }
+
+    fun getMessageResult() : LiveData<GetMessageResponse>{
+        return getMessageResult
+    }
+
+    fun getErrorMessageResult() : LiveData<String> {
+        return getErrorMessageResult
     }
 
     fun sendMessage(
@@ -160,28 +173,40 @@ class ChatViewModel(private val application: Application) : AndroidViewModel(app
     }
 
 
-    fun fetchMessage(
-        onSuccess: (List<Message>) -> Unit,
-        onFailure: (DatabaseError) -> Unit,
-        senderRoom: String
-    ) {
-        database.getReference("Chats")
-            .child(senderRoom)
-            .child("Messages").addValueEventListener(object : ValueEventListener {
-                @SuppressLint("SuspiciousIndentation")
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val messageList = mutableListOf<Message>()
-                    snapshot.children.forEach { child ->
-                        val user = child.getValue(Message::class.java)
-                        user?.let { messageList.add(it) }
-                        Log.e("___user", user.toString())
-                    }
-                    onSuccess(messageList)
+    fun getMessages(request : GetMessageRequest): Job = viewModelScope.launch {
+        Log.e("zzzz","${request.senderRoom.toString()}")
+        try {
+            if (Utils.hasInternetConnection(getApplication<MyApplication>())) {
+                database.getReference("Chats")
+                    .child(request.senderRoom.toString())
+                    .child("Messages").addValueEventListener(object : ValueEventListener {
+                        @SuppressLint("SuspiciousIndentation")
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            val messageList = mutableListOf<Message>()
+                            snapshot.children.forEach { child ->
+                                val message = child.getValue(Message::class.java)
+                                message?.let { messageList.add(it) }
+                            }
+                            getMessageResult.postValue(GetMessageResponse(messageList))
+                            Log.e("zzzz123","${GetMessageResponse(messageList)} \n ${messageList}")
+
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            getErrorMessageResult.postValue(ErrorResponse(error.message).toString())
+                        }
+                    })
+            }
+        } catch (t: Throwable) {
+            when (t) {
+                is IOException -> {
+                    getErrorMessageResult.postValue(ErrorResponse(getApplication<MyApplication>().getString(R.string.network_failure)).toString())
                 }
 
-                override fun onCancelled(error: DatabaseError) {
-                    onFailure(error)
+                else -> {
+                    getErrorMessageResult.postValue(ErrorResponse(getApplication<MyApplication>().getString(R.string.conversion_error)).toString())
                 }
-            })
+            }
+        }
     }
 }

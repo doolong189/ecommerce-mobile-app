@@ -88,5 +88,9 @@
     <string name="status">Trạng thái</string>
     <string name="delivery_code">Mã người giao hàng</string>
     <string name="similator_product">Sản phẩm tương tự</string>
+    <string name="error_send_message">Không thể gửi tin nhắn</string>
+    <string name="my_cart">Giỏ hàng của tôi</string>
+    <string name="empty_cart">Không có sản phẩm nào trong giỏ hàng</string>
+    <string name="total_number_product">Tổng số sản phẩm</string>
 
 </resources>

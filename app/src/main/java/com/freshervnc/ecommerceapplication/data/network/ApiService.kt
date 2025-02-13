@@ -4,6 +4,8 @@ import com.freshervnc.ecommerceapplication.data.enity.AddCartRequest
 import com.freshervnc.ecommerceapplication.data.enity.AddCartResponse
 import com.freshervnc.ecommerceapplication.data.enity.AddNotificationRequest
 import com.freshervnc.ecommerceapplication.data.enity.AddNotificationResponse
+import com.freshervnc.ecommerceapplication.data.enity.AddOrderRequest
+import com.freshervnc.ecommerceapplication.data.enity.AddOrderResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetAllUserRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetAllUserResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetCartRequest
@@ -70,6 +72,9 @@ interface ApiService {
 
     @POST("cart/getCart")
     suspend fun getCart(@Body request : GetCartRequest) : Response<GetCartResponse>
+
+    @POST("cart/getOrder")
+    suspend fun addOrder(@Body request : AddOrderRequest) : Response<AddOrderResponse>
 
     @POST("order/getOrders")
     suspend fun getOrders(@Body request : GetOrderRequest) : Response<GetOrderResponse>

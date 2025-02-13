@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -15,7 +16,6 @@ import com.freshervnc.ecommerceapplication.adapter.UserAdapter
 import com.freshervnc.ecommerceapplication.common.BaseFragment
 import com.freshervnc.ecommerceapplication.data.enity.GetAllUserRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetAllUserResponse
-import com.freshervnc.ecommerceapplication.data.enity.GetMessageRequest
 import com.freshervnc.ecommerceapplication.databinding.FragmentMessageBinding
 import com.freshervnc.ecommerceapplication.utils.Event
 import com.freshervnc.ecommerceapplication.utils.PreferencesUtils
@@ -67,7 +67,7 @@ class MessageFragment : BaseFragment() {
     override fun setAction() {
         messageAdapter.onClickItemMessage{ id, position ->
             val bundle = Bundle().apply { putString("userId", id._id) }
-            findNavController().navigate(R.id.action_messageFragment_to_chatFragment, bundle)
+            findNavController().navigate(R.id.action_messageFragment_to_chatFragment , bundle)
         }
     }
 

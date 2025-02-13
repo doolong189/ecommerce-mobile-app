@@ -21,5 +21,6 @@ data class Product(
     val name : String? = null,
     val price : Double? = null,
     val quantity : Int? = null,
-    val image : String? = null
+    val image : String? = null,
+    val idStore : String? = null
 )

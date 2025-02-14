@@ -1,16 +1,18 @@
 package com.freshervnc.ecommerceapplication.ui.cart
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.collection.MutableIntList
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.freshervnc.ecommerceapplication.adapter.CartAdapter
 import com.freshervnc.ecommerceapplication.common.BaseFragment
-import com.freshervnc.ecommerceapplication.data.enity.AddOrderRequest
+import com.freshervnc.ecommerceapplication.data.enity.CreateOrderRequest
+import com.freshervnc.ecommerceapplication.data.enity.CreateOrderResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetCartRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetCartResponse
 import com.freshervnc.ecommerceapplication.data.enity.Product
@@ -20,8 +22,6 @@ import com.freshervnc.ecommerceapplication.utils.Event
 import com.freshervnc.ecommerceapplication.utils.PreferencesUtils
 import com.freshervnc.ecommerceapplication.utils.Resource
 import com.freshervnc.ecommerceapplication.utils.Utils
-import java.util.ArrayList
-import java.util.Date
 
 
 class CartFragment : BaseFragment() {
@@ -60,27 +60,16 @@ class CartFragment : BaseFragment() {
     }
 
     override fun setAction() {
-        val date = Date()
-        products?.map { item ->
-            binding.cartBtnCheckOut.setOnClickListener {
-                orderViewModel.addOrder(
-                    AddOrderRequest(
-                        totalPrice = (item.price!!.toInt() * item.quantity!!.toInt()),
-                        date = date.time.toString(),
-                        receiptStatus = 0,
-                        idClient = preferences.userId,
-                        idStore = item.idStore,
-                        idShipper = null,
-                        products = products
-                    )
-                )
-            }
-        }
+        binding.cartBtnCheckOut.setOnClickListener {
+            orderViewModel.createOrder(CreateOrderRequest(idClient = preferences.userId, idShipper = null, products = products)) }
     }
 
     override fun setObserve() {
         viewModel.getCartResult().observe(viewLifecycleOwner, Observer {
             getCartResult(it)
+        })
+        orderViewModel.createOrderResult().observe(viewLifecycleOwner, Observer {
+            createOrderResult(it)
         })
     }
 
@@ -88,24 +77,44 @@ class CartFragment : BaseFragment() {
         event.getContentIfNotHandled()?.let { response ->
             when(response){
                 is Resource.Success -> {
-                    binding.cartPbBar.visibility = View.GONE
+                    binding.cartPgBar.visibility = View.GONE
                     response.data?.let {
                         cartAdapter.submitList(it.response.products!!)
                         binding.cartTvTotalNumberProduct.text = "${it.response.totalNumber}"
                         binding.cartTvTotalNumber.text = ""
                         binding.cartTvDiscount.text = "${it.response.discount} %"
                         binding.cartTvTotalPrice.text = "${Utils.formatPrice(it.response.totalPrice!!)} đ"
-
+                        products!!.clear()
                         products!!.addAll(it.response.products)
                     }
                 }
                 is Resource.Loading -> {
-                    binding.cartPbBar.visibility = View.VISIBLE
+                    binding.cartPgBar.visibility = View.VISIBLE
                 }
                 is Resource.Error -> {
-                    binding.cartPbBar.visibility = View.GONE
+                    binding.cartPgBar.visibility = View.GONE
                     binding.tvEmpty.text = response.message
                     binding.tvEmpty.visibility = View.VISIBLE
+                }
+            }
+        }
+    }
+
+    private fun createOrderResult(event : Event<Resource<CreateOrderResponse>>){
+        event.getContentIfNotHandled()?.let { response ->
+            when(response){
+                is Resource.Success -> {
+                    binding.cartPgBar.visibility = View.GONE
+                    response.data?.let {
+                        Toast.makeText(requireContext(),it.message,Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is Resource.Loading -> {
+                    binding.cartPgBar.visibility = View.VISIBLE
+                }
+                is Resource.Error -> {
+                    binding.cartPgBar.visibility = View.GONE
+                    Toast.makeText(requireContext(),response.message,Toast.LENGTH_SHORT).show()
                 }
             }
         }

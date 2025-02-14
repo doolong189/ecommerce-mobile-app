@@ -30,6 +30,7 @@
             android:textSize="13sp"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:lines="1"/>
+            android:lines="1"
+            />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

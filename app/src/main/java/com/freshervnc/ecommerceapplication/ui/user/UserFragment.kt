@@ -65,7 +65,6 @@ class UserFragment : BaseFragment() {
 
         binding.userBtnCart.setOnClickListener {
             startActivity(Intent(requireContext(),CartActivity::class.java))
-            requireActivity().finish()
         }
 
         binding.userBtnBillOder.setOnClickListener {

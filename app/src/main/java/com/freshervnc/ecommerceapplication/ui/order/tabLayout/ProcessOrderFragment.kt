@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.adapter.OrderAdapter
 import com.freshervnc.ecommerceapplication.common.BaseFragment
 import com.freshervnc.ecommerceapplication.data.enity.GetOrderRequest
@@ -28,7 +30,6 @@ class ProcessOrderFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -51,10 +52,13 @@ class ProcessOrderFragment : BaseFragment() {
         viewModel.getOrder(GetOrderRequest(id = preferences.userId , receiptStatus = 0))
     }
 
-    override fun setView() {
-    }
+    override fun setView() {}
 
     override fun setAction() {
+        orderAdapter.onClickItemOrder { id, position ->
+            val bundle = Bundle().apply { putString("orderId", id._id) }
+            findNavController().navigate(R.id.action_orderFragment_to_detailOrderFragment,bundle)
+        }
     }
 
     override fun setObserve() {

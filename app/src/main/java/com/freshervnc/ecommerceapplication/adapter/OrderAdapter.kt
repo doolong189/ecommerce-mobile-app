@@ -1,5 +1,6 @@
 package com.freshervnc.ecommerceapplication.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,15 +8,20 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.databinding.ItemOrderBinding
+import com.freshervnc.ecommerceapplication.model.Notification
 import com.freshervnc.ecommerceapplication.model.Order
 import com.freshervnc.ecommerceapplication.utils.Utils
+private var onClickItem: ((id: Order, position: Int) -> Unit)? = null
 
 class OrderAdapter : RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
     private var list: List<Order> = listOf()
-
+    fun onClickItemOrder(id: ((id: Order, position: Int) -> Unit)) {
+        onClickItem = id
+    }
     class OrderViewHolder(
         private val binding: ItemOrderBinding
     ) : RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("SetTextI18n")
         fun onBind(item: Order) {
             binding.run {
                 itemOrderTvOrderCode.text = "Mã đơn hàng: ${item._id}"
@@ -30,6 +36,11 @@ class OrderAdapter : RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
                 }else{
                     itemOrderTvStatus.setTextColor(binding.root.resources.getColor(R.color.cancel))
                     itemOrderTvStatus.text = "Trạng thái: ${cancelStatus}"
+                }
+                itemView.setOnClickListener {
+                    onClickItem?.let {
+                        it(item, adapterPosition)
+                    }
                 }
             }
         }

@@ -124,7 +124,7 @@
         </LinearLayout>
     </LinearLayout>
     <ProgressBar
-        android:id="@+id/cart_pbBar"
+        android:id="@+id/cart_pgBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"/>

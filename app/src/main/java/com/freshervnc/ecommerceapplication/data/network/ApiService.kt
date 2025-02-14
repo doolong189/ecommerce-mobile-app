@@ -4,13 +4,17 @@ import com.freshervnc.ecommerceapplication.data.enity.AddCartRequest
 import com.freshervnc.ecommerceapplication.data.enity.AddCartResponse
 import com.freshervnc.ecommerceapplication.data.enity.AddNotificationRequest
 import com.freshervnc.ecommerceapplication.data.enity.AddNotificationResponse
-import com.freshervnc.ecommerceapplication.data.enity.AddOrderRequest
-import com.freshervnc.ecommerceapplication.data.enity.AddOrderResponse
+import com.freshervnc.ecommerceapplication.data.enity.CreateOrderRequest
+import com.freshervnc.ecommerceapplication.data.enity.CreateOrderResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetAllUserRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetAllUserResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetCartRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetCartResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetCategoryResponse
+import com.freshervnc.ecommerceapplication.data.enity.GetDetailNotificationRequest
+import com.freshervnc.ecommerceapplication.data.enity.GetDetailNotificationResponse
+import com.freshervnc.ecommerceapplication.data.enity.GetDetailOrderRequest
+import com.freshervnc.ecommerceapplication.data.enity.GetDetailOrderResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetDetailProductRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetDetailProductResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetNotificationRequest
@@ -52,8 +56,14 @@ interface ApiService {
     @POST("product/getProduct")
     suspend fun getProduct(@Body request : GetProductRequest) : Response<GetProductResponse>
 
+    @POST("product/getDetailProduct")
+    suspend fun getDetailProduct(@Body request : GetDetailProductRequest) : Response<GetDetailProductResponse>
+
     @POST("product/getProductWithCategory")
     suspend fun getProductWithCategory(@Body request : GetProductWithCategoryRequest) : Response<GetProductWithCategoryResponse>
+
+    @POST("product/getProductSimilar")
+    suspend fun getProductSimilar(@Body request : GetProductSimilarRequest) : Response<GetProductSimilarResponse>
 
     @POST("/user/getUserInfo")
     suspend fun getUserInfo(@Body request : GetUserInfoRequest) : Response<GetUserInfoResponse>
@@ -67,21 +77,21 @@ interface ApiService {
     @POST("ntf/getNotification")
     suspend fun getNotification(@Body request : GetNotificationRequest) : Response<GetNotificationResponse>
 
+    @POST("ntf/getDetailNotification")
+    suspend fun getDetailNotification(@Body request : GetDetailNotificationRequest) : Response<GetDetailNotificationResponse>
+
     @POST("cart/addCart")
     suspend fun addCart(@Body request : AddCartRequest) : Response<AddCartResponse>
 
     @POST("cart/getCart")
     suspend fun getCart(@Body request : GetCartRequest) : Response<GetCartResponse>
 
-    @POST("cart/getOrder")
-    suspend fun addOrder(@Body request : AddOrderRequest) : Response<AddOrderResponse>
+    @POST("order/createOrder")
+    suspend fun createOrder(@Body request : CreateOrderRequest) : Response<CreateOrderResponse>
 
     @POST("order/getOrders")
     suspend fun getOrders(@Body request : GetOrderRequest) : Response<GetOrderResponse>
 
-    @POST("product/getDetailProduct")
-    suspend fun getDetailProduct(@Body request : GetDetailProductRequest) : Response<GetDetailProductResponse>
-
-    @POST("product/getProductSimilar")
-    suspend fun getProductSimilar(@Body request : GetProductSimilarRequest) : Response<GetProductSimilarResponse>
+    @POST("order/getDetailOrders")
+    suspend fun getDetailOrders(@Body request : GetDetailOrderRequest) : Response<GetDetailOrderResponse>
 }

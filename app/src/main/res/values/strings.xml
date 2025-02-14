@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">eCommerce Application ✅</string>
+    <string name="app_name">Null</string>
     <string name="API_KEY">AIzaSyBVUjDqBCUdvBOBKYXaHLwLVAfyrYt_y1E</string>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -84,6 +84,7 @@
     <string name="cancel_order">Đã hủy</string>
     <string name="order_code">Mã đơn hàng</string>
     <string name="total_price">Tổng tiền</string>
+    <string name="into_money">Thành tiền</string>
     <string name="date">Ngày</string>
     <string name="status">Trạng thái</string>
     <string name="delivery_code">Mã người giao hàng</string>
@@ -92,5 +93,13 @@
     <string name="my_cart">Giỏ hàng của tôi</string>
     <string name="empty_cart">Không có sản phẩm nào trong giỏ hàng</string>
     <string name="total_number_product">Tổng số sản phẩm</string>
+    <string name="delivery_info">Thông tin vân chuyển</string>
+    <string name="delivery_status">Trạng thái giao hàng</string>
+    <string name="delivery_date">Ngày giao hàng</string>
+    <string name="receive_info">Tên người nhận | Số điện thoại</string>
+    <string name="delivery_address">Địa chỉ nhận hàng</string>
+    <string name="you_need_support">Bạn cần hỗ trợ?</string>
+    <string name="contact_shop">Liên hệ Shop</string>
+    <string name="confirm_cancel">Xác nhận hủy</string>
 
 </resources>

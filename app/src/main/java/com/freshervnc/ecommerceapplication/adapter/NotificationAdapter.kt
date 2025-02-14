@@ -23,6 +23,7 @@ class NotificationAdapter() : RecyclerView.Adapter<NotificationAdapter.Notificat
         fun onBind(item: Notification) {
             binding.run {
                 binding.itemNotificationTvTitle.text = item.title
+                binding.itemNotificationTvBody.text = item.body
                 itemView.setOnClickListener {
                     onClickItem?.let {
                         it(item, adapterPosition)

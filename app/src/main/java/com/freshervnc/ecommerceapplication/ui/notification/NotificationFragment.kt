@@ -67,7 +67,8 @@ class NotificationFragment : BaseFragment() {
 
     override fun setAction() {
         notificationAdapter.onClickItemNotification { id, position ->
-            findNavController().navigate(R.id.action_notificationFragment_to_detailNotificationFragment)
+            val bundle = Bundle().apply { putString("notificationId", id._id) }
+            findNavController().navigate(R.id.action_notificationFragment_to_detailNotificationFragment , bundle)
         }
 
         object : SwipeHelper(requireContext(), binding.rcNotification) {
@@ -79,13 +80,14 @@ class NotificationFragment : BaseFragment() {
                     UnderlayButton(
                         getString(R.string.delete),
                         0,
-                        ContextCompat.getColor(requireContext(), R.color.red)
+                        ContextCompat.getColor(requireContext(), R.color.def)
                     ) { position ->
 
                     }
                 )
             }
         }
+
     }
 
     override fun setObserve() {

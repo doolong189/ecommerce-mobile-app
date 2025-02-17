@@ -7,23 +7,24 @@ import com.bumptech.glide.Glide
 import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.databinding.ItemDetailOrderBinding
 import com.freshervnc.ecommerceapplication.model.Product
+import com.freshervnc.ecommerceapplication.model.Products
 import com.freshervnc.ecommerceapplication.utils.Utils
 
 class DetailOrderAdapter() : RecyclerView.Adapter<DetailOrderAdapter.DetailOrderViewHolder>() {
-    private var list: List<Product> = listOf()
+    private var list: List<Products> = listOf()
     class DetailOrderViewHolder(
         private val binding: ItemDetailOrderBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun onBind(item: Product) {
+        fun onBind(item: Products) {
             binding.run {
                 Glide.with(binding.root.context)
-                    .load(item.image)
+                    .load(item.product.image)
                     .placeholder(R.drawable.logo_app)
                     .into(itemDetailImgView)
-                itemDetailTvName.text = item.name
-                itemDetailTvPrice.text = "${Utils.formatPrice(item.price!!)} đ"
+                itemDetailTvName.text = item.product.name
+                itemDetailTvPrice.text = "${Utils.formatPrice(item.product.price!!)} đ"
                 itemDetailTvQuantity.text = "Số lượng ${item.quantity}"
-                val intoMoney = item.price * item.quantity
+                val intoMoney = item.product.price * item.quantity
                 itemDetailTvIntoMoney.text = "Thành tiền: ${Utils.formatPrice(intoMoney)} đ"
             }
         }
@@ -41,7 +42,7 @@ class DetailOrderAdapter() : RecyclerView.Adapter<DetailOrderAdapter.DetailOrder
         holder.onBind(list[position])
     }
 
-    fun submitList(products: List<Product>) {
+    fun submitList(products: List<Products>) {
         list = products
         notifyDataSetChanged()
     }

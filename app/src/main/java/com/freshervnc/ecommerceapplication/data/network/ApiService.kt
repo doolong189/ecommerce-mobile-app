@@ -92,6 +92,6 @@ interface ApiService {
     @POST("order/getOrders")
     suspend fun getOrders(@Body request : GetOrderRequest) : Response<GetOrderResponse>
 
-    @POST("order/getDetailOrders")
+    @POST("order/getOrderDetail")
     suspend fun getDetailOrders(@Body request : GetDetailOrderRequest) : Response<GetDetailOrderResponse>
 }

@@ -66,8 +66,7 @@ class DetailOrderFragment : BaseFragment() {
                     binding.pgBar.visibility = View.GONE
                     response.data?.let {
                         detailOrderAdapter.submitList(it.data?.products!!)
-                        binding.deliveryCode.text = "Mã vận chuyển: "+it.data._id
-
+                        binding.deliveryCode.text = "Mã vận chuyển: "+it.data?._id
                         if (it.data.receiptStatus == 0) {
                             binding.deliveryStatus.setTextColor(binding.root.resources.getColor(R.color.text))
                             binding.deliveryStatus.text = "Trạng thái: $processStatus"
@@ -78,10 +77,11 @@ class DetailOrderFragment : BaseFragment() {
                             binding.deliveryStatus.setTextColor(binding.root.resources.getColor(R.color.cancel))
                             binding.deliveryStatus.text = "Trạng thái: $cancelStatus"
                         }
-
-                        binding.deliveryDate.text = "Thời gian nhận giao hàng: "+it.data.date
-                        binding.receiveInfo.text = it.data.idClient?.name + " | " + it.data.idClient?.phone
+                        binding.deliveryDate.text = "Thời gian nhận giao hàng: "+it.data?.date
+                        binding.receiveInfo.text = it.data?.idClient?.name + " | " + it.data?.idClient?.phone
                         binding.deliveryAddress.text = it.data.idClient?.address
+
+                        Log.e("zzzz","${it.data.idClient?.phone}")
                     }
                 }
                 is Resource.Loading -> {

@@ -12,6 +12,8 @@ import com.freshervnc.ecommerceapplication.app.MyApplication
 import com.freshervnc.ecommerceapplication.data.enity.ErrorResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetAllUserRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetAllUserResponse
+import com.freshervnc.ecommerceapplication.data.enity.GetNeedTokenRequest
+import com.freshervnc.ecommerceapplication.data.enity.GetNeedTokenResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetUserInfoRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetUserInfoResponse
 import com.freshervnc.ecommerceapplication.data.repository.UserRepository
@@ -29,14 +31,12 @@ class UserViewModel(private val application: Application)  : AndroidViewModel(ap
     private var repository : UserRepository = UserRepository()
     private val getAllUserResult = MutableLiveData<Event<Resource<GetAllUserResponse>>>()
     private val getUserInfoResult = MutableLiveData<Event<Resource<GetUserInfoResponse>>>()
-    fun getAllUserResult(): LiveData<Event<Resource<GetAllUserResponse>>> {
-        return getAllUserResult
-    }
+    private val getNeedTokenResult = MutableLiveData<Event<Resource<GetNeedTokenResponse>>>()
+    fun getAllUserResult(): LiveData<Event<Resource<GetAllUserResponse>>> { return getAllUserResult }
 
     fun getUserInfoResult(): LiveData<Event<Resource<GetUserInfoResponse>>> {
         return getUserInfoResult
     }
-
 
     fun getAllUser(request : GetAllUserRequest) : Job = viewModelScope.launch{
         getAllUserResult.postValue(Event(Resource.Loading()))
@@ -71,6 +71,11 @@ class UserViewModel(private val application: Application)  : AndroidViewModel(ap
             }
         }
     }
+
+    fun getNeedTokenResult() : LiveData<Event<Resource<GetNeedTokenResponse>>>{
+        return getNeedTokenResult
+    }
+
     fun getUserInfo(request : GetUserInfoRequest) : Job = viewModelScope.launch {
         getUserInfoResult.postValue(Event(Resource.Loading()))
         try {
@@ -104,6 +109,41 @@ class UserViewModel(private val application: Application)  : AndroidViewModel(ap
             }
         }
     }
+
+    fun getNeedToken(request : GetNeedTokenRequest) : Job = viewModelScope.launch {
+        getNeedTokenResult.postValue(Event(Resource.Loading()))
+        try {
+            if (Utils.hasInternetConnection(getApplication<MyApplication>())) {
+                val response = repository.getNeedToken(request)
+                if (response.isSuccessful) {
+                    response.body()?.let { resultResponse ->
+                        getNeedTokenResult.postValue(Event(Resource.Success(resultResponse)))
+                    }
+                } else {
+                    val errorResponse = response.errorBody()?.let {
+                        val gson = Gson()
+                        gson.fromJson(it.string(), ErrorResponse::class.java)
+                    }
+                    getNeedTokenResult.postValue(Event(Resource.Error(errorResponse?.message ?: "")))
+                }
+            } else {
+                getNeedTokenResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
+                    R.string.no_internet_connection))))
+            }
+        } catch (t: Throwable) {
+            when (t) {
+                is IOException -> {
+                    getNeedTokenResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
+                        R.string.network_failure))))
+                }
+                else -> {
+                    getNeedTokenResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
+                        R.string.conversion_error))))
+                }
+            }
+        }
+    }
+
     fun convertUserInfo(response : UserInfo) {
         userInfo = UserInfo(
             _id = response._id,
@@ -117,7 +157,6 @@ class UserViewModel(private val application: Application)  : AndroidViewModel(ap
             token = response.token
         )
     }
-
     fun createGeUserInfoRequest(tmpEKycUserInfo: UserInfo): GetAllUserRequest {
         return GetAllUserRequest(
             id = tmpEKycUserInfo._id

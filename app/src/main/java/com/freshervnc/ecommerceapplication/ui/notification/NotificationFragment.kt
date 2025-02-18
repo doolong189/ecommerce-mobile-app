@@ -52,11 +52,11 @@ class NotificationFragment : BaseFragment() {
     override fun initView() {
         preferences = PreferencesUtils(requireContext())
         Log.e(Contacts.TAG,"${preferences.token}")
-//        viewModel.pushNotification(PushNotificationRequest(
-//            registrationToken = preferences.token,
-//            title = "Test Push Title ${count+1}",
-//            body = "Test Push Body ${count+1}"
-//        ))
+        viewModel.pushNotification(PushNotificationRequest(
+            registrationToken = "fDMbIwE2TZyLxK7qu9bZIr:APA91bEjd0jQMs8zdnXJ0_WKGCO7-KeyHxiW-cy_m-QiMJcMeHwdxrmYabzT72-QnqRf425g5NBqEQpej7jHLu2kIMeaMvLQ3rAxw3rovXFNkhvxl0cmVv8",
+            title = "Test Push Title ${count+1}",
+            body = "Test Push Body ${count+1}"
+        ))
         binding.rcNotification.layoutManager = LinearLayoutManager(requireContext())
         binding.rcNotification.run { adapter = NotificationAdapter().also { notificationAdapter = it }}
         viewModel.getNotification(GetNotificationRequest(id = preferences.userId.toString()))
@@ -71,23 +71,22 @@ class NotificationFragment : BaseFragment() {
             findNavController().navigate(R.id.action_notificationFragment_to_detailNotificationFragment , bundle)
         }
 
-        object : SwipeHelper(requireContext(), binding.rcNotification) {
-            override fun instantiateUnderlayButton(
-                viewHolder: RecyclerView.ViewHolder?,
-                underlayButtons: MutableList<UnderlayButton>?
-            ) {
-                underlayButtons?.add(
-                    UnderlayButton(
-                        getString(R.string.delete),
-                        0,
-                        ContextCompat.getColor(requireContext(), R.color.def)
-                    ) { position ->
-
-                    }
-                )
-            }
-        }
-
+//        object : SwipeHelper(requireContext(), binding.rcNotification) {
+//            override fun instantiateUnderlayButton(
+//                viewHolder: RecyclerView.ViewHolder?,
+//                underlayButtons: MutableList<UnderlayButton>?
+//            ) {
+//                underlayButtons?.add(
+//                    UnderlayButton(
+//                        getString(R.string.delete),
+//                        0,
+//                        ContextCompat.getColor(requireContext(), R.color.def)
+//                    ) { position ->
+//
+//                    }
+//                )
+//            }
+//        }
     }
 
     override fun setObserve() {

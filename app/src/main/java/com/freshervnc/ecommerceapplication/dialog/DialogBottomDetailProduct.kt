@@ -13,6 +13,7 @@ import com.freshervnc.ecommerceapplication.data.enity.GetDetailProductResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetProductSimilarRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetProductSimilarResponse
 import com.freshervnc.ecommerceapplication.databinding.BottomDialogInfoProductBinding
+import com.freshervnc.ecommerceapplication.model.Product
 import com.freshervnc.ecommerceapplication.ui.main.shopping.ShoppingViewModel
 import com.freshervnc.ecommerceapplication.utils.Event
 import com.freshervnc.ecommerceapplication.utils.PreferencesUtils
@@ -32,10 +33,10 @@ class DialogBottomDetailProduct : BottomSheetDialogFragment() {
     private var googleMap : GoogleMap? = null
     companion object {
         private const val ARG_ID_PRODUCT = "id_product"
-        fun newInstance(idProduct: String): DialogBottomDetailProduct {
+        fun newInstance(item: Product): DialogBottomDetailProduct {
             val fragment = DialogBottomDetailProduct()
             val args = Bundle()
-            args.putString(ARG_ID_PRODUCT, idProduct)
+            args.putString(ARG_ID_PRODUCT, item._id)
             fragment.arguments = args
             return fragment
         }
@@ -45,11 +46,15 @@ class DialogBottomDetailProduct : BottomSheetDialogFragment() {
     private var onClickListener: OnClickListener? = null
     interface OnClickListener {
         fun onClickListener(loc : List<Double>)
+        fun onClickSendMessageListener(id : String)
     }
     fun setOnClickListener(onClickListener: OnClickListener) {
         this.onClickListener = onClickListener
     }
 
+    fun setOnClickSendMessageListener(onClickListener: OnClickListener) {
+        this.onClickListener = onClickListener
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -112,6 +117,10 @@ class DialogBottomDetailProduct : BottomSheetDialogFragment() {
                     }
                     binding.btDirection.setOnClickListener {
                         onClickListener?.onClickListener(response.data?.data?.idUser?.loc!!)
+                    }
+
+                    binding.btSendMessage.setOnClickListener {
+                        onClickListener?.onClickSendMessageListener(response.data?.data?.idUser?._id!!)
                     }
                 }
             }

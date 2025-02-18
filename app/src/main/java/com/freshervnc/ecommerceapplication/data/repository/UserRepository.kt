@@ -2,6 +2,7 @@ package com.freshervnc.ecommerceapplication.data.repository
 
 import com.freshervnc.ecommerceapplication.data.enity.GetAllUserRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetAllUserResponse
+import com.freshervnc.ecommerceapplication.data.enity.GetNeedTokenRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetUserInfoRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetUserInfoResponse
 import com.freshervnc.ecommerceapplication.data.enity.LoginRequest
@@ -16,6 +17,7 @@ class UserRepository {
 
     suspend fun getUserInfo(request : GetUserInfoRequest) = RetrofitInstance.api.getUserInfo(request)
 
+    suspend fun getNeedToken(request : GetNeedTokenRequest) = RetrofitInstance.api.getNeedToken(request)
 
     fun convertGetAllUser(response: GetAllUserResponse): List<UserInfo>? {
         var list: List<UserInfo>  = response.users ?: listOf<UserInfo>()

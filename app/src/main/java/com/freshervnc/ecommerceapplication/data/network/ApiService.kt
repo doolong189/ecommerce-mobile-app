@@ -17,6 +17,8 @@ import com.freshervnc.ecommerceapplication.data.enity.GetDetailOrderRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetDetailOrderResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetDetailProductRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetDetailProductResponse
+import com.freshervnc.ecommerceapplication.data.enity.GetNeedTokenRequest
+import com.freshervnc.ecommerceapplication.data.enity.GetNeedTokenResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetNotificationRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetNotificationResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetOrderRequest
@@ -35,6 +37,7 @@ import com.freshervnc.ecommerceapplication.data.enity.PushNotificationRequest
 import com.freshervnc.ecommerceapplication.data.enity.PushNotificationResponse
 import com.freshervnc.ecommerceapplication.data.enity.RegisterRequest
 import com.freshervnc.ecommerceapplication.data.enity.RegisterResponse
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -94,4 +97,7 @@ interface ApiService {
 
     @POST("order/getOrderDetail")
     suspend fun getDetailOrders(@Body request : GetDetailOrderRequest) : Response<GetDetailOrderResponse>
+
+    @POST("user/updateToken")
+    suspend fun getNeedToken(@Body request : GetNeedTokenRequest) : Response<GetNeedTokenResponse>
 }

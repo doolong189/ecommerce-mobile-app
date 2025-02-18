@@ -18,10 +18,12 @@ import com.freshervnc.ecommerceapplication.adapter.MessageAdapter
 import com.freshervnc.ecommerceapplication.common.BaseFragment
 import com.freshervnc.ecommerceapplication.data.enity.GetMessageRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetMessageResponse
+import com.freshervnc.ecommerceapplication.data.enity.GetNeedTokenRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetUserInfoRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetUserInfoResponse
 import com.freshervnc.ecommerceapplication.data.enity.PushNotificationRequest
 import com.freshervnc.ecommerceapplication.databinding.FragmentChatBinding
+import com.freshervnc.ecommerceapplication.ui.user.UserViewModel
 import com.freshervnc.ecommerceapplication.utils.Event
 import com.freshervnc.ecommerceapplication.utils.PreferencesUtils
 import com.freshervnc.ecommerceapplication.utils.Resource
@@ -31,6 +33,7 @@ class ChatFragment : BaseFragment() {
     override var isVisibleActionBar: Boolean = false
     private lateinit var binding : FragmentChatBinding
     private val viewModel by activityViewModels<ChatViewModel>()
+    private val userViewModel by activityViewModels<UserViewModel>()
     private lateinit var preferencesUtils : PreferencesUtils
     private lateinit var chatAdapter : ChatAdapter
     var userId : String = ""
@@ -59,6 +62,8 @@ class ChatFragment : BaseFragment() {
 
         viewModel.getUserInfo(GetUserInfoRequest(userId))
         viewModel.getMessages(GetMessageRequest((userId + preferencesUtils.userId)))
+        userViewModel.getNeedToken(GetNeedTokenRequest(id = userId , token = preferencesUtils.token.toString()))
+
     }
 
     override fun setView() {}
@@ -83,6 +88,9 @@ class ChatFragment : BaseFragment() {
         viewModel.getUserInfoResult().observe(viewLifecycleOwner, Observer {
             getUserInfoResult(it)
         })
+        userViewModel.getNeedTokenResult().observe(viewLifecycleOwner , Observer {
+
+        })
         viewModel.getSuccessful().observe(viewLifecycleOwner, Observer { result ->
             when(result){
                 true -> {
@@ -96,9 +104,7 @@ class ChatFragment : BaseFragment() {
         })
 
         viewModel.getMessageResult().observe(viewLifecycleOwner , Observer {
-            it.messages?.let { response ->
-                chatAdapter.submitList(response)
-            }
+            it.messages?.let { response -> chatAdapter.submitList(response) }
         })
 
         viewModel.getErrorMessageResult().observe(viewLifecycleOwner , Observer {

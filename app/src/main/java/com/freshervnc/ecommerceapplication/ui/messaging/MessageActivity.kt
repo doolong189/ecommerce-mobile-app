@@ -3,9 +3,11 @@ package com.freshervnc.ecommerceapplication.ui.messaging
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.databinding.ActivityMessageBinding
+import com.freshervnc.ecommerceapplication.ui.findmap.MapEcommerceActivity
 
 class MessageActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMessageBinding
@@ -16,5 +18,18 @@ class MessageActivity : AppCompatActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         setupActionBarWithNavController(navHostFragment.navController)
+        val navController = navHostFragment.navController
+        val navGraph = navController.navInflater.inflate(R.navigation.nav_messaging)
+
+        navController.graph = navGraph.apply {
+            val moveTo = intent.getStringExtra("move_to")
+            val idUser = intent.getStringExtra("userId")
+            if (moveTo == MapEcommerceActivity.MoveTo.Map.value) {
+                val bundle = Bundle().apply { putString("userId", idUser) }
+                ((supportFragmentManager.fragments[0] as NavHostFragment).childFragmentManager.fragments[0] as? MessageFragment)?.let {
+                    it.findNavController().navigate(R.id.action_messageFragment_to_chatFragment, bundle)
+                }
+            }
+        }
     }
 }

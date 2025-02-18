@@ -1,6 +1,7 @@
 package com.freshervnc.ecommerceapplication.ui.findmap
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -28,7 +29,9 @@ import com.freshervnc.ecommerceapplication.databinding.ActivityMapEcommerceBindi
 import com.freshervnc.ecommerceapplication.databinding.ViewMapMarkerBinding
 import com.freshervnc.ecommerceapplication.dialog.DialogBottomDetailProduct
 import com.freshervnc.ecommerceapplication.model.Product
+import com.freshervnc.ecommerceapplication.model.Products
 import com.freshervnc.ecommerceapplication.ui.main.shopping.ShoppingViewModel
+import com.freshervnc.ecommerceapplication.ui.messaging.MessageActivity
 import com.freshervnc.ecommerceapplication.utils.Event
 import com.freshervnc.ecommerceapplication.utils.PreferencesUtils
 import com.freshervnc.ecommerceapplication.utils.Resource
@@ -165,9 +168,9 @@ class MapEcommerceActivity : AppCompatActivity(), OnMapReadyCallback {
             gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it.idUser?.loc?.get(1) ?: 0.0, it.idUser?.loc?.get(0) ?:  0.0), 14.5f))
         }
         gMap.setOnMarkerClickListener { marker ->
-            val idProduct = marker.tag as? String
-            if (idProduct != null) {
-                showBottomSheet(idProduct)
+            val item = marker.tag as? Product
+            if (item != null) {
+                showBottomSheet(item)
             }
             true
         }
@@ -194,7 +197,7 @@ class MapEcommerceActivity : AppCompatActivity(), OnMapReadyCallback {
                             .position(LatLng(item.idUser?.loc?.get(1) ?: 0.0, item.idUser?.loc?.get(0) ?: 0.0))
                             .icon(BitmapDescriptorFactory.fromBitmap(bitmap))
                     )
-                    marker?.tag = item._id
+                    marker?.tag = item
                 }
 
                 override fun onLoadCleared(placeholder: Drawable?) {}
@@ -203,18 +206,30 @@ class MapEcommerceActivity : AppCompatActivity(), OnMapReadyCallback {
         ImageViewCompat.setImageTintList(binding.mapMarkerViewPin, ColorStateList.valueOf(Color.parseColor("#F44336")))
     }
 
-    private fun showBottomSheet(idProduct: String) {
-        val bottomSheet = DialogBottomDetailProduct.newInstance(idProduct)
+    private fun showBottomSheet(item: Product) {
+        val bottomSheet = DialogBottomDetailProduct.newInstance(item)
         bottomSheet.show(supportFragmentManager, bottomSheet.tag)
         bottomSheet.setOnClickListener(object :
             DialogBottomDetailProduct.OnClickListener {
             override fun onClickListener(loc: List<Double>) {
-                directions()
+
+            }
+
+            override fun onClickSendMessageListener(id: String) {
+                val mIntent = Intent(applicationContext,MessageActivity::class.java)
+                val bundle = Bundle().apply {
+                    putString("move_to", MoveTo.Map.toString())
+                    putString("userId", item.idUser?._id)
+                }
+                mIntent.putExtras(bundle)
+                startActivity(mIntent)
+                bottomSheet.dismiss()
             }
         })
     }
-    private fun directions(){
+
+    enum class MoveTo(val value: String) {
+        Map("Map")
+        ;
     }
-
-
 }

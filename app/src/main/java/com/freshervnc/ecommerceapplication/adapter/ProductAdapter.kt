@@ -13,8 +13,15 @@ import com.freshervnc.ecommerceapplication.model.Category
 import com.freshervnc.ecommerceapplication.model.Product
 import com.freshervnc.ecommerceapplication.utils.Utils
 
+private var onClickItem: ((id: Product, position: Int) -> Unit)? = null
+
 class ProductAdapter() : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
     private var list: List<Product> = listOf()
+
+    fun onClickItemProduct(id: ((item : Product, position: Int) -> Unit)) {
+        onClickItem = id
+    }
+
     class ProductViewHolder(
         private val binding: ItemProductBinding
     ) : RecyclerView.ViewHolder(binding.root) {
@@ -28,6 +35,11 @@ class ProductAdapter() : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>(
                 Glide.with(itemView).load(item.image)
                     .placeholder(R.drawable.ic_launcher_foreground)
                     .into(itemProductImageView)
+                itemView.setOnClickListener {
+                    onClickItem?.let {
+                        it(item, adapterPosition)
+                    }
+                }
             }
         }
     }

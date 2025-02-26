@@ -7,6 +7,7 @@ import android.location.Location
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import android.provider.Settings
 import android.util.TypedValue
 import androidx.annotation.Dimension
 import androidx.annotation.RequiresApi
@@ -56,10 +57,13 @@ object Utils {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun convertLongToTime(time: Long): String {
-        val instant = Instant.ofEpochMilli(time) // Chuyển timestamp thành Instant
-        // Định dạng ngày/tháng/năm theo múi giờ mặc định (hoặc có thể đặt ZoneId cụ thể)
+        val instant = Instant.ofEpochMilli(time)
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
         val date = instant.atZone(ZoneId.systemDefault()).toLocalDate().format(formatter)
         return date
+    }
+
+    fun getAndroidDeviceInfo(context : Context): String {
+        return Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
     }
 }

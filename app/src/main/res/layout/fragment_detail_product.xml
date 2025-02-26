@@ -23,7 +23,8 @@
                 <ImageView
                     android:id="@+id/detail_imageProduct"
                     android:layout_width="match_parent"
-                    android:layout_height="fill_parent"
+                    android:layout_height="300dp"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/ic_launcher_foreground"/>
                 <TextView
                     android:id="@+id/detail_tvNameProduct"
@@ -132,6 +133,34 @@
                         map:uiZoomControls="false"
                         map:uiZoomGestures="true"/>
                 </FrameLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/send_message_saler"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_margin="5dp"/>
+                <EditText
+                    android:id="@+id/detail_edMessage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border_shadow"
+                    android:text="@string/text_send_message"
+                    android:hint="@string/hint_send_message"
+                    android:padding="15dp"
+                    android:layout_margin="5dp"
+                    android:gravity="start"/>
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/detail_btnSend"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_button"
+                    android:padding="15dp"
+                    android:text="@string/submit"
+                    android:textColor="#FFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_margin="5dp"/>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
@@ -140,37 +169,34 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:orientation="vertical"
-            android:background="@drawable/bg_dropdown">
+            android:orientation="horizontal"
+            android:background="@drawable/bg_dropdown"
+            android:gravity="center_vertical">
+
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/send_message_saler"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_margin="5dp"/>
-            <EditText
-                android:id="@+id/detail_edMessage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/border_shadow"
-                android:text="@string/text_send_message"
-                android:hint="@string/hint_send_message"
-                android:padding="15dp"
                 android:layout_margin="5dp"
-                android:gravity="start"/>
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/detail_btnSend"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_button"
-                android:padding="15dp"
-                android:text="@string/submit"
-                android:textColor="#FFF"
+                android:text="@string/zero"
                 android:textSize="18sp"
+                android:textStyle="bold"
+                android:background="@drawable/bg_dropdown"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_button"
+                android:text="@string/add_to_cart"
+                android:textColor="#FFF"
+                android:textSize="13sp"
                 android:textStyle="bold"
                 android:layout_margin="5dp"/>
         </LinearLayout>
     </RelativeLayout>
-
+    <ProgressBar
+        android:id="@+id/pgBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
 </FrameLayout>

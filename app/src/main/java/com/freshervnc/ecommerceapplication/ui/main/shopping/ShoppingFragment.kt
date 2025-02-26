@@ -65,7 +65,12 @@ class ShoppingFragment : BaseFragment() {
 
     override fun setAction() {
         categoryAdapter.onClickItemCategory { id, position ->
-            findNavController().navigate(R.id.action_shoppingFragment_to_detailProductFragment)
+            Log.e("zzzz","category click item")
+        }
+
+        productAdapter.onClickItemProduct { id, position ->
+            val bundle = Bundle().apply { putString("productId", id._id) }
+            findNavController().navigate(R.id.action_shoppingFragment_to_detailProductFragment , bundle)
         }
     }
 

@@ -2,10 +2,12 @@ package com.freshervnc.ecommerceapplication.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.transition.Visibility
 import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.databinding.ActivityMainBinding
 import com.freshervnc.ecommerceapplication.ui.findmap.MapEcommerceActivity
@@ -61,5 +63,13 @@ class MainActivity : AppCompatActivity() {
             false
         }
 
+    }
+
+    fun GONE(){
+        binding.mainBottomNav.visibility = View.GONE
+    }
+
+    fun Visiable(){
+        binding.mainBottomNav.visibility = View.VISIBLE
     }
 }

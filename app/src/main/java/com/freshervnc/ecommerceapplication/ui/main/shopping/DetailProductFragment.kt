@@ -5,15 +5,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.common.BaseFragment
+import com.freshervnc.ecommerceapplication.data.enity.AddCartRequest
+import com.freshervnc.ecommerceapplication.data.enity.AddCartResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetDetailProductRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetDetailProductResponse
 import com.freshervnc.ecommerceapplication.databinding.FragmentDetailProductBinding
+import com.freshervnc.ecommerceapplication.ui.cart.CartViewModel
+import com.freshervnc.ecommerceapplication.ui.main.MainActivity
 import com.freshervnc.ecommerceapplication.utils.Event
+import com.freshervnc.ecommerceapplication.utils.PreferencesUtils
 import com.freshervnc.ecommerceapplication.utils.Resource
 import com.freshervnc.ecommerceapplication.utils.Utils
 
@@ -22,9 +28,11 @@ class DetailProductFragment : BaseFragment() {
     private lateinit var binding : FragmentDetailProductBinding
     override var isVisibleActionBar: Boolean = false
     private val viewModel by activityViewModels<DetailProductViewModel>()
+    private val cartViewModel by activityViewModels<CartViewModel>()
+    private var quantity = 0
+    private lateinit var preferences : PreferencesUtils
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -37,8 +45,13 @@ class DetailProductFragment : BaseFragment() {
     }
 
     override fun initView() {
+        preferences = PreferencesUtils(requireContext())
         val productId = arguments?.getString("productId") ?: ""
         viewModel.getGetDetailProduct(GetDetailProductRequest(id = productId))
+
+        binding.btAddToCart.setOnClickListener{
+            cartViewModel.addCart(AddCartRequest(idProduct = productId, idUser = preferences.userId , quantity = quantity))
+        }
     }
 
     override fun setView() {
@@ -48,11 +61,28 @@ class DetailProductFragment : BaseFragment() {
         binding.detailBtnSend.setOnClickListener {
 
         }
+
+        binding.imgSub.setOnClickListener {
+            if (quantity <= 0){
+                quantity = 0
+            }else {
+                quantity--
+            }
+            binding.tvQuantity.text = "$quantity"
+        }
+
+        binding.imgAdd.setOnClickListener {
+            quantity++
+            binding.tvQuantity.text = "$quantity"
+        }
     }
 
     override fun setObserve() {
         viewModel.getGetDetailProductResult().observe(viewLifecycleOwner , Observer {
             getGetDetailProductResult(it)
+        })
+        cartViewModel.addCartResult().observe(viewLifecycleOwner, Observer {
+            addCart(it)
         })
     }
 
@@ -86,5 +116,35 @@ class DetailProductFragment : BaseFragment() {
                 }
             }
         }
+    }
+
+    private fun addCart(event : Event<Resource<AddCartResponse>>){
+        event.getContentIfNotHandled()?.let { response ->
+            when ( response ){
+                is Resource.Error -> {
+                    binding.pgBar.visibility = View.GONE
+                    Toast.makeText(requireContext(),response.message,Toast.LENGTH_SHORT).show()
+                }
+                is Resource.Loading -> {
+                    binding.pgBar.visibility = View.VISIBLE
+                }
+                is Resource.Success -> {
+                    binding.pgBar.visibility = View.GONE
+                    response.data?.let {
+                        Toast.makeText(requireContext(),it.message,Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity).GONE()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        (activity as MainActivity).Visiable()
     }
 }

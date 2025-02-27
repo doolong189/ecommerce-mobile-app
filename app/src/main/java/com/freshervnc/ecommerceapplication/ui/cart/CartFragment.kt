@@ -62,6 +62,12 @@ class CartFragment : BaseFragment() {
     override fun setAction() {
         binding.cartBtnCheckOut.setOnClickListener {
             orderViewModel.createOrder(CreateOrderRequest(idClient = preferences.userId, idShipper = "", products = products)) }
+        cartAdapter.onClickItemDelete { item, position ->
+            cartAdapter.updateTotalPrice()
+        }
+        cartAdapter.onClickItemAddQuantity { item, position ->
+            cartAdapter.updateTotalPrice()
+        }
     }
 
     override fun setObserve() {

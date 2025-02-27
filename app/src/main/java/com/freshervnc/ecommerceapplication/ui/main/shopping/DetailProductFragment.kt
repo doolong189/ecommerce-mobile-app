@@ -48,16 +48,13 @@ class DetailProductFragment : BaseFragment() {
         preferences = PreferencesUtils(requireContext())
         val productId = arguments?.getString("productId") ?: ""
         viewModel.getGetDetailProduct(GetDetailProductRequest(id = productId))
-
-        binding.btAddToCart.setOnClickListener{
-            cartViewModel.addCart(AddCartRequest(idProduct = productId, idUser = preferences.userId , quantity = quantity))
-        }
     }
 
     override fun setView() {
     }
 
     override fun setAction() {
+        val productId = arguments?.getString("productId") ?: ""
         binding.detailBtnSend.setOnClickListener {
 
         }
@@ -74,6 +71,10 @@ class DetailProductFragment : BaseFragment() {
         binding.imgAdd.setOnClickListener {
             quantity++
             binding.tvQuantity.text = "$quantity"
+        }
+
+        binding.btAddToCart.setOnClickListener{
+            cartViewModel.addCart(AddCartRequest(idProduct = productId, idUser = preferences.userId , quantity = quantity))
         }
     }
 

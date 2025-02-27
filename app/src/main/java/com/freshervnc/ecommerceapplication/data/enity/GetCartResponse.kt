@@ -20,7 +20,7 @@ data class Product(
     val id : String? = null,
     val name : String? = null,
     val price : Double? = null,
-    val quantity : Int? = null,
+    var quantity : Int? = null,
     val image : String? = null,
     val idStore : String? = null
 )

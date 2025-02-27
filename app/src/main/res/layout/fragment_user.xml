@@ -173,7 +173,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:background="@drawable/border_shadow"
-                        android:backgroundTint="#4D4747"
+                        android:backgroundTint="#37C39A"
                         >
                         <ImageView
                             android:layout_width="match_parent"

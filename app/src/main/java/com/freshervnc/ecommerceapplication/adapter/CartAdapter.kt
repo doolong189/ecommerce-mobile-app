@@ -51,7 +51,6 @@ class CartAdapter() : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
                 itemCartImgAdd.setOnClickListener {
                     item.quantity = item.quantity!! + 1
                     binding.itemCartTvQuantity.text = item.quantity.toString()
-                    binding.itemCartTvQuantity.text = item.quantity.toString()
                     onClickItemAddQuantity?.let {
                         it(item, item.quantity!!)
                     }
@@ -63,6 +62,7 @@ class CartAdapter() : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
                     } else {
                         item.quantity = item.quantity!! - 1
                     }
+                    binding.itemCartTvQuantity.text = item.quantity.toString()
                     onClickItemSubQuantity?.let {
                         it(item, adapterPosition)
                     }

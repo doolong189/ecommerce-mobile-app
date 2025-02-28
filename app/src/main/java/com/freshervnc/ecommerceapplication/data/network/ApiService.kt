@@ -6,6 +6,8 @@ import com.freshervnc.ecommerceapplication.data.enity.AddNotificationRequest
 import com.freshervnc.ecommerceapplication.data.enity.AddNotificationResponse
 import com.freshervnc.ecommerceapplication.data.enity.CreateOrderRequest
 import com.freshervnc.ecommerceapplication.data.enity.CreateOrderResponse
+import com.freshervnc.ecommerceapplication.data.enity.DeleteCartRequest
+import com.freshervnc.ecommerceapplication.data.enity.DeleteCartResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetAllUserRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetAllUserResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetCartRequest
@@ -37,7 +39,8 @@ import com.freshervnc.ecommerceapplication.data.enity.PushNotificationRequest
 import com.freshervnc.ecommerceapplication.data.enity.PushNotificationResponse
 import com.freshervnc.ecommerceapplication.data.enity.RegisterRequest
 import com.freshervnc.ecommerceapplication.data.enity.RegisterResponse
-import retrofit2.Call
+import com.freshervnc.ecommerceapplication.data.enity.UpdateCartRequest
+import com.freshervnc.ecommerceapplication.data.enity.UpdateCartResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -88,6 +91,12 @@ interface ApiService {
 
     @POST("cart/getCart")
     suspend fun getCart(@Body request : GetCartRequest) : Response<GetCartResponse>
+
+    @POST("cart/updateCart")
+    suspend fun updateCart(@Body request : UpdateCartRequest) : Response<UpdateCartResponse>
+
+    @POST("cart/deleteCart")
+    suspend fun deleteCart(@Body request : DeleteCartRequest) : Response<DeleteCartResponse>
 
     @POST("order/createOrder")
     suspend fun createOrder(@Body request : CreateOrderRequest) : Response<CreateOrderResponse>

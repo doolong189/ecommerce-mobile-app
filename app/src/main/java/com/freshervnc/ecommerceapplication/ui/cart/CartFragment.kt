@@ -13,10 +13,13 @@ import com.freshervnc.ecommerceapplication.adapter.CartAdapter
 import com.freshervnc.ecommerceapplication.common.BaseFragment
 import com.freshervnc.ecommerceapplication.data.enity.CreateOrderRequest
 import com.freshervnc.ecommerceapplication.data.enity.CreateOrderResponse
+import com.freshervnc.ecommerceapplication.data.enity.DeleteCartRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetCartRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetCartResponse
-import com.freshervnc.ecommerceapplication.data.enity.Product
+import com.freshervnc.ecommerceapplication.data.enity.UpdateCartRequest
+import com.freshervnc.ecommerceapplication.data.enity.UpdateCartResponse
 import com.freshervnc.ecommerceapplication.databinding.FragmentCartBinding
+import com.freshervnc.ecommerceapplication.model.ProductOfCart
 import com.freshervnc.ecommerceapplication.ui.order.OrderViewModel
 import com.freshervnc.ecommerceapplication.utils.Event
 import com.freshervnc.ecommerceapplication.utils.PreferencesUtils
@@ -33,7 +36,7 @@ class CartFragment : BaseFragment() {
     private var cartAdapter = CartAdapter()
     companion object{
         var idClient = ""
-        var products: MutableList<Product>? = mutableListOf()
+        var products: MutableList<ProductOfCart>? = mutableListOf()
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,11 +65,17 @@ class CartFragment : BaseFragment() {
     override fun setAction() {
         binding.cartBtnCheckOut.setOnClickListener {
             orderViewModel.createOrder(CreateOrderRequest(idClient = preferences.userId, idShipper = "", products = products)) }
-        cartAdapter.onClickItemDelete { item, position ->
+        cartAdapter.onClickItemSubQuantity { item, position ->
+            viewModel.updateCart(UpdateCartRequest(idUser = preferences.userId , idProduct = item.id , quantity = -1))
             cartAdapter.updateTotalPrice()
         }
         cartAdapter.onClickItemAddQuantity { item, position ->
+            viewModel.updateCart(UpdateCartRequest(idUser = preferences.userId , idProduct = item.id , quantity = 1))
             cartAdapter.updateTotalPrice()
+        }
+
+        cartAdapter.onClickItemDelete { item, position ->
+            viewModel.deleteCart(DeleteCartRequest(idUser = preferences.userId , idProduct = item.id))
         }
     }
 
@@ -76,6 +85,9 @@ class CartFragment : BaseFragment() {
         })
         orderViewModel.createOrderResult().observe(viewLifecycleOwner, Observer {
             createOrderResult(it)
+        })
+        viewModel.updateCartResult().observe(viewLifecycleOwner, Observer {
+            updateCartResult(it)
         })
     }
 
@@ -125,4 +137,27 @@ class CartFragment : BaseFragment() {
             }
         }
     }
+
+    private fun updateCartResult(event : Event<Resource<UpdateCartResponse>>){
+        event.getContentIfNotHandled()?.let { response ->
+            when ( response ){
+                is Resource.Error -> {
+                    binding.cartPgBar.visibility = View.GONE
+                }
+                is Resource.Loading -> {
+                    binding.cartPgBar.visibility = View.VISIBLE
+                }
+                is Resource.Success -> {
+                    binding.cartPgBar.visibility = View.GONE
+                    response.data?.let {
+                        binding.cartTvTotalNumberProduct.text = "${it.response.totalNumber}"
+                        binding.cartTvTotalNumber.text = ""
+                        binding.cartTvDiscount.text = "${it.response.discount} %"
+                        binding.cartTvTotalPrice.text = "${Utils.formatPrice(it.response.totalPrice!!)} đ"
+                    }
+                }
+            }
+        }
+    }
+
 }

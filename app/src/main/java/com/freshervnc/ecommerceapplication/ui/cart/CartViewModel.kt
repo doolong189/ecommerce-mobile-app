@@ -9,11 +9,15 @@ import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.app.MyApplication
 import com.freshervnc.ecommerceapplication.data.enity.AddCartRequest
 import com.freshervnc.ecommerceapplication.data.enity.AddCartResponse
+import com.freshervnc.ecommerceapplication.data.enity.DeleteCartRequest
+import com.freshervnc.ecommerceapplication.data.enity.DeleteCartResponse
 import com.freshervnc.ecommerceapplication.data.enity.ErrorResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetCartRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetCartResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetOrderRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetOrderResponse
+import com.freshervnc.ecommerceapplication.data.enity.UpdateCartRequest
+import com.freshervnc.ecommerceapplication.data.enity.UpdateCartResponse
 import com.freshervnc.ecommerceapplication.data.repository.ShoppingRepository
 import com.freshervnc.ecommerceapplication.utils.Event
 import com.freshervnc.ecommerceapplication.utils.Resource
@@ -36,6 +40,16 @@ class CartViewModel(private val application: Application) : AndroidViewModel(app
 
     fun getCartResult(): LiveData<Event<Resource<GetCartResponse>>> {
         return getCartResult
+    }
+
+    private val updateCartResult = MutableLiveData<Event<Resource<UpdateCartResponse>>>()
+    fun updateCartResult(): LiveData<Event<Resource<UpdateCartResponse>>> {
+        return updateCartResult
+    }
+
+    private val deleteCartResult = MutableLiveData<Event<Resource<DeleteCartResponse>>>()
+    fun deleteCartResult() : LiveData<Event<Resource<DeleteCartResponse>>>{
+        return deleteCartResult
     }
 
     fun addCart(request: AddCartRequest): Job = viewModelScope.launch {
@@ -111,40 +125,99 @@ class CartViewModel(private val application: Application) : AndroidViewModel(app
                     getCartResult.postValue(Event(Resource.Error(errorResponse?.message ?: "")))
                 }
             } else {
-                getCartResult.postValue(
-                    Event(
-                        Resource.Error(
-                            getApplication<MyApplication>().getString(
+                getCartResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
                                 R.string.no_internet_connection
-                            )
-                        )
-                    )
-                )
+                            ))))
             }
         } catch (t: Throwable) {
             when (t) {
                 is IOException -> {
-                    getCartResult.postValue(
-                        Event(
-                            Resource.Error(
-                                getApplication<MyApplication>().getString(
+                    getCartResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
                                     R.string.network_failure
-                                )
-                            )
-                        )
-                    )
+                                ))))
                 }
 
                 else -> {
-                    getCartResult.postValue(
-                        Event(
-                            Resource.Error(
-                                getApplication<MyApplication>().getString(
+                    getCartResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
                                     R.string.conversion_error
-                                )
-                            )
-                        )
-                    )
+                                ))))
+                }
+            }
+        }
+    }
+
+    fun updateCart(request : UpdateCartRequest) : Job = viewModelScope.launch {
+        updateCartResult.postValue(Event(Resource.Loading()))
+        try {
+            if (Utils.hasInternetConnection(getApplication<MyApplication>())) {
+                val response = repository.updateCart(request)
+                if (response.isSuccessful) {
+                    response.body()?.let { resultResponse ->
+                        updateCartResult.postValue(Event(Resource.Success(resultResponse)))
+                    }
+                } else {
+                    val errorResponse = response.errorBody()?.let {
+                        val gson = Gson()
+                        gson.fromJson(it.string(), ErrorResponse::class.java)
+                    }
+                    updateCartResult.postValue(Event(Resource.Error(errorResponse?.message ?: "")))
+                }
+            } else {
+                updateCartResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
+                                R.string.no_internet_connection
+                            ))))
+            }
+        } catch (t: Throwable) {
+            when (t) {
+                is IOException -> {
+                    updateCartResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
+                                    R.string.network_failure
+                                ))))
+                }
+
+                else -> {
+                    updateCartResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
+                                    R.string.conversion_error
+                                ))))
+                }
+            }
+        }
+    }
+
+    fun deleteCart(request : DeleteCartRequest) : Job = viewModelScope.launch {
+        deleteCartResult.postValue(Event(Resource.Loading()))
+        try {
+            if (Utils.hasInternetConnection(getApplication<MyApplication>())) {
+                val response = repository.deleteCart(request)
+                if (response.isSuccessful) {
+                    response.body()?.let { resultResponse ->
+                        deleteCartResult.postValue(Event(Resource.Success(resultResponse)))
+                    }
+                } else {
+                    val errorResponse = response.errorBody()?.let {
+                        val gson = Gson()
+                        gson.fromJson(it.string(), ErrorResponse::class.java)
+                    }
+                    deleteCartResult.postValue(Event(Resource.Error(errorResponse?.message ?: "")))
+                }
+            } else {
+                deleteCartResult.postValue(
+                    Event(Resource.Error(getApplication<MyApplication>().getString(
+                                R.string.no_internet_connection
+                            ))))
+            }
+        } catch (t: Throwable) {
+            when (t) {
+                is IOException -> {
+                    deleteCartResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
+                                    R.string.network_failure
+                                ))))
+                }
+
+                else -> {
+                    deleteCartResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
+                                    R.string.conversion_error
+                                ))))
                 }
             }
         }

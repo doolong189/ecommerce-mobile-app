@@ -7,15 +7,15 @@ import com.bumptech.glide.Glide
 import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.databinding.ItemDetailOrderBinding
 import com.freshervnc.ecommerceapplication.model.Product
-import com.freshervnc.ecommerceapplication.model.Products
+import com.freshervnc.ecommerceapplication.model.ProductOfOrder
 import com.freshervnc.ecommerceapplication.utils.Utils
 
 class DetailOrderAdapter() : RecyclerView.Adapter<DetailOrderAdapter.DetailOrderViewHolder>() {
-    private var list: List<Products> = listOf()
+    private var list: List<ProductOfOrder> = listOf()
     class DetailOrderViewHolder(
         private val binding: ItemDetailOrderBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun onBind(item: Products) {
+        fun onBind(item: ProductOfOrder) {
             binding.run {
                 Glide.with(binding.root.context)
                     .load(item.product.image)
@@ -42,7 +42,7 @@ class DetailOrderAdapter() : RecyclerView.Adapter<DetailOrderAdapter.DetailOrder
         holder.onBind(list[position])
     }
 
-    fun submitList(products: List<Products>) {
+    fun submitList(products: List<ProductOfOrder>) {
         list = products
         notifyDataSetChanged()
     }

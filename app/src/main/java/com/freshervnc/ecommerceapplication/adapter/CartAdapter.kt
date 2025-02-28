@@ -5,27 +5,27 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.freshervnc.ecommerceapplication.R
-import com.freshervnc.ecommerceapplication.data.enity.Product
 import com.freshervnc.ecommerceapplication.databinding.ItemCartBinding
 import com.freshervnc.ecommerceapplication.databinding.ItemCategoryBinding
 import com.freshervnc.ecommerceapplication.model.Cart
 import com.freshervnc.ecommerceapplication.model.Category
+import com.freshervnc.ecommerceapplication.model.ProductOfCart
 import com.freshervnc.ecommerceapplication.utils.Utils
 
-private var onClickItemAddQuantity: ((id: Product, quantity: Int) -> Unit)? = null
-private var onClickItemSubQuantity: ((id: Product, quantity: Int) -> Unit)? = null
-private var onClickItemDelete: ((id: Product, position: Int) -> Unit)? = null
+private var onClickItemAddQuantity: ((id: ProductOfCart, quantity: Int) -> Unit)? = null
+private var onClickItemSubQuantity: ((id: ProductOfCart, quantity: Int) -> Unit)? = null
+private var onClickItemDelete: ((id: ProductOfCart, position: Int) -> Unit)? = null
 private var onUpdateTotal : ((total : Int , amount : Int) -> Unit)? = null
 class CartAdapter() : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
-    private var list: List<Product> = listOf()
+    private var list: List<ProductOfCart> = listOf()
 
-    fun onClickItemAddQuantity(id: ((item : Product, position: Int) -> Unit)) {
+    fun onClickItemAddQuantity(id: ((item : ProductOfCart, position: Int) -> Unit)) {
         onClickItemAddQuantity = id
     }
-    fun onClickItemSubQuantity(id: ((item : Product, position: Int) -> Unit)) {
+    fun onClickItemSubQuantity(id: ((item : ProductOfCart, position: Int) -> Unit)) {
         onClickItemSubQuantity = id
     }
-    fun onClickItemDelete(id: ((item : Product, position: Int) -> Unit)) {
+    fun onClickItemDelete(id: ((item : ProductOfCart, position: Int) -> Unit)) {
         onClickItemDelete = id
     }
 
@@ -38,7 +38,7 @@ class CartAdapter() : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
     class CartViewHolder(
         private val binding: ItemCartBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun onBind(item: Product) {
+        fun onBind(item: ProductOfCart) {
             binding.run {
                 Glide.with(binding.root.context)
                     .load(item.image)
@@ -51,7 +51,6 @@ class CartAdapter() : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
                 itemCartImgAdd.setOnClickListener {
                     item.quantity = item.quantity!! + 1
                     binding.itemCartTvQuantity.text = item.quantity.toString()
-                    binding.itemCartTvQuantity.text = item.quantity.toString()
                     onClickItemAddQuantity?.let {
                         it(item, item.quantity!!)
                     }
@@ -63,6 +62,7 @@ class CartAdapter() : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
                     } else {
                         item.quantity = item.quantity!! - 1
                     }
+                    binding.itemCartTvQuantity.text = item.quantity.toString()
                     onClickItemSubQuantity?.let {
                         it(item, adapterPosition)
                     }
@@ -89,7 +89,7 @@ class CartAdapter() : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
         holder.onBind(list[position])
     }
 
-    fun submitList(carts: List<Product>) {
+    fun submitList(carts: List<ProductOfCart>) {
         list = carts
         notifyDataSetChanged()
     }

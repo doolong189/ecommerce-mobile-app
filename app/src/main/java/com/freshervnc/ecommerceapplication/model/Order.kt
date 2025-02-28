@@ -8,9 +8,5 @@ data class Order (
     val receiptStatus : Int = 0,
     val idClient : UserInfo? = null,
     val idShipper : UserInfo? = null,
-    val products : List<Products>
-)
-data class Products (
-    val product : Product,
-    val quantity : Int = 0,
+    val products : List<ProductOfOrder>
 )

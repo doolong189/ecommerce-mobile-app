@@ -29,7 +29,6 @@ import com.freshervnc.ecommerceapplication.databinding.ActivityMapEcommerceBindi
 import com.freshervnc.ecommerceapplication.databinding.ViewMapMarkerBinding
 import com.freshervnc.ecommerceapplication.dialog.DialogBottomDetailProduct
 import com.freshervnc.ecommerceapplication.model.Product
-import com.freshervnc.ecommerceapplication.model.Products
 import com.freshervnc.ecommerceapplication.ui.main.shopping.ShoppingViewModel
 import com.freshervnc.ecommerceapplication.ui.messaging.MessageActivity
 import com.freshervnc.ecommerceapplication.utils.Event

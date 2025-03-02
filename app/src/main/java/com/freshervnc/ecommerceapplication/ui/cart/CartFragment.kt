@@ -66,8 +66,10 @@ class CartFragment : BaseFragment() {
         binding.cartBtnCheckOut.setOnClickListener {
             orderViewModel.createOrder(CreateOrderRequest(idClient = preferences.userId, idShipper = "", products = products)) }
         cartAdapter.onClickItemSubQuantity { item, position ->
-            viewModel.updateCart(UpdateCartRequest(idUser = preferences.userId , idProduct = item.id , quantity = -1))
-            cartAdapter.updateTotalPrice()
+            if (item.quantity!! >= 0 ){
+                viewModel.updateCart(UpdateCartRequest(idUser = preferences.userId , idProduct = item.id , quantity = -1))
+                cartAdapter.updateTotalPrice()
+            }
         }
         cartAdapter.onClickItemAddQuantity { item, position ->
             viewModel.updateCart(UpdateCartRequest(idUser = preferences.userId , idProduct = item.id , quantity = 1))

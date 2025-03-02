@@ -74,6 +74,9 @@ class DetailProductFragment : BaseFragment() {
         }
 
         binding.btAddToCart.setOnClickListener{
+            if (quantity == 0) {
+                quantity += 1
+            }
             cartViewModel.addCart(AddCartRequest(idProduct = productId, idUser = preferences.userId , quantity = quantity))
         }
     }

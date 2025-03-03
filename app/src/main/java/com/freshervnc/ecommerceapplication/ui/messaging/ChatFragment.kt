@@ -9,6 +9,8 @@ import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -23,11 +25,20 @@ import com.freshervnc.ecommerceapplication.data.enity.GetUserInfoRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetUserInfoResponse
 import com.freshervnc.ecommerceapplication.data.enity.PushNotificationRequest
 import com.freshervnc.ecommerceapplication.databinding.FragmentChatBinding
+import com.freshervnc.ecommerceapplication.model.Message
 import com.freshervnc.ecommerceapplication.ui.user.UserViewModel
+import com.freshervnc.ecommerceapplication.utils.Contacts
 import com.freshervnc.ecommerceapplication.utils.Event
 import com.freshervnc.ecommerceapplication.utils.PreferencesUtils
 import com.freshervnc.ecommerceapplication.utils.Resource
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.WebSocket
+import okhttp3.WebSocketListener
 import java.util.Date
+import java.util.UUID
 
 class ChatFragment : BaseFragment() {
     override var isVisibleActionBar: Boolean = false
@@ -38,6 +49,8 @@ class ChatFragment : BaseFragment() {
     private lateinit var chatAdapter : ChatAdapter
     var userId : String = ""
     var token : String = ""
+    private lateinit var webSocket: WebSocket
+    private val messages = mutableListOf<Message>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,6 +77,31 @@ class ChatFragment : BaseFragment() {
         viewModel.getMessages(GetMessageRequest((userId + preferencesUtils.userId)))
         userViewModel.getNeedToken(GetNeedTokenRequest(id = userId , token = preferencesUtils.token.toString()))
 
+
+        //chat - web socket
+        val client = OkHttpClient()
+        val request = Request.Builder().url("${Contacts.URL_WEBSOCKET}=${userId}").build()
+        webSocket = client.newWebSocket(request, object : WebSocketListener() {
+
+            override fun onMessage(webSocket: WebSocket, text: String) {
+                lifecycleScope.launch {
+                    val newMessage = Message(
+                        messageText = text,
+                        senderId = "server",
+                        timestamp = System.currentTimeMillis()
+                    )
+                    messages.add(newMessage)
+//                    messageAdapter.addMessage(Message(text, false))
+                    binding.rcChat.scrollToPosition(messages.size - 1)
+                }
+            }
+
+            override fun onFailure(webSocket: WebSocket, t: Throwable, response: okhttp3.Response?) {
+                lifecycleScope.launch {
+                // Xử lý lỗi WebSocket nếu cần
+                }
+            }
+        })
     }
 
     override fun setView() {}

@@ -75,12 +75,6 @@ class MessageFragment : BaseFragment() {
         viewModel.getUsersResult().observe(viewLifecycleOwner, Observer {
             getUsersResult(it)
         })
-//        viewModel.getMessageResult().observe(viewLifecycleOwner, Observer {
-//            binding.progressBar.visibility = View.GONE
-//            messageAdapter = MessageAdapter()
-//            binding.rcHistoryChat.adapter = messageAdapter
-////            messageAdapter.setMessage(it)
-//        })
     }
 
     private fun getUsersResult(event: Event<Resource<GetAllUserResponse>>){

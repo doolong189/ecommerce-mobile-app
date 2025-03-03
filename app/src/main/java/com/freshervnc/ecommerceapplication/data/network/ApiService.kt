@@ -4,6 +4,8 @@ import com.freshervnc.ecommerceapplication.data.enity.AddCartRequest
 import com.freshervnc.ecommerceapplication.data.enity.AddCartResponse
 import com.freshervnc.ecommerceapplication.data.enity.AddNotificationRequest
 import com.freshervnc.ecommerceapplication.data.enity.AddNotificationResponse
+import com.freshervnc.ecommerceapplication.data.enity.CreateChatMessageRequest
+import com.freshervnc.ecommerceapplication.data.enity.CreateChatMessageResponse
 import com.freshervnc.ecommerceapplication.data.enity.CreateOrderRequest
 import com.freshervnc.ecommerceapplication.data.enity.CreateOrderResponse
 import com.freshervnc.ecommerceapplication.data.enity.DeleteCartRequest
@@ -13,6 +15,8 @@ import com.freshervnc.ecommerceapplication.data.enity.GetAllUserResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetCartRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetCartResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetCategoryResponse
+import com.freshervnc.ecommerceapplication.data.enity.GetChatMessageRequest
+import com.freshervnc.ecommerceapplication.data.enity.GetChatMessageResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetDetailNotificationRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetDetailNotificationResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetDetailOrderRequest
@@ -109,4 +113,10 @@ interface ApiService {
 
     @POST("user/updateToken")
     suspend fun getNeedToken(@Body request : GetNeedTokenRequest) : Response<GetNeedTokenResponse>
+
+    @POST("chat-message/createMessage")
+    suspend fun createChatMessage(@Body request : CreateChatMessageRequest) : Response<CreateChatMessageResponse>
+
+    @POST("chat-message/getMessage")
+    suspend fun getChatMessage(@Body request : GetChatMessageRequest) : Response<GetChatMessageResponse>
 }

@@ -47,13 +47,13 @@ class ChatAdapter(private val context : Context) : RecyclerView.Adapter<Recycler
                 holder.binding.itemSendPhotoImage.visibility = View.VISIBLE
                 holder.binding.itemSentTextview.visibility = View.GONE
                 holder.binding.linearLayout.setBackgroundResource(R.drawable.border_shadow)
-                Glide.with(holder.itemView.context).load(message.messageImageUrl)
+                Glide.with(holder.itemView.context).load(message.messageImage)
                     .placeholder(R.drawable.ic_launcher_foreground)
                     .into(holder.binding.itemSendPhotoImage)
             }else if (message.messageText == "Mặt hàng này còn chứ?"){
                 holder.binding.itemSendPhotoImage.visibility = View.VISIBLE
                 holder.binding.itemSentTextview.visibility = View.VISIBLE
-                Glide.with(holder.itemView.context).load(message.messageImageUrl)
+                Glide.with(holder.itemView.context).load(message.messageImage)
                     .placeholder(R.drawable.ic_launcher_foreground)
                     .into(holder.binding.itemSendPhotoImage)
             }
@@ -65,14 +65,14 @@ class ChatAdapter(private val context : Context) : RecyclerView.Adapter<Recycler
                 holder.binding.itemReceivePhotoImage.visibility = View.VISIBLE
                 holder.binding.itemReceiveTextview.visibility = View.GONE
                 holder.binding.linearLayout2.setBackgroundResource(R.drawable.border_shadow)
-                Glide.with(holder.itemView.context).load(message.messageImageUrl)
+                Glide.with(holder.itemView.context).load(message.messageImage)
                     .placeholder(R.drawable.ic_launcher_foreground)
                     .into(holder.binding.itemReceivePhotoImage)
             }
             else if (message.messageText == "Mặt hàng này còn chứ?"){
                 holder.binding.itemReceivePhotoImage.visibility = View.VISIBLE
                 holder.binding.itemReceiveTextview.visibility = View.VISIBLE
-                Glide.with(holder.itemView.context).load(message.messageImageUrl)
+                Glide.with(holder.itemView.context).load(message.messageImage)
                     .placeholder(R.drawable.ic_launcher_foreground)
                     .into(holder.binding.itemReceivePhotoImage)
             }

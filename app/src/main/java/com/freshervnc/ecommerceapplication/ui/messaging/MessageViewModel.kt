@@ -4,14 +4,15 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.app.MyApplication
 import com.freshervnc.ecommerceapplication.data.enity.ErrorResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetAllUserRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetAllUserResponse
+import com.freshervnc.ecommerceapplication.data.enity.GetChatMessageRequest
+import com.freshervnc.ecommerceapplication.data.enity.GetChatMessageResponse
+import com.freshervnc.ecommerceapplication.data.repository.ChatMessageRepository
 import com.freshervnc.ecommerceapplication.data.repository.UserRepository
 import com.freshervnc.ecommerceapplication.model.Message
 import com.freshervnc.ecommerceapplication.model.UserInfo
@@ -30,9 +31,15 @@ import java.io.IOException
 
 class MessageViewModel (private val application: Application)  : AndroidViewModel(application) {
     private var repository : UserRepository = UserRepository()
+    private var messageRepository : ChatMessageRepository = ChatMessageRepository()
     private val getAllUsersResult = MutableLiveData<Event<Resource<GetAllUserResponse>>>()
     private var preferences: PreferencesUtils = PreferencesUtils(application)
     private val _messagesList = MutableLiveData<List<Message>>()
+
+    private val getChatMessageResult = MutableLiveData<Event<Resource<GetChatMessageResponse>>>()
+    fun getChatMessageResult() : LiveData<Event<Resource<GetChatMessageResponse>>>{
+        return getChatMessageResult
+    }
     fun getUsersResult(): LiveData<Event<Resource<GetAllUserResponse>>> {
         return getAllUsersResult
     }
@@ -107,4 +114,37 @@ class MessageViewModel (private val application: Application)  : AndroidViewMode
         }
     }
 
+    fun getChatMessage(request : GetChatMessageRequest) : Job = viewModelScope.launch {
+        getChatMessageResult.postValue(Event(Resource.Loading()))
+        try {
+            if (Utils.hasInternetConnection(getApplication<MyApplication>())) {
+                val response = messageRepository.getChatMessage(request)
+                if (response.isSuccessful){
+                    response.body()?.let { resultResponse ->
+                        getChatMessageResult.postValue(Event(Resource.Success(resultResponse)))
+                    }
+                }else {
+                    val errorResponse = response.errorBody()?.let {
+                        val gson = Gson()
+                        gson.fromJson(it.string(), ErrorResponse::class.java)
+                    }
+                    getChatMessageResult.postValue(Event(Resource.Error(errorResponse?.message ?: "")))
+                }
+            }else{
+                getChatMessageResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
+                    R.string.no_internet_connection))))
+            }
+        }catch (t: Throwable){
+            when (t) {
+                is IOException -> {
+                    getChatMessageResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
+                        R.string.network_failure))))
+                }
+                else -> {
+                    getChatMessageResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
+                        R.string.conversion_error))))
+                }
+            }
+        }
+    }
 }

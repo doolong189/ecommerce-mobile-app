@@ -23,6 +23,8 @@ import com.freshervnc.ecommerceapplication.data.enity.GetDetailOrderRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetDetailOrderResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetDetailProductRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetDetailProductResponse
+import com.freshervnc.ecommerceapplication.data.enity.GetHistoryChatMessageRequest
+import com.freshervnc.ecommerceapplication.data.enity.GetHistoryChatMessageResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetNeedTokenRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetNeedTokenResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetNotificationRequest
@@ -114,9 +116,12 @@ interface ApiService {
     @POST("user/updateToken")
     suspend fun getNeedToken(@Body request : GetNeedTokenRequest) : Response<GetNeedTokenResponse>
 
-    @POST("chat-message/createMessage")
+    @POST("chat-message/createChatMessage")
     suspend fun createChatMessage(@Body request : CreateChatMessageRequest) : Response<CreateChatMessageResponse>
 
-    @POST("chat-message/getMessage")
+    @POST("chat-message/getChatMessages")
     suspend fun getChatMessage(@Body request : GetChatMessageRequest) : Response<GetChatMessageResponse>
+
+    @POST("chat-message/getHistoryChatMessages")
+    suspend fun getHistoryChatMessages(@Body request : GetHistoryChatMessageRequest) : Response<GetHistoryChatMessageResponse>
 }

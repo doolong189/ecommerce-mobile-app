@@ -4,9 +4,11 @@ import androidx.annotation.Keep
 
 @Keep
 data class CreateChatMessageRequest(
-    val chatId : String? = "",
+    val messageId : String? = "",
     val messageImage : String? = "",
     val messageText : String? = "",
     val senderId : String? = "",
+    val receiverId : String? = "",
+    val senderChatId : String? = "",
     val timestamp : Long? = 0
 )

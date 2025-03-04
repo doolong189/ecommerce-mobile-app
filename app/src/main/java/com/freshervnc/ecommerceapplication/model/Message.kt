@@ -1,8 +1,10 @@
 package com.freshervnc.ecommerceapplication.model
 
-class Message(
-    var messageImage: String = "",
-    var messageText: String = "",
-    var senderId: String = "",
-    val timestamp: Long = 0
+class Message (
+    val messageId : String,
+    val senderId : UserInfo,
+    val receiverId : UserInfo,
+    val chats : List<Chat>,
+    val lastMsg : String,
+    val lastMsgTime : Long
 )

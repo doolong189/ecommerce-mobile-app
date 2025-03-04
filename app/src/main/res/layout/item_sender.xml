@@ -13,7 +13,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bg_button_save"
             android:orientation="vertical"
-            android:gravity="right"
+            android:gravity="end"
             android:layout_margin="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -32,8 +32,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="TextView"
-                android:textSize="14dp"
+                android:text="@string/title"
+                android:textSize="14sp"
                 android:textColor="#FFF"
                 android:textStyle="bold"
                 android:textAlignment="textEnd"/>

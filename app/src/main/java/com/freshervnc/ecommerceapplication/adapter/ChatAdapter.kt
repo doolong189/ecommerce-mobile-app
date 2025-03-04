@@ -9,8 +9,7 @@ import com.bumptech.glide.Glide
 import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.databinding.ItemReceiverBinding
 import com.freshervnc.ecommerceapplication.databinding.ItemSenderBinding
-import com.freshervnc.ecommerceapplication.model.Category
-import com.freshervnc.ecommerceapplication.model.Message
+import com.freshervnc.ecommerceapplication.model.Chat
 import com.freshervnc.ecommerceapplication.utils.PreferencesUtils
 
 
@@ -18,7 +17,7 @@ class ChatAdapter(private val context : Context) : RecyclerView.Adapter<Recycler
     private val ITEM_SENT = 1
     private val ITEM_RECEIVE = 2
     private var preferences: PreferencesUtils = PreferencesUtils(context)
-    private var messageList: List<Message> = listOf()
+    private var messageList: List<Chat> = listOf()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == ITEM_SENT) {
             val view = LayoutInflater.from(parent.context).inflate(R.layout.item_sender, parent, false)
@@ -89,7 +88,7 @@ class ChatAdapter(private val context : Context) : RecyclerView.Adapter<Recycler
         val binding: ItemReceiverBinding = ItemReceiverBinding.bind(itemView)
     }
 
-    fun submitList(message: List<Message>) {
+    fun submitList(message: List<Chat>) {
         this.messageList = message
         notifyDataSetChanged()
     }

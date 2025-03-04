@@ -1,7 +1,7 @@
 package com.freshervnc.ecommerceapplication.data.enity
 
-import com.freshervnc.ecommerceapplication.model.Message
+import com.freshervnc.ecommerceapplication.model.Chat
 
 data class GetMessageResponse (
-    var messages : List<Message>?
+    var messages : List<Chat>?
 )

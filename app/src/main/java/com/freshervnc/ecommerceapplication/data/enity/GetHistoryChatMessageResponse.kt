@@ -4,7 +4,7 @@ import androidx.annotation.Keep
 import com.freshervnc.ecommerceapplication.model.Message
 
 @Keep
-data class GetChatMessageResponse(
+data class GetHistoryChatMessageResponse(
     val message : String? = null,
-    val messages : Message?
+    val messages : List<Message>?
 )

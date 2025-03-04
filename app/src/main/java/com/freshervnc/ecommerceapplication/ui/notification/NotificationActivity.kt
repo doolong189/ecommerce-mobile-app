@@ -1,6 +1,7 @@
 package com.freshervnc.ecommerceapplication.ui.notification
 
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -16,5 +17,15 @@ class NotificationActivity : AppCompatActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         setupActionBarWithNavController(navHostFragment.navController)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                this.finish()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

@@ -5,18 +5,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.freshervnc.ecommerceapplication.R
-import com.freshervnc.ecommerceapplication.adapter.MessageAdapter
+import com.freshervnc.ecommerceapplication.adapter.HistoryMessageAdapter
 import com.freshervnc.ecommerceapplication.adapter.UserAdapter
 import com.freshervnc.ecommerceapplication.common.BaseFragment
 import com.freshervnc.ecommerceapplication.data.enity.GetAllUserRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetAllUserResponse
+import com.freshervnc.ecommerceapplication.data.enity.GetHistoryChatMessageRequest
+import com.freshervnc.ecommerceapplication.data.enity.GetHistoryChatMessageResponse
 import com.freshervnc.ecommerceapplication.databinding.FragmentMessageBinding
+import com.freshervnc.ecommerceapplication.model.UserInfo
 import com.freshervnc.ecommerceapplication.utils.Event
 import com.freshervnc.ecommerceapplication.utils.PreferencesUtils
 import com.freshervnc.ecommerceapplication.utils.Resource
@@ -29,7 +31,7 @@ class MessageFragment : BaseFragment() {
     private val viewModel by activityViewModels<MessageViewModel>()
     private lateinit var preferences : PreferencesUtils
     private var userAdapter = UserAdapter()
-    private var messageAdapter = MessageAdapter()
+    private var historyMessageAdapter = HistoryMessageAdapter()
     var senderRoom = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,22 +60,26 @@ class MessageFragment : BaseFragment() {
 
         binding.rcHistoryChat.setHasFixedSize(true)
         binding.rcHistoryChat.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        binding.rcHistoryChat.run {adapter = MessageAdapter().also { messageAdapter = it }}
+        binding.rcHistoryChat.run {adapter = HistoryMessageAdapter().also { historyMessageAdapter = it }}
 
 
-        viewModel.getUsers(GetAllUserRequest(id = preferences.userId))
+//        viewModel.getUsers(GetAllUserRequest(id = preferences.userId))
+        viewModel.getHistoryChatMessages(GetHistoryChatMessageRequest( senderId = preferences.userId))
     }
 
     override fun setAction() {
-        messageAdapter.onClickItemMessage{ id, position ->
-            val bundle = Bundle().apply { putString("userId", id._id) }
+        historyMessageAdapter.onClickItemMessage{ id, position ->
+            val bundle = Bundle().apply {
+                putString("userId", id.receiverId._id)
+                putString("messageId" , id.messageId)
+            }
             findNavController().navigate(R.id.action_messageFragment_to_chatFragment , bundle)
         }
     }
 
     override fun setObserve() {
-        viewModel.getUsersResult().observe(viewLifecycleOwner, Observer {
-            getUsersResult(it)
+        viewModel.getHistoryChatMessagesResult().observe(viewLifecycleOwner, Observer {
+            getHistoryChatMessagesResult(it)
         })
     }
 
@@ -84,14 +90,6 @@ class MessageFragment : BaseFragment() {
                     binding.progressBar.visibility = View.GONE
                     response.data?.let {
                         userAdapter.submitList(it.users!!)
-
-                        val senderId = preferences.userId!!
-                        for (item in it.users!!){
-                            senderRoom = senderId + item._id
-                        }
-
-                        messageAdapter.setMessage(it.users!!)
-                        viewModel.fetchHistoryMessage(it.users!!)
                     }
                 }
 
@@ -104,6 +102,32 @@ class MessageFragment : BaseFragment() {
 
                 is Resource.Loading -> {
                     binding.progressBar.visibility = View.VISIBLE
+                }
+            }
+        }
+    }
+
+    private fun getHistoryChatMessagesResult(event: Event<Resource<GetHistoryChatMessageResponse>>){
+        event.getContentIfNotHandled()?.let { response ->
+            when ( response ){
+                is Resource.Error -> {
+                    binding.progressBar.visibility = View.GONE
+
+                }
+                is Resource.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                }
+                is Resource.Success -> {
+                    binding.progressBar.visibility = View.GONE
+                    //xu ly check null
+                    response.data?.let {
+                        historyMessageAdapter.setMessage(it.messages!!)
+                        val list = mutableListOf<UserInfo>()
+                        it.messages.map { item ->
+                            list.add(item.receiverId)
+                        }
+                        userAdapter.submitList(list)
+                    }
                 }
             }
         }

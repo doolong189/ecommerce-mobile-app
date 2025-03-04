@@ -6,32 +6,33 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.adapter.ChatAdapter
-import com.freshervnc.ecommerceapplication.adapter.MessageAdapter
 import com.freshervnc.ecommerceapplication.common.BaseFragment
+import com.freshervnc.ecommerceapplication.data.enity.CreateChatMessageRequest
+import com.freshervnc.ecommerceapplication.data.enity.CreateChatMessageResponse
+import com.freshervnc.ecommerceapplication.data.enity.GetChatMessageRequest
+import com.freshervnc.ecommerceapplication.data.enity.GetChatMessageResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetMessageRequest
-import com.freshervnc.ecommerceapplication.data.enity.GetMessageResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetNeedTokenRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetUserInfoRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetUserInfoResponse
 import com.freshervnc.ecommerceapplication.data.enity.PushNotificationRequest
 import com.freshervnc.ecommerceapplication.databinding.FragmentChatBinding
+import com.freshervnc.ecommerceapplication.model.Chat
 import com.freshervnc.ecommerceapplication.model.Message
+import com.freshervnc.ecommerceapplication.ui.notification.NotificationViewModel
 import com.freshervnc.ecommerceapplication.ui.user.UserViewModel
 import com.freshervnc.ecommerceapplication.utils.Contacts
 import com.freshervnc.ecommerceapplication.utils.Event
 import com.freshervnc.ecommerceapplication.utils.PreferencesUtils
 import com.freshervnc.ecommerceapplication.utils.Resource
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -45,12 +46,14 @@ class ChatFragment : BaseFragment() {
     private lateinit var binding : FragmentChatBinding
     private val viewModel by activityViewModels<ChatViewModel>()
     private val userViewModel by activityViewModels<UserViewModel>()
+    private val messageViewModel by activityViewModels<MessageViewModel>()
+    private val notificationViewModel by activityViewModels<NotificationViewModel>()
     private lateinit var preferencesUtils : PreferencesUtils
     private lateinit var chatAdapter : ChatAdapter
-    var userId : String = ""
+    var receiverId : String = ""
+    var messageId : String = ""
     var token : String = ""
     private lateinit var webSocket: WebSocket
-    private val messages = mutableListOf<Message>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,38 +70,38 @@ class ChatFragment : BaseFragment() {
 
     override fun initView() {
         preferencesUtils = PreferencesUtils(requireContext())
-        userId = arguments?.getString("userId") ?: ""
-
+        receiverId = arguments?.getString("userId") ?: ""
+        messageId = arguments?.getString("messageId") ?: ""
         binding.rcChat.setHasFixedSize(true)
         binding.rcChat.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rcChat.run {adapter = ChatAdapter(requireContext()).also { chatAdapter = it }}
 
-        viewModel.getUserInfo(GetUserInfoRequest(userId))
-        viewModel.getMessages(GetMessageRequest((userId + preferencesUtils.userId)))
-        userViewModel.getNeedToken(GetNeedTokenRequest(id = userId , token = preferencesUtils.token.toString()))
-
+        userViewModel.getUserInfo(GetUserInfoRequest(receiverId))
+//        viewModel.getMessages(GetMessageRequest((userId + preferencesUtils.userId)))
+        userViewModel.getNeedToken(GetNeedTokenRequest(id = receiverId , token = preferencesUtils.token.toString()))
+        messageViewModel.getChatMessage(GetChatMessageRequest(messageId))
 
         //chat - web socket
         val client = OkHttpClient()
-        val request = Request.Builder().url("${Contacts.URL_WEBSOCKET}=${userId}").build()
+        val request = Request.Builder().url("${Contacts.URL_WEBSOCKET}=${messageId}").build()
         webSocket = client.newWebSocket(request, object : WebSocketListener() {
-
             override fun onMessage(webSocket: WebSocket, text: String) {
-                lifecycleScope.launch {
-                    val newMessage = Message(
-                        messageText = text,
-                        senderId = "server",
+                requireActivity().runOnUiThread {
+                    val messageText = binding.edChating.text.toString()
+                    viewModel.createMessage(CreateChatMessageRequest(
+                        messageId = preferencesUtils.userId + receiverId,
+                        messageImage = "",
+                        messageText = messageText,
+                        senderId = preferencesUtils.userId,
+                        receiverId = receiverId,
                         timestamp = System.currentTimeMillis()
-                    )
-                    messages.add(newMessage)
-//                    messageAdapter.addMessage(Message(text, false))
-                    binding.rcChat.scrollToPosition(messages.size - 1)
-                }
-            }
-
-            override fun onFailure(webSocket: WebSocket, t: Throwable, response: okhttp3.Response?) {
-                lifecycleScope.launch {
-                // Xử lý lỗi WebSocket nếu cần
+                    ))
+                    viewModel.addMessage(Chat(
+                        messageImage = "",
+                        messageText = messageText,
+                        senderId = preferencesUtils.userId.toString(),
+                        timestamp = System.currentTimeMillis()
+                    ))
                 }
             }
         })
@@ -111,43 +114,58 @@ class ChatFragment : BaseFragment() {
             findNavController().popBackStack()
         }
         binding.iconSend.setOnClickListener {
-            val date = Date()
-            viewModel.sendMessage(
-                messageTxt = binding.edChating.text.toString(),
-                senderUid = preferencesUtils.userId.toString(),
-                date = date.time,
-                senderRoom = preferencesUtils.userId.toString() + userId,
-                receiverRoom = userId + preferencesUtils.userId.toString(),
-            )
+            val messageText = binding.edChating.text.toString()
+            webSocket.send(messageText)
+            viewModel.createMessage(CreateChatMessageRequest(
+                messageId = preferencesUtils.userId + receiverId,
+                messageImage = "",
+                messageText = messageText,
+                senderId = preferencesUtils.userId,
+                receiverId = receiverId,
+                senderChatId = preferencesUtils.userId,
+                timestamp = System.currentTimeMillis()
+            ))
+
+            viewModel.createMessage(CreateChatMessageRequest(
+                messageId = receiverId + preferencesUtils.userId,
+                messageImage = "",
+                messageText = messageText,
+                senderId = receiverId,
+                receiverId = preferencesUtils.userId,
+                senderChatId = preferencesUtils.userId,
+                timestamp = System.currentTimeMillis()
+            ))
+            viewModel.addMessage(Chat(
+                messageImage = "",
+                messageText = messageText,
+                senderId = preferencesUtils.userId.toString(),
+                timestamp = System.currentTimeMillis()
+            ))
+            binding.edChating.text.clear()
         }
     }
 
     override fun setObserve() {
-        viewModel.getUserInfoResult().observe(viewLifecycleOwner, Observer {
+        userViewModel.getUserInfoResult().observe(viewLifecycleOwner, Observer {
             getUserInfoResult(it)
         })
         userViewModel.getNeedTokenResult().observe(viewLifecycleOwner , Observer {
-
         })
-        viewModel.getSuccessful().observe(viewLifecycleOwner, Observer { result ->
-            when(result){
-                true -> {
-                    viewModel.pushNotification(PushNotificationRequest(registrationToken = preferencesUtils.token, title = preferencesUtils.userName, body = binding.edChating.text.toString()))
-                    binding.edChating.setText("")
-                }
-                false -> {
-                    Toast.makeText(requireContext(), getString(R.string.error_send_message), Toast.LENGTH_SHORT).show()
-                }
-            }
+        messageViewModel.getChatMessageResult().observe(viewLifecycleOwner , Observer{
+            getChatMessageResult(it)
         })
 
-        viewModel.getMessageResult().observe(viewLifecycleOwner , Observer {
-            it.messages?.let { response -> chatAdapter.submitList(response) }
+        viewModel.createMessageResult().observe(viewLifecycleOwner, Observer{
+            createMessageResult(it)
+        })
+        notificationViewModel.pushNotificationResult().observe(viewLifecycleOwner , Observer{
+
         })
 
-        viewModel.getErrorMessageResult().observe(viewLifecycleOwner , Observer {
-            Toast.makeText(requireContext(),it,Toast.LENGTH_SHORT).show()
-        })
+        viewModel.chats.observe(this) { messages ->
+            chatAdapter.submitList(messages)
+            binding.rcChat.scrollToPosition(messages.size - 1)
+        }
     }
 
     private fun getUserInfoResult(event: Event<Resource<GetUserInfoResponse>>){
@@ -168,6 +186,42 @@ class ChatFragment : BaseFragment() {
                 is Resource.Error -> {
                     binding.pgBar.visibility = View.GONE
 
+                }
+            }
+        }
+    }
+
+    private fun getChatMessageResult(event: Event<Resource<GetChatMessageResponse>>){
+        event.getContentIfNotHandled()?.let { response ->
+            when ( response ){
+                is Resource.Error -> {
+                    binding.pgBar.visibility = View.GONE
+                }
+                is Resource.Loading -> {
+                    binding.pgBar.visibility = View.VISIBLE
+                }
+                is Resource.Success -> {
+                    binding.pgBar.visibility = View.GONE
+                    response.data?.messages?.chats?.let {
+                        Log.e("zzzzz","${it}")
+                        chatAdapter.submitList(it)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun createMessageResult(event: Event<Resource<CreateChatMessageResponse>>){
+        event.getContentIfNotHandled()?.let { response ->
+            when ( response ){
+                is Resource.Error -> {
+
+                }
+                is Resource.Loading -> {
+
+                }
+                is Resource.Success -> {
+                    notificationViewModel.pushNotification(PushNotificationRequest(registrationToken = preferencesUtils.token, title = preferencesUtils.userName, body = binding.edChating.text.toString()))
                 }
             }
         }

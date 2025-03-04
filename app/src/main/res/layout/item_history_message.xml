@@ -45,7 +45,7 @@
                 android:textStyle="bold"
                 android:textSize="12sp"
                 android:textAlignment="textEnd"
-                android:id="@+id/item_history_message_tvTime"
+                android:id="@+id/item_history_message_tvLastMsgTime"
                 />
         </LinearLayout>
         <TextView
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:text="@string/last_message"
             android:textSize="12sp"
-            android:id="@+id/item_history_message_tvMessage"
+            android:id="@+id/item_history_message_tvLastMsg"
             />
     </LinearLayout>
 </LinearLayout>

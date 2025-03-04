@@ -1,10 +1,8 @@
 package com.freshervnc.ecommerceapplication.model
 
-import com.google.android.datatransport.cct.StringMerger
-
-class Chat (
-    val chatId : String,
-    val messages : List<Message>,
-    val lastMsg : String,
-    val lastMsgTime : Long
+class Chat(
+    var messageImage: String = "",
+    var messageText: String = "",
+    var senderId: String = "",
+    val timestamp: Long = 0
 )

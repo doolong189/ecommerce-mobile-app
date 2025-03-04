@@ -1,15 +1,18 @@
 package com.freshervnc.ecommerceapplication.ui.messaging
 
 import android.os.Bundle
+import android.util.Log
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.freshervnc.ecommerceapplication.R
+import com.freshervnc.ecommerceapplication.common.BaseActivity
 import com.freshervnc.ecommerceapplication.databinding.ActivityMessageBinding
 import com.freshervnc.ecommerceapplication.ui.findmap.MapEcommerceActivity
 
-class MessageActivity : AppCompatActivity() {
+class MessageActivity : BaseActivity() {
     private lateinit var binding : ActivityMessageBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,8 +36,13 @@ class MessageActivity : AppCompatActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        finish()
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                this.finish()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

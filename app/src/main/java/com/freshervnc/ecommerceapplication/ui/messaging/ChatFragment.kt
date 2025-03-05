@@ -88,18 +88,29 @@ class ChatFragment : BaseFragment() {
             override fun onMessage(webSocket: WebSocket, text: String) {
                 requireActivity().runOnUiThread {
                     val messageText = binding.edChating.text.toString()
+                    viewModel.addMessage(Chat(
+                        messageImage = "",
+                        messageText = messageText,
+                        senderId = preferencesUtils.userId.toString(),
+                        timestamp = System.currentTimeMillis()
+                    ))
                     viewModel.createMessage(CreateChatMessageRequest(
                         messageId = preferencesUtils.userId + receiverId,
                         messageImage = "",
                         messageText = messageText,
                         senderId = preferencesUtils.userId,
                         receiverId = receiverId,
+                        senderChatId = preferencesUtils.userId,
                         timestamp = System.currentTimeMillis()
                     ))
-                    viewModel.addMessage(Chat(
+
+                    viewModel.createMessage(CreateChatMessageRequest(
+                        messageId = receiverId + preferencesUtils.userId,
                         messageImage = "",
                         messageText = messageText,
-                        senderId = preferencesUtils.userId.toString(),
+                        senderId = receiverId,
+                        receiverId = preferencesUtils.userId,
+                        senderChatId = preferencesUtils.userId,
                         timestamp = System.currentTimeMillis()
                     ))
                 }
@@ -116,25 +127,6 @@ class ChatFragment : BaseFragment() {
         binding.iconSend.setOnClickListener {
             val messageText = binding.edChating.text.toString()
             webSocket.send(messageText)
-            viewModel.createMessage(CreateChatMessageRequest(
-                messageId = preferencesUtils.userId + receiverId,
-                messageImage = "",
-                messageText = messageText,
-                senderId = preferencesUtils.userId,
-                receiverId = receiverId,
-                senderChatId = preferencesUtils.userId,
-                timestamp = System.currentTimeMillis()
-            ))
-
-            viewModel.createMessage(CreateChatMessageRequest(
-                messageId = receiverId + preferencesUtils.userId,
-                messageImage = "",
-                messageText = messageText,
-                senderId = receiverId,
-                receiverId = preferencesUtils.userId,
-                senderChatId = preferencesUtils.userId,
-                timestamp = System.currentTimeMillis()
-            ))
             viewModel.addMessage(Chat(
                 messageImage = "",
                 messageText = messageText,

@@ -40,13 +40,16 @@ import org.json.JSONObject
 import java.io.IOException
 import javax.inject.Inject
 
-class ChatViewModel (private val application: Application, private val repository: ChatMessageRepository) : AndroidViewModel(application) {
+class ChatViewModel (private val application: Application,
+                     private val socket: Socket, private val chatMessageRepository: ChatMessageRepository) : AndroidViewModel(application) {
 //    private var chatMessageRepository = ChatMessageRepository()
     private val createMessageResult = MutableLiveData<Event<Resource<CreateChatMessageResponse>>>()
     private val _chats = MutableLiveData<MutableList<Chat>>(mutableListOf())
     val chats: LiveData<MutableList<Chat>> get() = _chats
     val chates = MutableLiveData<List<Chat>>()
     val terminateSessionObserver = MutableLiveData<Boolean>()
+    val messages = MutableLiveData<List<Chat>>()
+    val messageObserver = MutableLiveData<Boolean>()
 
     fun createMessageResult() : LiveData<Event<Resource<CreateChatMessageResponse>>>{
         return createMessageResult
@@ -55,7 +58,7 @@ class ChatViewModel (private val application: Application, private val repositor
         createMessageResult.postValue(Event(Resource.Loading()))
         try {
             if (Utils.hasInternetConnection(getApplication<MyApplication>())) {
-                val response = repository.createChatMessage(request)
+                val response = chatMessageRepository.createChatMessage(request)
                 if (response.isSuccessful){
                     response.body()?.let { resultResponse ->
                         createMessageResult.postValue(Event(Resource.Success(resultResponse)))
@@ -85,94 +88,62 @@ class ChatViewModel (private val application: Application, private val repositor
         }
     }
 
-//    fun addMessage(newChat : Chat) {
-//        val updatedList = _chats.value ?: mutableListOf()
-//        updatedList.add(newChat)
-//        _chats.value = updatedList
-//    }
-//
-//    init {
-//        socket.connect()
-//
-//
-//        chatMessageRepository.listenForEvent(socket, "message") { args ->
-//            viewModelScope.launch(Dispatchers.Main) {
-//                val data: JSONObject = args[0] as JSONObject
-//                val chat = Chat(
-//                    messageImage = "",
-//                    messageText = data.getString("message_text"),
-//                    senderId = data.getString("message_sender"),
-//                    timestamp = System.currentTimeMillis()
-//                )
-//
-//                if (chates.value == null) {
-//                    chates.value = listOf<Chat>().toMutableList().plus(chat)
-//                } else {
-//                    chates.value = chates.value!!.toMutableList().plus(chat)
-//                }
-//            }
-//        }
-//
-//        chatMessageRepository.listenForEvent(socket, "error") { args ->
-//            viewModelScope.launch(Dispatchers.Main) {
-//                val data: JSONObject = args[0] as JSONObject
-//                val message = data.getString("message")
-//
-//                terminateSessionObserver.value = true
-//                terminateSessionObserver.value = false
-//            }
-//        }
-//    }
-//
-//    fun endSession() {
-//        socket.disconnect()
-//        socket.off("message")
-//        socket.off("error")
-//    }
-//
-//    override fun onCleared() {
-//        super.onCleared()
-//        socket.disconnect()
-//        socket.off("message")
-//        socket.off("error")
-//    }
-    val messages = MutableLiveData<List<Chat>>()
-    val errorMessage = MutableLiveData<String>()
-    fun sendMessage(messageImage: String, senderId: String , message : String, timestamp : Long) {
-        if (message.isEmpty()) {
-            errorMessage.value = "Message cannot be empty"
+    fun sendMessage(messageImage: String, messageText : String, senderId : String) {
+        if (messageImage.isEmpty()) {
+//            callback.onError("Type a message.")
+            Log.e("zzzz","Type a message.")
             return
         }
-        repository.sendMessage(messageImage, senderId , message , timestamp)
+        val data = JSONObject()
+        data.put("messageImage", messageImage)
+        data.put("messageText", messageText)
+        data.put("senderId", senderId)
+        data.put("timestamp", System.currentTimeMillis())
+
+        chatMessageRepository.emitEvent(socket, "message", data)
+
+        messageObserver.value = true
+        messageObserver.value = false
     }
 
-    // Lắng nghe sự kiện tin nhắn mới từ socket
-    fun listenForMessages() {
-        repository.listenForMessages { args ->
-            val data = args[0] as JSONObject
-            val message = Chat(
-                data.getString("messageImage"),
-                data.getString("senderId"),
-                data.getString("message"),
-                data.getLong("timestamp"),
-            )
-            val updatedMessages = messages.value.orEmpty() + message
-            messages.value = updatedMessages
+    init {
+        socket.connect()
+
+        chatMessageRepository.listenForEvent(socket, "message") { args ->
+            viewModelScope.launch(Dispatchers.Main) {
+                val data: JSONObject = args[0] as JSONObject
+                val chats = Chat(
+                    data.getString("messageImage"),
+                    data.getString("messageText"),
+                    data.getString("senderId"),
+                    data.getLong("timestamp")
+                )
+
+                if (messages.value == null) {
+                    messages.value = listOf<Chat>().toMutableList().plus(chats)
+                } else {
+                    messages.value = messages.value!!.toMutableList().plus(chats)
+                }
+            }
         }
-    }
 
-    // Lắng nghe sự kiện lỗi
-    fun listenForErrors() {
-        repository.listenForError { args ->
-            val data = args[0] as JSONObject
-            errorMessage.value = data.getString("message")
+        chatMessageRepository.listenForEvent(socket, "error") { args ->
+            viewModelScope.launch(Dispatchers.Main) {
+                val data: JSONObject = args[0] as JSONObject
+                val message = data.getString("message")
+//                callback.onError(message)
+                Log.e("zzzz","${message}")
+                terminateSessionObserver.value = true
+                terminateSessionObserver.value = false
+            }
         }
     }
 
     override fun onCleared() {
         super.onCleared()
-        // Đảm bảo hủy sự kiện khi ViewModel bị hủy
-        repository.listenForMessages { }
-        repository.listenForError { }
+        socket.disconnect()
+        socket.off("message")
+        socket.off("error")
     }
+
 }

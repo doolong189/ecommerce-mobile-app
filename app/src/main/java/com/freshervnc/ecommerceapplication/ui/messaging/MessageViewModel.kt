@@ -32,8 +32,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.io.IOException
 
-class MessageViewModel (private val application: Application, private val messageRepository: ChatMessageRepository)  : AndroidViewModel(application) {
-//    private var messageRepository : ChatMessageRepository = ChatMessageRepository()
+class MessageViewModel (private val application: Application)  : AndroidViewModel(application) {
+    private var messageRepository : ChatMessageRepository = ChatMessageRepository()
     private var preferences: PreferencesUtils = PreferencesUtils(application)
     private val _messagesList = MutableLiveData<List<Chat>>()
 

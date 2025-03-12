@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -59,7 +60,8 @@ class ChatFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        val tempViewModel: ChatViewModel by viewModels()
+        viewModel = tempViewModel
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -86,58 +88,16 @@ class ChatFragment : BaseFragment() {
         //chat - web socket
         val client = OkHttpClient()
         val request = Request.Builder().url("${Contacts.URL_WEBSOCKET}=${messageId}").build()
-//        webSocket = client.newWebSocket(request, object : WebSocketListener() {
-//            override fun onMessage(webSocket: WebSocket, text: String) {
-//                requireActivity().runOnUiThread {
-//                    val messageText = binding.edChating.text.toString()
-//                    viewModel.addMessage(Chat(
-//                        messageImage = "",
-//                        messageText = messageText,
-//                        senderId = preferencesUtils.userId.toString(),
-//                        timestamp = System.currentTimeMillis()
-//                    ))
-//                    viewModel.createMessage(CreateChatMessageRequest(
-//                        messageId = preferencesUtils.userId + receiverId,
-//                        messageImage = "",
-//                        messageText = messageText,
-//                        senderId = preferencesUtils.userId,
-//                        receiverId = receiverId,
-//                        senderChatId = preferencesUtils.userId,
-//                        timestamp = System.currentTimeMillis()
-//                    ))
-//
-//                    viewModel.createMessage(CreateChatMessageRequest(
-//                        messageId = receiverId + preferencesUtils.userId,
-//                        messageImage = "",
-//                        messageText = messageText,
-//                        senderId = receiverId,
-//                        receiverId = preferencesUtils.userId,
-//                        senderChatId = preferencesUtils.userId,
-//                        timestamp = System.currentTimeMillis()
-//                    ))
-//                }
-//            }
-//        })
 
         // Khởi tạo ViewModel
         viewModel = ViewModelProvider(this).get(ChatViewModel::class.java)
 
         // Gửi tin nhắn
-        binding.iconSend.setOnClickListener {
-            val message = binding.edChating.text.toString()
-            val token = "your_token_here"  // Lấy token từ SharedPreferences hoặc session
-            viewModel.sendMessage("",preferencesUtils.userId.toString(), message, Util)
-        }
-
-        // Lấy tin nhắn khi fragment được tạo
-//        val token = "your_token_here"  // Lấy token từ SharedPreferences hoặc session
-//        viewModel.getMessages(token)
-
-        // Lắng nghe tin nhắn mới qua socket
-        viewModel.listenForMessages()
-
-        // Lắng nghe lỗi qua socket
-        viewModel.listenForErrors()
+//        binding.iconSend.setOnClickListener {
+//            val message = binding.edChating.text.toString()
+//            val token = "your_token_here"  // Lấy token từ SharedPreferences hoặc session
+//            viewModel.sendMessage("",preferencesUtils.userId.toString(), message)
+//        }
     }
 
     override fun setView() {
@@ -149,18 +109,19 @@ class ChatFragment : BaseFragment() {
             findNavController().popBackStack()
         }
         binding.iconSend.setOnClickListener {
-//            val messageText = binding.edChating.text.toString()
+            val messageText = binding.edChating.text.toString()
 //            webSocket.send(messageText)
-//            viewModel.addMessage(Chat(
+//            viewModel.sendMessage(Chat(
 //                messageImage = "",
 //                messageText = messageText,
 //                senderId = preferencesUtils.userId.toString(),
 //                timestamp = System.currentTimeMillis()
 //            ))
-//            binding.edChating.text.clear()
+            viewModel.sendMessage("",messageText, preferencesUtils.userId.toString())
+            binding.edChating.text.clear()
 
-            val message = binding.edChating.text.toString()
-            viewModel.sendMessage(token, message)
+//            val message = binding.edChating.text.toString()
+//            viewModel.sendMessage(token, message)
         }
     }
 
@@ -191,11 +152,31 @@ class ChatFragment : BaseFragment() {
             chatAdapter.submitList(messages)
         })
 
-        viewModel.errorMessage.observe(viewLifecycleOwner, Observer { error ->
-            error?.let {
-                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+        viewModel.terminateSessionObserver.observe(viewLifecycleOwner) {
+            it?.let {
+                if (it) {
+                    findNavController().popBackStack()
+                }
             }
-        })
+        }
+
+        viewModel.messageObserver.observe(viewLifecycleOwner) {
+            it?.let {
+                if (it) {
+                    binding.edChating.setText("")
+                }
+            }
+        }
+
+        viewModel.messages.observe(viewLifecycleOwner) {
+            it?.let {
+                val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                binding.rcChat.layoutManager = layoutManager
+                binding.rcChat.adapter = chatAdapter
+                chatAdapter.submitList(it)
+                layoutManager.scrollToPosition(chatAdapter.itemCount - 1)
+            }
+        }
     }
 
     private fun getUserInfoResult(event: Event<Resource<GetUserInfoResponse>>){

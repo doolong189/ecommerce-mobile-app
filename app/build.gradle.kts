@@ -93,4 +93,8 @@ dependencies {
     implementation("io.socket:socket.io-client:2.0.0") {
         exclude(group = "org.json", module = "json")
     }
+
+    implementation("com.akexorcist:google-direction-library:1.2.1")
+    implementation("com.mapbox.maps:android:11.10.0")
+
 }

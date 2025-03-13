@@ -103,5 +103,10 @@
     <string name="confirm_cancel">Xác nhận hủy</string>
     <string name="add_to_cart">Thêm giỏ hàng</string>
     <string name="reviews">Đánh giá</string>
+    <string name="open">Mở</string>
+    <string name="close">Đóng</string>
+    <string name="put_name_location">Nhập tên địa chỉ</string>
+    <string name="title_put_name">Tìm kiếm địa ch</string>
+    <string name="acept">Chấp nhận</string>
 
 </resources>

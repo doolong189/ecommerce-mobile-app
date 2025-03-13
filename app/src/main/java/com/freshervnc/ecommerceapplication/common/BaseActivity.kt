@@ -9,4 +9,5 @@ abstract class BaseActivity : AppCompatActivity() {
         }
         return true
     }
+
 }

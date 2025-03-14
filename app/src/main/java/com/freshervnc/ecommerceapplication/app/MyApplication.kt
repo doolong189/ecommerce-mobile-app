@@ -15,6 +15,10 @@ class MyApplication : Application() {
         super.onCreate()
         createNotificationChannel()
         FirebaseApp.initializeApp(this)
+//        Dash.init(
+//            context = this,
+//            accessToken = getString(R.string.mapbox_access_token)
+//        )
     }
 
     private fun createNotificationChannel() {

@@ -107,6 +107,7 @@
     <string name="close">Đóng</string>
     <string name="put_name_location">Nhập tên địa chỉ</string>
     <string name="title_put_name">Tìm kiếm địa ch</string>
-    <string name="acept">Chấp nhận</string>
+    <string name="accept">Chấp nhận</string>
+    <string name="default_text_message">Aa...</string>
 
 </resources>

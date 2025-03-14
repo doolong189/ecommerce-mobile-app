@@ -4,14 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.transition.Visibility
 import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.databinding.ActivityMainBinding
-import com.freshervnc.ecommerceapplication.ui.findmap.LocationActivity
-import com.freshervnc.ecommerceapplication.ui.findmap.MapEcommerceActivity
+import com.freshervnc.ecommerceapplication.ui.mapbox.LocationActivity
 import com.freshervnc.ecommerceapplication.ui.main.shopping.ShoppingFragment
 import com.freshervnc.ecommerceapplication.ui.messaging.MessageActivity
 import com.freshervnc.ecommerceapplication.ui.notification.NotificationActivity
@@ -52,7 +51,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.navFindMap -> {
 //                    startActivity(Intent(this,MapEcommerceActivity::class.java))
-                    startActivity(Intent(this,LocationActivity::class.java))
+                    startActivity(Intent(this, LocationActivity::class.java))
                 }
                 R.id.navNotification -> {
                     startActivity(Intent(this,NotificationActivity::class.java))
@@ -73,5 +72,13 @@ class MainActivity : AppCompatActivity() {
 
     fun Visiable(){
         binding.mainBottomNav.visibility = View.VISIBLE
+    }
+
+    private fun replaceFragment(fragment: Fragment){
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+
+        fragmentTransaction.replace(R.id.nav_host_fragment, fragment)
+        fragmentTransaction.commit()
     }
 }

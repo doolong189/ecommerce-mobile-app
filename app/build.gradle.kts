@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "com.freshervnc.ecommerceapplication"
-        minSdk = 24
+        minSdk = 23
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -96,5 +96,12 @@ dependencies {
 
     implementation("com.akexorcist:google-direction-library:1.2.1")
     implementation("com.mapbox.maps:android:11.10.0")
+    implementation("com.mapbox.navigationcore:navigation:3.8.0-beta.1")
+    implementation("com.mapbox.navigationcore:copilot:3.8.0-beta.1")
+    implementation("com.mapbox.navigationcore:ui-maps:3.8.0-beta.1")
+    implementation("com.mapbox.navigationcore:voice:3.8.0-beta.1")
+    implementation("com.mapbox.navigationcore:tripdata:3.8.0-beta.1")
+    implementation("com.mapbox.navigationcore:android:3.8.0-beta.1")
+    implementation("com.mapbox.navigationcore:ui-components:3.8.0-beta.1")
 
 }

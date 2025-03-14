@@ -1,24 +1,18 @@
-package com.freshervnc.ecommerceapplication.ui.findmap
+package com.freshervnc.ecommerceapplication.ui.mapbox
 
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.EditText
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.content.res.AppCompatResources
 import com.mapbox.maps.extension.style.expressions.generated.Expression
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.common.BaseLocationActivity
 import com.freshervnc.ecommerceapplication.common.LocationPermissionHelper
@@ -195,6 +189,13 @@ class LocationActivity : BaseLocationActivity() , OnMapClickListener, OnMapLongC
                 5 -> mapView.getMapboxMap().loadStyleUri(Style.TRAFFIC_NIGHT)
             }
         }
+
+//        if (!MapboxNavigationApp.isSetup()) {
+//            MapboxNavigationApp.setup {
+//                NavigationOptions.Builder(context).build()
+//            }
+//        }
+//        MapboxNavigationApp.attach(this)
     }
 
     private fun addAnnotationToMap(long: Double, lat: Double, name: String) {
@@ -369,7 +370,7 @@ class LocationActivity : BaseLocationActivity() , OnMapClickListener, OnMapLongC
         editText.hint = getString(R.string.put_name_location)
         dialog.setView(editText)
         dialog.setTitle(getString(R.string.title_put_name))
-        dialog.setPositiveButton(getString(R.string.acept)) { dialog, id ->
+        dialog.setPositiveButton(getString(R.string.accept)) { dialog, id ->
             var textEdit = editText.editableText.toString()
             listLocations.add(point)
             listName.add(textEdit.toString())

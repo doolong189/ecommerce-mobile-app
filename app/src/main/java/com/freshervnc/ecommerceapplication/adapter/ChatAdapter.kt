@@ -1,5 +1,6 @@
 package com.freshervnc.ecommerceapplication.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import com.freshervnc.ecommerceapplication.databinding.ItemReceiverBinding
 import com.freshervnc.ecommerceapplication.databinding.ItemSenderBinding
 import com.freshervnc.ecommerceapplication.model.Chat
 import com.freshervnc.ecommerceapplication.utils.PreferencesUtils
+import com.freshervnc.ecommerceapplication.utils.Utils
 
 
 class ChatAdapter(private val context : Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -37,43 +39,41 @@ class ChatAdapter(private val context : Context) : RecyclerView.Adapter<Recycler
         }
     }
 
+    @SuppressLint("NewApi")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val message = messageList[position]
         if (holder is SentViewHolder) {
-            holder.binding.itemSentTextview.text = message.messageText
-            if (message.messageText == "Photo" || message.messageText
-                == "camera") {
-                holder.binding.itemSendPhotoImage.visibility = View.VISIBLE
-                holder.binding.itemSentTextview.visibility = View.GONE
-                holder.binding.linearLayout.setBackgroundResource(R.drawable.border_shadow)
+            holder.binding.message.text = message.messageText
+            holder.binding.timestamp.text = Utils.convertLongToTimeStamp(message.timestamp)
+            if (message.messageText == "Photo" || message.messageText == "Camera") {
+                holder.binding.image.visibility = View.VISIBLE
+                holder.binding.message.visibility = View.GONE
                 Glide.with(holder.itemView.context).load(message.messageImage)
                     .placeholder(R.drawable.ic_launcher_foreground)
-                    .into(holder.binding.itemSendPhotoImage)
+                    .into(holder.binding.image)
+                holder.binding.image.setBackgroundResource(R.drawable.sender_photo_bg)
             }else if (message.messageText == "Mặt hàng này còn chứ?"){
-                holder.binding.itemSendPhotoImage.visibility = View.VISIBLE
-                holder.binding.itemSentTextview.visibility = View.VISIBLE
+                holder.binding.image.visibility = View.VISIBLE
+                holder.binding.message.visibility = View.VISIBLE
                 Glide.with(holder.itemView.context).load(message.messageImage)
                     .placeholder(R.drawable.ic_launcher_foreground)
-                    .into(holder.binding.itemSendPhotoImage)
+                    .into(holder.binding.image)
             }
         } else if (holder is ReceiverViewHolder) {
-            holder.binding.itemReceiveTextview.text = message.messageText
-            if (message.messageText == "Photo" || message.messageText
-                == "camera"
-            ) {
-                holder.binding.itemReceivePhotoImage.visibility = View.VISIBLE
-                holder.binding.itemReceiveTextview.visibility = View.GONE
-                holder.binding.linearLayout2.setBackgroundResource(R.drawable.border_shadow)
+            holder.binding.message.text = message.messageText
+            holder.binding.timestamp.text = Utils.convertLongToTimeStamp(message.timestamp)
+            if (message.messageText == "Photo" || message.messageText == "Camera") {
+                holder.binding.lnImage.visibility = View.VISIBLE
+                holder.binding.message.visibility = View.GONE
                 Glide.with(holder.itemView.context).load(message.messageImage)
                     .placeholder(R.drawable.ic_launcher_foreground)
-                    .into(holder.binding.itemReceivePhotoImage)
-            }
-            else if (message.messageText == "Mặt hàng này còn chứ?"){
-                holder.binding.itemReceivePhotoImage.visibility = View.VISIBLE
-                holder.binding.itemReceiveTextview.visibility = View.VISIBLE
+                    .into(holder.binding.image)
+            } else if (message.messageText == "Mặt hàng này còn chứ?"){
+                holder.binding.lnImage.visibility = View.VISIBLE
+                holder.binding.message.visibility = View.VISIBLE
                 Glide.with(holder.itemView.context).load(message.messageImage)
                     .placeholder(R.drawable.ic_launcher_foreground)
-                    .into(holder.binding.itemReceivePhotoImage)
+                    .into(holder.binding.image)
             }
         }
     }

@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.freshervnc.ecommerceapplication.R
@@ -35,11 +36,15 @@ import com.freshervnc.ecommerceapplication.utils.Contacts
 import com.freshervnc.ecommerceapplication.utils.Event
 import com.freshervnc.ecommerceapplication.utils.PreferencesUtils
 import com.freshervnc.ecommerceapplication.utils.Resource
+import io.socket.client.IO
+import io.socket.client.Socket
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.WebSocket
 import okhttp3.WebSocketListener
+import org.json.JSONException
+import org.json.JSONObject
 import java.util.Date
 import java.util.UUID
 
@@ -53,9 +58,14 @@ class ChatFragment : BaseFragment() {
     private lateinit var preferencesUtils : PreferencesUtils
     private lateinit var chatAdapter : ChatAdapter
     var receiverId : String = ""
+    var senderId : String = ""
     var messageId : String = ""
     var token : String = ""
     private lateinit var webSocket: WebSocket
+    private var socket: Socket? = null
+    var chatList: ArrayList<Chat> = arrayListOf()
+//    lateinit var chatAdapter: ChatAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,41 +81,18 @@ class ChatFragment : BaseFragment() {
 
     override fun initView() {
         preferencesUtils = PreferencesUtils(requireContext())
+        senderId = preferencesUtils.userId ?: ""
         receiverId = arguments?.getString("userId") ?: ""
         messageId = arguments?.getString("messageId") ?: ""
         binding.rcChat.setHasFixedSize(true)
-        binding.rcChat.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.rcChat.layoutManager = LinearLayoutManager(requireContext())
+        binding.rcChat.setItemAnimator(DefaultItemAnimator())
         binding.rcChat.run {adapter = ChatAdapter(requireContext()).also { chatAdapter = it }}
 
         userViewModel.getUserInfo(GetUserInfoRequest(receiverId))
-//        viewModel.getMessages(GetMessageRequest((userId + preferencesUtils.userId)))
         userViewModel.getNeedToken(GetNeedTokenRequest(id = receiverId , token = preferencesUtils.token.toString()))
         messageViewModel.getChatMessage(GetChatMessageRequest(messageId))
-
-        //chat - web socket
-        val client = OkHttpClient()
-        val request = Request.Builder().url("${Contacts.URL_WEBSOCKET}=${messageId}").build()
-        webSocket = client.newWebSocket(request, object : WebSocketListener() {
-            override fun onMessage(webSocket: WebSocket, text: String) {
-                requireActivity().runOnUiThread {
-                    val messageText = binding.edChating.text.toString()
-                    viewModel.createMessage(CreateChatMessageRequest(
-                        messageId = preferencesUtils.userId + receiverId,
-                        messageImage = "",
-                        messageText = messageText,
-                        senderId = preferencesUtils.userId,
-                        receiverId = receiverId,
-                        timestamp = System.currentTimeMillis()
-                    ))
-                    viewModel.addMessage(Chat(
-                        messageImage = "",
-                        messageText = messageText,
-                        senderId = preferencesUtils.userId.toString(),
-                        timestamp = System.currentTimeMillis()
-                    ))
-                }
-            }
-        })
+        chatSocket()
     }
 
     override fun setView() {}
@@ -114,37 +101,91 @@ class ChatFragment : BaseFragment() {
         binding.iconBack.setOnClickListener {
             findNavController().popBackStack()
         }
-        binding.iconSend.setOnClickListener {
-            val messageText = binding.edChating.text.toString()
-            webSocket.send(messageText)
-            viewModel.createMessage(CreateChatMessageRequest(
-                messageId = preferencesUtils.userId + receiverId,
-                messageImage = "",
-                messageText = messageText,
-                senderId = preferencesUtils.userId,
-                receiverId = receiverId,
-                senderChatId = preferencesUtils.userId,
-                timestamp = System.currentTimeMillis()
-            ))
+//        binding.iconSend.setOnClickListener {
+//            val messageText = binding.edChating.text.toString()
+//            webSocket.send(messageText)
+//            viewModel.createMessage(CreateChatMessageRequest(
+//                messageId = preferencesUtils.userId + receiverId,
+//                messageImage = "",
+//                messageText = messageText,
+//                senderId = preferencesUtils.userId,
+//                receiverId = receiverId,
+//                senderChatId = preferencesUtils.userId,
+//                timestamp = System.currentTimeMillis()
+//            ))
+//
+//            viewModel.createMessage(CreateChatMessageRequest(
+//                messageId = receiverId + preferencesUtils.userId,
+//                messageImage = "",
+//                messageText = messageText,
+//                senderId = receiverId,
+//                receiverId = preferencesUtils.userId,
+//                senderChatId = preferencesUtils.userId,
+//                timestamp = System.currentTimeMillis()
+//            ))
+//            viewModel.addMessage(Chat(
+//                messageImage = "",
+//                messageText = messageText,
+//                senderId = preferencesUtils.userId.toString(),
+//                timestamp = System.currentTimeMillis()
+//            ))
+//            binding.edChating.text.clear()
+//        }
+    }
 
-            viewModel.createMessage(CreateChatMessageRequest(
-                messageId = receiverId + preferencesUtils.userId,
-                messageImage = "",
-                messageText = messageText,
-                senderId = receiverId,
-                receiverId = preferencesUtils.userId,
-                senderChatId = preferencesUtils.userId,
-                timestamp = System.currentTimeMillis()
-            ))
-            viewModel.addMessage(Chat(
-                messageImage = "",
-                messageText = messageText,
-                senderId = preferencesUtils.userId.toString(),
-                timestamp = System.currentTimeMillis()
-            ))
-            binding.edChating.text.clear()
+    private fun chatSocket(){
+        try {
+            socket = IO.socket("http://192.168.52.197:6868?userId=${senderId}&partnerId=${receiverId}")
+            socket?.connect()
+            Log.e("zzzz","socket connect")
+        } catch (e : Exception) {
+            e.printStackTrace()
+        }
+
+        binding.iconSend.setOnClickListener {
+            if(binding.edChating.text.toString().isNotEmpty()){
+                socket?.emit("message",binding.edChating.text.toString(), senderId);
+                binding.edChating.setText("")
+            }
+        }
+
+        socket?.on("message") { args ->
+            requireActivity().runOnUiThread {
+                val data = args[0] as JSONObject
+                try {
+                    val username = data.getString("id")
+                    val message = data.getString("message")
+                    val m = Chat(
+                        messageImage = "",
+                        messageText = message,
+                        senderId = username,
+                        timestamp = System.currentTimeMillis())
+                    Log.e("zzzz","sender id $username")
+                    chatList.add(m)
+                    viewModel.createMessage(
+                        CreateChatMessageRequest(
+                            messageId = senderId + receiverId,
+                            messageImage = "",
+                            messageText = message,
+                            senderId = senderId,
+                            receiverId = receiverId,
+                            senderChatId = senderId,
+                            timestamp = System.currentTimeMillis()
+                        )
+                    )
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            }
+        }
+        socket?.on("close") { args ->
+            requireActivity().runOnUiThread {
+                val data = args[0] as String
+                Toast.makeText(requireContext(), data, Toast.LENGTH_SHORT).show()
+            }
         }
     }
+
 
     override fun setObserve() {
         userViewModel.getUserInfoResult().observe(viewLifecycleOwner, Observer {
@@ -162,10 +203,10 @@ class ChatFragment : BaseFragment() {
         notificationViewModel.pushNotificationResult().observe(viewLifecycleOwner , Observer{
 
         })
-        viewModel.chats.observe(this) { messages ->
-            chatAdapter.submitList(messages)
-            binding.rcChat.scrollToPosition(messages.size - 1)
-        }
+//        viewModel.chats.observe(this) { messages ->
+//            chatAdapter.submitList(messages)
+//            binding.rcChat.scrollToPosition(messages.size - 1)
+//        }
     }
 
     private fun getUserInfoResult(event: Event<Resource<GetUserInfoResponse>>){
@@ -204,6 +245,7 @@ class ChatFragment : BaseFragment() {
                     binding.pgBar.visibility = View.GONE
                     response.data?.messages?.chats?.let {
                         Log.e("zzzzz","${it}")
+                        chatList.addAll(it)
                         chatAdapter.submitList(it)
                     }
                 }
@@ -221,9 +263,24 @@ class ChatFragment : BaseFragment() {
 
                 }
                 is Resource.Success -> {
-                    notificationViewModel.pushNotification(PushNotificationRequest(registrationToken = preferencesUtils.token, title = preferencesUtils.userName, body = binding.edChating.text.toString()))
+//                    binding.rcChat.setHasFixedSize(true)
+//                    binding.rcChat.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+//                    binding.rcChat.run {adapter = ChatAdapter(requireContext()).also { chatAdapter = it }}
+                    chatAdapter.submitList(chatList)
+                    binding.rcChat.scrollToPosition(chatList.size - 1)
+                    notificationViewModel.pushNotification(PushNotificationRequest(
+                        registrationToken = preferencesUtils.token,
+                        title = preferencesUtils.userName,
+                        body = binding.edChating.text.toString())
+                    )
                 }
             }
         }
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        socket?.disconnect()
     }
 }

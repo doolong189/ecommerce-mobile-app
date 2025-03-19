@@ -63,6 +63,14 @@ object Utils {
         return date
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun convertLongToTimeStamp(time: Long): String {
+        val instant = Instant.ofEpochMilli(time)
+        val formatter = DateTimeFormatter.ofPattern("hh:mm a")
+        val timeFormatted = instant.atZone(ZoneId.systemDefault()).toLocalTime().format(formatter)
+        return timeFormatted
+    }
+
     fun getAndroidDeviceInfo(context : Context): String {
         return Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
     }

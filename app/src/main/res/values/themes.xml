@@ -4,6 +4,8 @@
         <!-- Customize your light theme here. -->
         <item name="colorPrimary">@color/background</item>
         <item name="android:statusBarColor">@color/toolbar</item>
+        <item name="colorPrimaryDark">@color/background</item>
+        <item name="colorAccent">@color/red</item>
     </style>
 
     <style name="Theme.ECommerceApplication" parent="Base.Theme.ECommerceApplication" />

@@ -150,5 +150,4 @@ class MessageViewModel (private val application: Application)  : AndroidViewMode
             }
         }
     }
-
 }

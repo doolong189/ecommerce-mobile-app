@@ -33,6 +33,9 @@
         tools:replace="android:allowBackup,android:label,android:supportsRtl"
         tools:targetApi="31">
         <activity
+            android:name=".ui.chatsocket.ChatSocketActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.mapbox.NavigationMapboxActivity"
             android:exported="false" />
         <activity

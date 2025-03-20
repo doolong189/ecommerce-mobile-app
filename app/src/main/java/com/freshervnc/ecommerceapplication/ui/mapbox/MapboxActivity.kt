@@ -7,23 +7,31 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.EditText
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
 import com.mapbox.maps.extension.style.expressions.generated.Expression
 import com.freshervnc.ecommerceapplication.R
+import com.freshervnc.ecommerceapplication.adapter.CategoryAdapter
 import com.freshervnc.ecommerceapplication.common.BaseLocationActivity
 import com.freshervnc.ecommerceapplication.common.LocationPermissionHelper
-import com.freshervnc.ecommerceapplication.databinding.ActivityLocationBinding
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.freshervnc.ecommerceapplication.data.enity.GetCategoryResponse
+import com.freshervnc.ecommerceapplication.databinding.ActivityMapboxBinding
+import com.freshervnc.ecommerceapplication.ui.main.shopping.ShoppingViewModel
+import com.freshervnc.ecommerceapplication.utils.Event
+import com.freshervnc.ecommerceapplication.utils.Resource
 import com.mapbox.android.gestures.MoveGestureDetector
 import com.mapbox.geojson.Point
 import com.mapbox.maps.CameraOptions
 import com.mapbox.maps.ImageHolder
 import com.mapbox.maps.MapView
-import com.mapbox.maps.Style
 import com.mapbox.maps.plugin.LocationPuck2D
 import com.mapbox.maps.plugin.animation.CameraAnimatorOptions
 import com.mapbox.maps.plugin.animation.camera
@@ -42,26 +50,20 @@ import com.mapbox.maps.plugin.locationcomponent.location
 import com.mapbox.maps.viewannotation.ViewAnnotationManager
 import java.lang.ref.WeakReference
 
-class LocationActivity : BaseLocationActivity() , OnMapClickListener, OnMapLongClickListener {
+class MapboxActivity : BaseLocationActivity() , OnMapClickListener, OnMapLongClickListener {
 
-    private lateinit var binding: ActivityLocationBinding
+    private lateinit var binding: ActivityMapboxBinding
     private lateinit var locationPermissionHelper: LocationPermissionHelper
     private lateinit var mapView: MapView
-    private lateinit var dialogMap: AlertDialog.Builder
-    private lateinit var ValuePointAnimation: ValueAnimator
     private lateinit var viewAnnotationManager: ViewAnnotationManager
-    private lateinit var toggle: ActionBarDrawerToggle
-    private lateinit var floatingActionButtonUser: FloatingActionButton
-    private lateinit var floatingActionButtonMap: FloatingActionButton
     private var listLocations = arrayListOf<Point>()
     private var listName = arrayListOf<String>()
-
+    private val shoppingViewModel by viewModels<ShoppingViewModel>()
+    private var categoryAdapter = CategoryAdapter()
 
     private val onIndicatorBearingChangedListener = OnIndicatorBearingChangedListener {
         mapView.getMapboxMap().setCamera(CameraOptions.Builder().bearing(it).build())
     }
-
-
     private val onIndicatorPositionChangedListener = OnIndicatorPositionChangedListener {
         mapView.getMapboxMap().setCamera(CameraOptions.Builder().center(it).build())
         mapView.gestures.focalPoint = mapView.getMapboxMap().pixelForCoordinate(it)
@@ -69,89 +71,42 @@ class LocationActivity : BaseLocationActivity() , OnMapClickListener, OnMapLongC
 
     private val responseLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
-
             if (activityResult.resultCode == RESULT_OK) {
                 val longitude = activityResult.data?.getDoubleExtra("longitude", 105.802682)
                 val latitude = activityResult.data?.getDoubleExtra("latitude", 21.024955)
                 val name = activityResult.data?.getStringExtra("name")
-
-                if (longitude != null && latitude != null && name != null) {
-                    addAnnotationToMap(longitude, latitude, name)
-                }
-
-                binding.mapView.getMapboxMap().setCamera(
-                    CameraOptions.Builder().center(Point.fromLngLat(longitude!!, latitude!!))
-                        .build()
-                )
+                if (longitude != null && latitude != null && name != null) { addAnnotationToMap(longitude, latitude, name) }
+                binding.mapView.getMapboxMap().setCamera(CameraOptions.Builder().center(Point.fromLngLat(longitude!!, latitude!!)).build())
             } else {
                 onMapReady()
             }
         }
 
     private val onMoveListener = object : OnMoveListener {
-        override fun onMoveBegin(detector: MoveGestureDetector) {
-            onCameraTrackingDismissed()
-        }
-
-        override fun onMove(detector: MoveGestureDetector): Boolean {
-            return false
-        }
-
+        override fun onMoveBegin(detector: MoveGestureDetector) { onCameraTrackingDismissed() }
+        override fun onMove(detector: MoveGestureDetector): Boolean { return false }
         override fun onMoveEnd(detector: MoveGestureDetector) {}
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityLocationBinding.inflate(layoutInflater)
+        binding = ActivityMapboxBinding.inflate(layoutInflater)
         setContentView(binding.root)
         mapView = findViewById(R.id.mapView)
-        var contMap = 0
-
         locationPermissionHelper = LocationPermissionHelper(WeakReference(this))
         locationPermissionHelper.checkPermissions {
             onMapReady()
         }
-
         binding.apply {
             mapView.getMapboxMap().apply {
-                addOnMapLongClickListener(this@LocationActivity)
-                addOnMapClickListener(this@LocationActivity)
+                addOnMapLongClickListener(this@MapboxActivity)
+                addOnMapClickListener(this@MapboxActivity)
             }
-            toggle = ActionBarDrawerToggle(
-                this@LocationActivity,
-                binding.drawerLayout,
-                R.string.open,
-                R.string.close
-            )
-            binding.drawerLayout.addDrawerListener(toggle)
-            toggle.syncState()
             supportActionBar?.setDisplayHomeAsUpEnabled(false)
         }
 
-        floatingActionButtonUser = findViewById(R.id.navigationUser)
-        floatingActionButtonUser.setOnClickListener {
-            onMapReady()
-        }
-        floatingActionButtonMap = findViewById(R.id.changeMap)
-        floatingActionButtonMap.setOnClickListener {
-            contMap += 1
-            if (contMap > 5) contMap = 1
-            when (contMap) {
-                1 -> mapView.getMapboxMap().loadStyleUri(Style.DARK)
-                2 -> mapView.getMapboxMap().loadStyleUri(Style.OUTDOORS)
-                3 -> mapView.getMapboxMap().loadStyleUri(Style.SATELLITE_STREETS)
-                4 -> mapView.getMapboxMap().loadStyleUri(Style.SATELLITE)
-                5 -> mapView.getMapboxMap().loadStyleUri(Style.TRAFFIC_NIGHT)
-            }
-        }
-
-//        if (!MapboxNavigationApp.isSetup()) {
-//            MapboxNavigationApp.setup {
-//                NavigationOptions.Builder(context).build()
-//            }
-//        }
-//        MapboxNavigationApp.attach(this)
+        initView()
+        setObserve()
     }
 
     private fun addAnnotationToMap(long: Double, lat: Double, name: String) {
@@ -172,25 +127,6 @@ class LocationActivity : BaseLocationActivity() , OnMapClickListener, OnMapLongC
         Log.d("Listafavo", "$listLocations , $listName")
     }
 
-    private fun addAnnotationToMapPulsing(long: Double, lat: Double, name: String) {
-        bitmapFromDrawableRes(
-            this,
-            R.drawable.marker_purple
-        )?.let {
-            val annotationApi = binding.mapView.annotations
-            val pointAnnotationManager = annotationApi.createPointAnnotationManager()
-            val pointAnnotationOptions: PointAnnotationOptions = PointAnnotationOptions()
-                .withPoint(Point.fromLngLat(long, lat))
-                .withIconImage(it)
-                .withTextField(name)
-                .withTextColor(getColor(R.color.white))
-                .withTextSize(20.5)
-            pointAnnotationManager.create(pointAnnotationOptions)
-        }
-        Log.d("Listafavo", "$listLocations , $listName")
-    }
-
-
     private fun onMapReady() {
         addAnnotationToMap(105.807561,21.028026, "1128B Đ. La Thành")
         addAnnotationToMap(105.806976, 21.030118, "Lake Thu Le")
@@ -206,15 +142,14 @@ class LocationActivity : BaseLocationActivity() , OnMapClickListener, OnMapLongC
         setupGesturesListener()
         animateCameraDelayed()
         //test
-        pulsingLayerColor(74.0, 5.0, "ss")
+        pulsingLayerColor()
     }
 
-
-    private fun pulsingLayerColor(long: Double, lat: Double, name: String) {
-        var pointLayer = ValueAnimator.ofObject(
+    private fun pulsingLayerColor() {
+        val pointLayer = ValueAnimator.ofObject(
             ArgbEvaluator(),
-            Color.parseColor("#ec8a8a"), // Brighter shade
-            Color.parseColor("#de3232") // Darker shade
+            Color.parseColor("#ec8a8a"),
+            Color.parseColor("#de3232")
         )
         pointLayer.setDuration(1000)
         pointLayer.repeatCount = ValueAnimator.INFINITE
@@ -235,14 +170,12 @@ class LocationActivity : BaseLocationActivity() , OnMapClickListener, OnMapLongC
         mapView.gestures.addOnMoveListener(onMoveListener)
     }
 
-
     private fun initLocationComponent() {
         val locationComponentPlugin = mapView.location
-        // Đặt ID tài nguyên cho các đối tượng thay vì Drawable
         locationComponentPlugin.updateSettings {
             this.enabled = true
             this.pulsingEnabled = true
-            this.pulsingMaxRadius = 80.0F
+            this.pulsingMaxRadius = 50.0F
             this.pulsingColor = Color.parseColor("#FF3F51B5")
             locationPuck = LocationPuck2D(
                 bearingImage = ImageHolder.from(R.drawable.mapbox_user_puck_icon),
@@ -297,14 +230,6 @@ class LocationActivity : BaseLocationActivity() , OnMapClickListener, OnMapLongC
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (toggle.onOptionsItemSelected(item)) {
-            true
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-
     @SuppressLint("Request map")
     override fun onMapLongClick(point: Point): Boolean {
         var dialog = AlertDialog.Builder(this)
@@ -316,9 +241,6 @@ class LocationActivity : BaseLocationActivity() , OnMapClickListener, OnMapLongC
             var textEdit = editText.editableText.toString()
             listLocations.add(point)
             listName.add(textEdit.toString())
-            //DataBase
-//            val db = SaveLocationEntity(this@MainActivity)
-//            db.insertLocation(textEdit, point.longitude(), point.latitude())
             addAnnotationToMap(point.longitude(), point.latitude(), textEdit)
         }
         dialog.setNegativeButton(getString(R.string.cancel)) { dialog, id ->
@@ -335,6 +257,36 @@ class LocationActivity : BaseLocationActivity() , OnMapClickListener, OnMapLongC
         return false
     }
 
+    private fun initView(){
+        binding.mapRcCategory.layoutManager = LinearLayoutManager(this, HORIZONTAL,false)
+        binding.mapRcCategory.run { adapter = CategoryAdapter().also { categoryAdapter = it } }
+
+        shoppingViewModel.getCategory()
+    }
+
+    private fun setObserve(){
+        shoppingViewModel.getCategoryResult().observe(this, Observer {
+            getCategoryResult(it)
+        })
+    }
+
+    private fun getCategoryResult(event: Event<Resource<GetCategoryResponse>>){
+        event.getContentIfNotHandled()?.let { response ->
+            when (response) {
+                is Resource.Success -> {
+                    response.data?.let {
+                        categoryAdapter.submitList(it.categorys!!)
+                    }
+                }
+                is Resource.Error -> {
+
+                }
+                is Resource.Loading -> {
+                }
+            }
+        }
+    }
+
 
     @SuppressLint("Lifecycle")
     override fun onStart() {
@@ -347,7 +299,6 @@ class LocationActivity : BaseLocationActivity() , OnMapClickListener, OnMapLongC
         super.onStop()
         mapView.onStop()
     }
-
 
     @Deprecated("Deprecated in Java")
     @SuppressLint("Lifecycle")

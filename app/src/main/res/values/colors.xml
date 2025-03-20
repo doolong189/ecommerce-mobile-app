@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="defaultColor">#81A7C3</color>
+
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="logo_app">#1BaDBC</color>
     <color name="colorPrimary">#249DB7</color>
-    <color name="background">#81A7C3</color>
     <color name="toolbar">#249DB7</color>
     <color name="red">#F44336</color>
     <color name="def">#4E4E4E</color>

@@ -101,43 +101,13 @@ class ChatFragment : BaseFragment() {
         binding.iconBack.setOnClickListener {
             findNavController().popBackStack()
         }
-//        binding.iconSend.setOnClickListener {
-//            val messageText = binding.edChating.text.toString()
-//            webSocket.send(messageText)
-//            viewModel.createMessage(CreateChatMessageRequest(
-//                messageId = preferencesUtils.userId + receiverId,
-//                messageImage = "",
-//                messageText = messageText,
-//                senderId = preferencesUtils.userId,
-//                receiverId = receiverId,
-//                senderChatId = preferencesUtils.userId,
-//                timestamp = System.currentTimeMillis()
-//            ))
-//
-//            viewModel.createMessage(CreateChatMessageRequest(
-//                messageId = receiverId + preferencesUtils.userId,
-//                messageImage = "",
-//                messageText = messageText,
-//                senderId = receiverId,
-//                receiverId = preferencesUtils.userId,
-//                senderChatId = preferencesUtils.userId,
-//                timestamp = System.currentTimeMillis()
-//            ))
-//            viewModel.addMessage(Chat(
-//                messageImage = "",
-//                messageText = messageText,
-//                senderId = preferencesUtils.userId.toString(),
-//                timestamp = System.currentTimeMillis()
-//            ))
-//            binding.edChating.text.clear()
-//        }
     }
 
     private fun chatSocket(){
         try {
-            socket = IO.socket("http://192.168.52.197:6868?userId=${senderId}&partnerId=${receiverId}")
+            socket = IO.socket("${Contacts.BASE_URL_SOCKET}?userId=${senderId}&partnerId=${receiverId}")
             socket?.connect()
-            Log.e("zzzz","socket connect")
+            Log.e(Contacts.TAG,"socket connect")
         } catch (e : Exception) {
             e.printStackTrace()
         }
@@ -160,7 +130,6 @@ class ChatFragment : BaseFragment() {
                         messageText = message,
                         senderId = username,
                         timestamp = System.currentTimeMillis())
-                    Log.e("zzzz","sender id $username")
                     chatList.add(m)
                     viewModel.createMessage(
                         CreateChatMessageRequest(
@@ -244,9 +213,9 @@ class ChatFragment : BaseFragment() {
                 is Resource.Success -> {
                     binding.pgBar.visibility = View.GONE
                     response.data?.messages?.chats?.let {
-                        Log.e("zzzzz","${it}")
                         chatList.addAll(it)
                         chatAdapter.submitList(it)
+                        binding.rcChat.scrollToPosition(it.size - 1)
                     }
                 }
             }
@@ -263,9 +232,6 @@ class ChatFragment : BaseFragment() {
 
                 }
                 is Resource.Success -> {
-//                    binding.rcChat.setHasFixedSize(true)
-//                    binding.rcChat.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-//                    binding.rcChat.run {adapter = ChatAdapter(requireContext()).also { chatAdapter = it }}
                     chatAdapter.submitList(chatList)
                     binding.rcChat.scrollToPosition(chatList.size - 1)
                     notificationViewModel.pushNotification(PushNotificationRequest(

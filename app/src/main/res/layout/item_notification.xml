@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="10dp"
     android:layout_margin="10dp"
-    app:cardBackgroundColor="@color/background">
+    app:cardBackgroundColor="@color/defaultColor">
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -2,10 +2,10 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.ECommerceApplication" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <!-- Customize your light theme here. -->
-        <item name="colorPrimary">@color/background</item>
+        <item name="colorPrimary">@color/defaultColor</item>
         <item name="android:statusBarColor">@color/toolbar</item>
-        <item name="colorPrimaryDark">@color/background</item>
-        <item name="colorAccent">@color/red</item>
+        <item name="colorPrimaryDark">@color/defaultColor</item>
+        <item name="colorAccent">@color/defaultColor</item>
     </style>
 
     <style name="Theme.ECommerceApplication" parent="Base.Theme.ECommerceApplication" />

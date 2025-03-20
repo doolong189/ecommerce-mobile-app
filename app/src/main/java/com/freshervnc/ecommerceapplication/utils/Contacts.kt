@@ -10,5 +10,5 @@ object Contacts {
         const val BASE_URL = "http://192.168.52.197:8686"
 //        const val BASE_URL = "http://192.168.1.3:8686"
         const val TAG = "LOG_ECOMMERCE_APP"
-        const val URL_WEBSOCKET = "http://192.168.52.197:4953?channel_id=123"
+        const val BASE_URL_SOCKET = "http://192.168.52.197:6868"
 }

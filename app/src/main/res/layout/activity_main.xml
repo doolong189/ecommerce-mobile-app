@@ -31,7 +31,7 @@
             android:id="@+id/main_bottom_nav"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/background"
+            android:background="@color/defaultColor"
             android:elevation="5dp"
             android:fitsSystemWindows="true"
             app:itemIconSize="24dp"

@@ -54,7 +54,7 @@ class OrderFragment : BaseFragment() {
                 }
                 setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
                 setTypeface(typeface, Typeface.BOLD)
-                setTextColor(ContextCompat.getColor(requireContext(), R.color.background))
+                setTextColor(ContextCompat.getColor(requireContext(), R.color.defaultColor))
                 gravity = Gravity.CENTER
             }
             tab.customView = tabTextView

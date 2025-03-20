@@ -32,7 +32,7 @@
         android:layout_margin="3dp"
         android:scaleType="centerCrop"
         android:background="@drawable/rounded_background"
-        android:src="@drawable/sport"
+        android:src="@drawable/baseline_person_24"
         app:layout_constraintTop_toTopOf="@id/mapMarkerView_icon_frame"
         app:layout_constraintStart_toStartOf="@id/mapMarkerView_icon_frame"
         app:layout_constraintEnd_toEndOf="@id/mapMarkerView_icon_frame"

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name"> </string>
     <string name="API_KEY">AIzaSyBVUjDqBCUdvBOBKYXaHLwLVAfyrYt_y1E</string>
-
+    <string name="API_KEY_GOOGLE_MAP">AIzaSyCib9qs7gZVLfrmpoIwvtbUD8pyeIZXT6U</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="login_title">Chào mừng \nBạn đã quay trở lại!</string>

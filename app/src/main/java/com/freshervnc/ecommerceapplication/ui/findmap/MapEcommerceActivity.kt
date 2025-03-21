@@ -17,6 +17,7 @@ import androidx.core.widget.ImageViewCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
+import com.android.volley.toolbox.StringRequest
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
@@ -44,7 +45,12 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.libraries.places.api.Places
-
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.Volley
+import com.google.android.gms.maps.model.PolylineOptions
+import com.google.maps.android.PolyUtil
+import org.json.JSONObject
 
 class MapEcommerceActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var binding : ActivityMapEcommerceBinding
@@ -52,6 +58,7 @@ class MapEcommerceActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var preferences : PreferencesUtils
     private val shoppingViewModel by viewModels<ShoppingViewModel>()
     private var categoryAdapter = CategoryAdapter()
+    private val mapViewModel by viewModels<MapEcommerceViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,6 +97,35 @@ class MapEcommerceActivity : AppCompatActivity(), OnMapReadyCallback {
         val padding = 5
         val cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding)
         gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngOrigin, 14.5f))
+
+//        this.gMap = p0
+        // Sample coordinates
+//        val latLngOrigin = LatLng(10.3181466, 123.9029382) // Ayala
+//        val latLngDestination = LatLng(10.311795,123.915864) // SM City
+//        this.gMap!!.addMarker(MarkerOptions().position(latLngOrigin).title("Ayala"))
+//        this.gMap!!.addMarker(MarkerOptions().position(latLngDestination).title("SM City"))
+//        this.gMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngOrigin, 14.5f))
+//        val path: MutableList<List<LatLng>> = ArrayList()
+//        val urlDirections = "https://maps.googleapis.com/maps/api/directions/json?origin=10.3181466,123.9029382&destination=10.311795,123.915864&key="
+//        val directionsRequest = object : StringRequest(Request.Method.GET, urlDirections, Response.Listener<String> {
+//                response ->
+//            val jsonResponse = JSONObject(response)
+//            // Get routes
+//            val routes = jsonResponse.getJSONArray("routes")
+//            val legs = routes.getJSONObject(0).getJSONArray("legs")
+//            val steps = legs.getJSONObject(0).getJSONArray("steps")
+//            for (i in 0 until steps.length()) {
+//                val points = steps.getJSONObject(i).getJSONObject("polyline").getString("points")
+//                path.add(PolyUtil.decode(points))
+//            }
+//            for (i in 0 until path.size) {
+//                this.gMap!!.addPolyline(PolylineOptions().addAll(path[i]).color(Color.RED))
+//            }
+//        }, Response.ErrorListener {
+//                _ ->
+//        }){}
+//        val requestQueue = Volley.newRequestQueue(this)
+//        requestQueue.add(directionsRequest)
     }
 
     private fun setAction(){
@@ -104,6 +140,14 @@ class MapEcommerceActivity : AppCompatActivity(), OnMapReadyCallback {
 
         shoppingViewModel.getProductWithCategoryResult().observe(this , Observer {
             getProductWithCategoryResult(it)
+        })
+
+        mapViewModel.getDirectionsResult().observe(this, Observer { path ->
+            path?.let {
+                for (points in it) {
+                    gMap.addPolyline(PolylineOptions().addAll(points).color(Color.RED))
+                }
+            }
         })
     }
 
@@ -211,7 +255,31 @@ class MapEcommerceActivity : AppCompatActivity(), OnMapReadyCallback {
         bottomSheet.setOnClickListener(object :
             DialogBottomDetailProduct.OnClickListener {
             override fun onClickListener(loc: List<Double>) {
-
+                val latLngOrigin = LatLng(preferences.getUserLoc()?.get(1) ?: 0.0, preferences.getUserLoc()?.get(0) ?: 0.0)
+                val latLngDestination = LatLng(loc[1],loc[0])
+                gMap.addMarker(MarkerOptions().position(latLngOrigin).title(""))
+                gMap.addMarker(MarkerOptions().position(latLngDestination).title(preferences.userName.toString()))
+                gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngOrigin, 14.5f))
+                val path: MutableList<List<LatLng>> = ArrayList()
+                val urlDirections = "https://maps.googleapis.com/maps/api/directions/json?origin=${preferences.getUserLoc()?.get(1)},${preferences.getUserLoc()?.get(0)}&destination=${loc[1]},${loc[0]}&key=${getString(R.string.API_KEY_GOOGLE_MAP)}"
+                val directionsRequest = object : StringRequest(Method.GET, urlDirections, Response.Listener<String> {
+                        response ->
+                    val jsonResponse = JSONObject(response)
+                    val routes = jsonResponse.getJSONArray("routes")
+                    val legs = routes.getJSONObject(0).getJSONArray("legs")
+                    val steps = legs.getJSONObject(0).getJSONArray("steps")
+                    for (i in 0 until steps.length()) {
+                        val points = steps.getJSONObject(i).getJSONObject("polyline").getString("points")
+                        path.add(PolyUtil.decode(points))
+                    }
+                    for (i in 0 until path.size) {
+                        gMap.addPolyline(PolylineOptions().addAll(path[i]).color(Color.RED))
+                    }
+                }, Response.ErrorListener {
+                        _ ->
+                }){}
+                val requestQueue = Volley.newRequestQueue(this@MapEcommerceActivity)
+                requestQueue.add(directionsRequest)
             }
 
             override fun onClickSendMessageListener(id: String) {

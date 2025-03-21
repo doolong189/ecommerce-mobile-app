@@ -38,6 +38,7 @@ import com.mapbox.maps.plugin.animation.camera
 import com.mapbox.maps.plugin.annotation.annotations
 import com.mapbox.maps.plugin.annotation.generated.PointAnnotationOptions
 import com.mapbox.maps.plugin.annotation.generated.createPointAnnotationManager
+import com.mapbox.maps.plugin.compass.compass
 import com.mapbox.maps.plugin.gestures.OnMapClickListener
 import com.mapbox.maps.plugin.gestures.OnMapLongClickListener
 import com.mapbox.maps.plugin.gestures.OnMoveListener
@@ -138,6 +139,7 @@ class MapboxActivity : BaseLocationActivity() , OnMapClickListener, OnMapLongCli
                 .zoom(12.0)
                 .build()
         )
+        mapView.compass.updateSettings { enabled = false }
         initLocationComponent()
         setupGesturesListener()
         animateCameraDelayed()

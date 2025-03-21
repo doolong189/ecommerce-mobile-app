@@ -11,13 +11,13 @@ import com.freshervnc.ecommerceapplication.model.UserInfo
 
 class UserRepository {
 
-    suspend fun getAllUser(request : GetAllUserRequest) = RetrofitInstance.api.getAllUser(request)
+    suspend fun getAllUser(request : GetAllUserRequest) = RetrofitInstance.apiService.getAllUser(request)
 
-    suspend fun getLogin(request : LoginRequest) = RetrofitInstance.api.getLogin(request)
+    suspend fun getLogin(request : LoginRequest) = RetrofitInstance.apiService.getLogin(request)
 
-    suspend fun getUserInfo(request : GetUserInfoRequest) = RetrofitInstance.api.getUserInfo(request)
+    suspend fun getUserInfo(request : GetUserInfoRequest) = RetrofitInstance.apiService.getUserInfo(request)
 
-    suspend fun getNeedToken(request : GetNeedTokenRequest) = RetrofitInstance.api.getNeedToken(request)
+    suspend fun getNeedToken(request : GetNeedTokenRequest) = RetrofitInstance.apiService.getNeedToken(request)
 
     fun convertGetAllUser(response: GetAllUserResponse): List<UserInfo>? {
         var list: List<UserInfo>  = response.users ?: listOf<UserInfo>()

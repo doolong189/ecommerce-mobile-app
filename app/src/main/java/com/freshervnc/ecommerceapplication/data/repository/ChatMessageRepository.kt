@@ -10,9 +10,9 @@ import org.json.JSONObject
 
 class ChatMessageRepository {
 
-    suspend fun createChatMessage(request : CreateChatMessageRequest) = RetrofitInstance.api.createChatMessage(request)
+    suspend fun createChatMessage(request : CreateChatMessageRequest) = RetrofitInstance.apiService.createChatMessage(request)
 
-    suspend fun getChatMessage(request : GetChatMessageRequest) = RetrofitInstance.api.getChatMessage(request)
+    suspend fun getChatMessage(request : GetChatMessageRequest) = RetrofitInstance.apiService.getChatMessage(request)
 
-    suspend fun getHistoryChatMessages(request : GetHistoryChatMessageRequest) = RetrofitInstance.api.getHistoryChatMessages(request)
+    suspend fun getHistoryChatMessages(request : GetHistoryChatMessageRequest) = RetrofitInstance.apiService.getHistoryChatMessages(request)
 }

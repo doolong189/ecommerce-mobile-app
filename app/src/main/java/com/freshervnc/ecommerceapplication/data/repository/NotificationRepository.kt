@@ -7,11 +7,11 @@ import com.freshervnc.ecommerceapplication.data.enity.PushNotificationRequest
 import com.freshervnc.ecommerceapplication.data.network.RetrofitInstance
 
 class NotificationRepository {
-    suspend fun pushNotification(request : PushNotificationRequest) = RetrofitInstance.api.pushNotification(request)
+    suspend fun pushNotification(request : PushNotificationRequest) = RetrofitInstance.apiService.pushNotification(request)
 
-    suspend fun addNotification(request : AddNotificationRequest) = RetrofitInstance.api.addNotification(request)
+    suspend fun addNotification(request : AddNotificationRequest) = RetrofitInstance.apiService.addNotification(request)
 
-    suspend fun getNotification(request: GetNotificationRequest) = RetrofitInstance.api.getNotification(request)
+    suspend fun getNotification(request: GetNotificationRequest) = RetrofitInstance.apiService.getNotification(request)
 
-    suspend fun getDetailNotification(request : GetDetailNotificationRequest) = RetrofitInstance.api.getDetailNotification(request)
+    suspend fun getDetailNotification(request : GetDetailNotificationRequest) = RetrofitInstance.apiService.getDetailNotification(request)
 }

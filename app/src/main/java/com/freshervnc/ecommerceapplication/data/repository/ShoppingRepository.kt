@@ -14,27 +14,27 @@ import com.freshervnc.ecommerceapplication.data.enity.UpdateCartRequest
 import com.freshervnc.ecommerceapplication.data.network.RetrofitInstance
 
 class ShoppingRepository {
-    suspend fun getCategory() = RetrofitInstance.api.getCategory()
+    suspend fun getCategory() = RetrofitInstance.apiService.getCategory()
 
-    suspend fun getProduct(request : GetProductRequest) = RetrofitInstance.api.getProduct(request)
+    suspend fun getProduct(request : GetProductRequest) = RetrofitInstance.apiService.getProduct(request)
 
-    suspend fun getDetailProduct(request : GetDetailProductRequest) = RetrofitInstance.api.getDetailProduct(request)
+    suspend fun getDetailProduct(request : GetDetailProductRequest) = RetrofitInstance.apiService.getDetailProduct(request)
 
-    suspend fun getProductSimilar(request : GetProductSimilarRequest) = RetrofitInstance.api.getProductSimilar(request)
+    suspend fun getProductSimilar(request : GetProductSimilarRequest) = RetrofitInstance.apiService.getProductSimilar(request)
 
-    suspend fun getProductWithCategory(request: GetProductWithCategoryRequest) = RetrofitInstance.api.getProductWithCategory(request)
+    suspend fun getProductWithCategory(request: GetProductWithCategoryRequest) = RetrofitInstance.apiService.getProductWithCategory(request)
 
-    suspend fun addCart(request : AddCartRequest) = RetrofitInstance.api.addCart(request)
+    suspend fun addCart(request : AddCartRequest) = RetrofitInstance.apiService.addCart(request)
 
-    suspend fun getCart(request : GetCartRequest) = RetrofitInstance.api.getCart(request)
+    suspend fun getCart(request : GetCartRequest) = RetrofitInstance.apiService.getCart(request)
 
-    suspend fun updateCart(request : UpdateCartRequest) = RetrofitInstance.api.updateCart(request)
+    suspend fun updateCart(request : UpdateCartRequest) = RetrofitInstance.apiService.updateCart(request)
 
-    suspend fun deleteCart(request : DeleteCartRequest) = RetrofitInstance.api.deleteCart(request)
+    suspend fun deleteCart(request : DeleteCartRequest) = RetrofitInstance.apiService.deleteCart(request)
 
-    suspend fun createOrder(request : CreateOrderRequest) = RetrofitInstance.api.createOrder(request)
+    suspend fun createOrder(request : CreateOrderRequest) = RetrofitInstance.apiService.createOrder(request)
 
-    suspend fun getOrder(request : GetOrderRequest) = RetrofitInstance.api.getOrders(request)
+    suspend fun getOrder(request : GetOrderRequest) = RetrofitInstance.apiService.getOrders(request)
 
-    suspend fun getDetailOrder(request : GetDetailOrderRequest) = RetrofitInstance.api.getDetailOrders(request)
+    suspend fun getDetailOrder(request : GetDetailOrderRequest) = RetrofitInstance.apiService.getDetailOrders(request)
 }

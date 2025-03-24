@@ -9,6 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.bumptech.glide.Glide
 import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.adapter.CategoryAdapter
 import com.freshervnc.ecommerceapplication.adapter.ProductAdapter
@@ -25,7 +26,7 @@ import com.freshervnc.ecommerceapplication.utils.Resource
 
 
 class ShoppingFragment : BaseFragment() {
-    override var isVisibleActionBar: Boolean = true
+    override var isVisibleActionBar: Boolean = false
     private lateinit var binding : FragmentShoppingBinding
     private val viewModel by activityViewModels<ShoppingViewModel>()
     private lateinit var preferences : PreferencesUtils
@@ -61,6 +62,10 @@ class ShoppingFragment : BaseFragment() {
     }
 
     override fun setView() {
+        Glide.with(binding.root.context)
+            .load(preferences.image)
+            .placeholder(R.drawable.logo_app)
+            .into(binding.image)
     }
 
     override fun setAction() {

@@ -10,13 +10,45 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         >
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/cart_rcView"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            tools:listitem="@layout/item_cart"
-            android:layout_margin="5dp"/>
+            >
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/cart_rcView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                tools:listitem="@layout/item_cart"
+                android:layout_margin="5dp"/>
+            <LinearLayout
+                android:id="@+id/lnCartEmpty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                >
+                <ImageView
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:src="@drawable/cart_empty" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:text="@string/empty_cart" />
+            </LinearLayout>
+            <ProgressBar
+                android:id="@+id/cart_pgBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"/>
+
+        </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -123,18 +155,4 @@
                 />
         </LinearLayout>
     </LinearLayout>
-    <ProgressBar
-        android:id="@+id/cart_pgBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
-    <TextView
-        android:id="@+id/tvEmpty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        android:text="@string/empty_cart"
-        android:visibility="gone"/>
 </FrameLayout>

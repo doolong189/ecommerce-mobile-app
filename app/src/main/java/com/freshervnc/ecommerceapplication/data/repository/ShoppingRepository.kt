@@ -2,6 +2,7 @@ package com.freshervnc.ecommerceapplication.data.repository
 
 import com.freshervnc.ecommerceapplication.data.enity.AddCartRequest
 import com.freshervnc.ecommerceapplication.data.enity.CreateOrderRequest
+import com.freshervnc.ecommerceapplication.data.enity.CreateReviewRequest
 import com.freshervnc.ecommerceapplication.data.enity.DeleteCartRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetCartRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetDetailOrderRequest
@@ -10,6 +11,7 @@ import com.freshervnc.ecommerceapplication.data.enity.GetOrderRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetProductRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetProductSimilarRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetProductWithCategoryRequest
+import com.freshervnc.ecommerceapplication.data.enity.GetReviewWithProductRequest
 import com.freshervnc.ecommerceapplication.data.enity.UpdateCartRequest
 import com.freshervnc.ecommerceapplication.data.network.RetrofitInstance
 
@@ -37,4 +39,8 @@ class ShoppingRepository {
     suspend fun getOrder(request : GetOrderRequest) = RetrofitInstance.apiService.getOrders(request)
 
     suspend fun getDetailOrder(request : GetDetailOrderRequest) = RetrofitInstance.apiService.getDetailOrders(request)
+
+    suspend fun createReview(request : CreateReviewRequest) = RetrofitInstance.apiService.createReview(request)
+
+    suspend fun getReviewWithProduct(request : GetReviewWithProductRequest) = RetrofitInstance.apiService.getReviewWithProduct(request)
 }

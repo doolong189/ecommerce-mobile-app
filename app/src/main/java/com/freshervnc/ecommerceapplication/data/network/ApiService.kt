@@ -8,6 +8,8 @@ import com.freshervnc.ecommerceapplication.data.enity.CreateChatMessageRequest
 import com.freshervnc.ecommerceapplication.data.enity.CreateChatMessageResponse
 import com.freshervnc.ecommerceapplication.data.enity.CreateOrderRequest
 import com.freshervnc.ecommerceapplication.data.enity.CreateOrderResponse
+import com.freshervnc.ecommerceapplication.data.enity.CreateReviewRequest
+import com.freshervnc.ecommerceapplication.data.enity.CreateReviewResponse
 import com.freshervnc.ecommerceapplication.data.enity.DeleteCartRequest
 import com.freshervnc.ecommerceapplication.data.enity.DeleteCartResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetAllUserRequest
@@ -37,6 +39,8 @@ import com.freshervnc.ecommerceapplication.data.enity.GetProductSimilarRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetProductSimilarResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetProductWithCategoryRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetProductWithCategoryResponse
+import com.freshervnc.ecommerceapplication.data.enity.GetReviewWithProductRequest
+import com.freshervnc.ecommerceapplication.data.enity.GetReviewWithProductResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetUserInfoRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetUserInfoResponse
 import com.freshervnc.ecommerceapplication.data.enity.LoginRequest
@@ -124,4 +128,10 @@ interface ApiService {
 
     @POST("chat-message/getHistoryChatMessages")
     suspend fun getHistoryChatMessages(@Body request : GetHistoryChatMessageRequest) : Response<GetHistoryChatMessageResponse>
+
+    @POST("review/createReview")
+    suspend fun createReview(@Body request : CreateReviewRequest) : Response<CreateReviewResponse>
+
+    @POST("review/getReviewWithProduct")
+    suspend fun getReviewWithProduct(@Body request : GetReviewWithProductRequest) : Response<GetReviewWithProductResponse>
 }

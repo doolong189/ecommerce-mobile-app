@@ -33,7 +33,6 @@ class MessageFragment : BaseFragment() {
     private lateinit var preferences : PreferencesUtils
     private var userAdapter = UserAdapter()
     private var historyMessageAdapter = HistoryMessageAdapter()
-    var senderRoom = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -120,14 +119,18 @@ class MessageFragment : BaseFragment() {
                 }
                 is Resource.Success -> {
                     binding.progressBar.visibility = View.GONE
-                    //xu ly check null
                     response.data?.let {
-                        historyMessageAdapter.setMessage(it.messages!!)
-                        val list = mutableListOf<UserInfo>()
-                        it.messages.map { item ->
-                            list.add(item.receiverId)
+                        if (it.messages?.isNotEmpty() == true) {
+                            historyMessageAdapter.setMessage(it.messages)
+                            val list = mutableListOf<UserInfo>()
+                            it.messages.map { item ->
+                                list.add(item.receiverId)
+                            }
+                            userAdapter.submitList(list)
+                            binding.lnMessageEmpty.visibility = View.GONE
+                        }else{
+                            binding.lnMessageEmpty.visibility = View.VISIBLE
                         }
-                        userAdapter.submitList(list)
                     }
                 }
             }

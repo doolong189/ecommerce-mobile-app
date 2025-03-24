@@ -1,6 +1,7 @@
 package com.freshervnc.ecommerceapplication.ui.main.shopping
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -8,16 +9,23 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.freshervnc.ecommerceapplication.R
+import com.freshervnc.ecommerceapplication.adapter.ProductAdapter
+import com.freshervnc.ecommerceapplication.adapter.ReviewAdapter
 import com.freshervnc.ecommerceapplication.common.BaseFragment
 import com.freshervnc.ecommerceapplication.data.enity.AddCartRequest
 import com.freshervnc.ecommerceapplication.data.enity.AddCartResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetDetailProductRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetDetailProductResponse
+import com.freshervnc.ecommerceapplication.data.enity.GetReviewWithProductRequest
+import com.freshervnc.ecommerceapplication.data.enity.GetReviewWithProductResponse
 import com.freshervnc.ecommerceapplication.databinding.FragmentDetailProductBinding
 import com.freshervnc.ecommerceapplication.ui.cart.CartViewModel
 import com.freshervnc.ecommerceapplication.ui.main.MainActivity
+import com.freshervnc.ecommerceapplication.utils.Contacts
 import com.freshervnc.ecommerceapplication.utils.Event
 import com.freshervnc.ecommerceapplication.utils.PreferencesUtils
 import com.freshervnc.ecommerceapplication.utils.Resource
@@ -31,6 +39,7 @@ class DetailProductFragment : BaseFragment() {
     private val cartViewModel by activityViewModels<CartViewModel>()
     private var quantity = 0
     private lateinit var preferences : PreferencesUtils
+    private var reviewAdapter = ReviewAdapter()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -47,7 +56,12 @@ class DetailProductFragment : BaseFragment() {
     override fun initView() {
         preferences = PreferencesUtils(requireContext())
         val productId = arguments?.getString("productId") ?: ""
+
+        binding.rcReview.layoutManager = LinearLayoutManager(requireContext())
+        binding.rcReview.run { adapter = ReviewAdapter().also { reviewAdapter = it } }
+
         viewModel.getGetDetailProduct(GetDetailProductRequest(id = productId))
+        viewModel.getReviewWithProduct(GetReviewWithProductRequest(id = productId))
     }
 
     override fun setView() {
@@ -88,6 +102,9 @@ class DetailProductFragment : BaseFragment() {
         cartViewModel.addCartResult().observe(viewLifecycleOwner, Observer {
             addCart(it)
         })
+        viewModel.getReviewWithProductResult().observe(viewLifecycleOwner , Observer {
+            getReviewWithProductResult(it)
+        })
     }
 
     private fun getGetDetailProductResult(event: Event<Resource<GetDetailProductResponse>>){
@@ -116,6 +133,26 @@ class DetailProductFragment : BaseFragment() {
                             .into(binding.detailImageUser)
                         binding.detailTvNameUser.text = it.idUser?.name
                         binding.detailTvAddress.text = it.idUser?.address
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getReviewWithProductResult(event : Event<Resource<GetReviewWithProductResponse>>){
+        event.getContentIfNotHandled()?.let { response ->
+            when ( response ){
+                is Resource.Error -> {
+                    binding.pgBar.visibility = View.GONE
+                    Log.e(Contacts.TAG,response.message.toString())
+                }
+                is Resource.Loading -> {
+                    binding.pgBar.visibility = View.VISIBLE
+                }
+                is Resource.Success -> {
+                    binding.pgBar.visibility = View.GONE
+                    response.data?.let {
+                        reviewAdapter.submitList(it.review!!)
                     }
                 }
             }

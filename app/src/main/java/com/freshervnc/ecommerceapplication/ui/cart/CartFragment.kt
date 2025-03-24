@@ -29,13 +29,12 @@ import com.freshervnc.ecommerceapplication.utils.Utils
 
 class CartFragment : BaseFragment() {
     private lateinit var binding : FragmentCartBinding
-    override var isVisibleActionBar: Boolean = false
+    override var isVisibleActionBar: Boolean = true
     private val viewModel by activityViewModels<CartViewModel>()
     private val orderViewModel by activityViewModels<OrderViewModel>()
     private lateinit var preferences : PreferencesUtils
     private var cartAdapter = CartAdapter()
     companion object{
-        var idClient = ""
         var products: MutableList<ProductOfCart>? = mutableListOf()
     }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -113,8 +112,7 @@ class CartFragment : BaseFragment() {
                 }
                 is Resource.Error -> {
                     binding.cartPgBar.visibility = View.GONE
-                    binding.tvEmpty.text = response.message
-                    binding.tvEmpty.visibility = View.VISIBLE
+                    binding.lnCartEmpty.visibility = View.VISIBLE
                 }
             }
         }

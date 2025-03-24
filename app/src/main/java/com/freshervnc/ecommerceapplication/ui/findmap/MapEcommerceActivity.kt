@@ -9,6 +9,7 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -17,7 +18,9 @@ import androidx.core.widget.ImageViewCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
+import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
@@ -44,13 +47,11 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.libraries.places.api.Places
-import com.android.volley.Request
-import com.android.volley.Response
-import com.android.volley.toolbox.Volley
 import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.libraries.places.api.Places
 import com.google.maps.android.PolyUtil
 import org.json.JSONObject
+
 
 class MapEcommerceActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var binding : ActivityMapEcommerceBinding
@@ -64,7 +65,9 @@ class MapEcommerceActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         binding = ActivityMapEcommerceBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        this.supportActionBar?.hide()
+        this.supportActionBar?.show()
+        this.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        this.supportActionBar?.setHomeButtonEnabled(true)
         initView()
         setView()
         setObserve()
@@ -280,6 +283,7 @@ class MapEcommerceActivity : AppCompatActivity(), OnMapReadyCallback {
                 }){}
                 val requestQueue = Volley.newRequestQueue(this@MapEcommerceActivity)
                 requestQueue.add(directionsRequest)
+                bottomSheet.dismiss()
             }
 
             override fun onClickSendMessageListener(id: String) {
@@ -298,5 +302,10 @@ class MapEcommerceActivity : AppCompatActivity(), OnMapReadyCallback {
     enum class MoveTo(val value: String) {
         Map("Map")
         ;
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
     }
 }

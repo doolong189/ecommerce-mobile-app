@@ -14,7 +14,7 @@ import com.freshervnc.ecommerceapplication.data.enity.GetDetailProductResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetReviewWithProductRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetReviewWithProductResponse
 import com.freshervnc.ecommerceapplication.data.repository.ShoppingRepository
-import com.freshervnc.ecommerceapplication.utils.Contacts
+import com.freshervnc.ecommerceapplication.utils.Constants
 import com.freshervnc.ecommerceapplication.utils.Event
 import com.freshervnc.ecommerceapplication.utils.Resource
 import com.freshervnc.ecommerceapplication.utils.Utils
@@ -76,7 +76,7 @@ class DetailProductViewModel(private val application: Application)  : AndroidVie
                 if (response.isSuccessful){
                     response.body()?.let { resultResponse ->
                         getReviewWithProductResult.postValue(Event(Resource.Success(resultResponse)))
-                        Log.e(Contacts.TAG,resultResponse.message.toString())
+                        Log.e(Constants.TAG,resultResponse.message.toString())
                     }
                 }else {
                     val errorResponse = response.errorBody()?.let {
@@ -84,7 +84,7 @@ class DetailProductViewModel(private val application: Application)  : AndroidVie
                         gson.fromJson(it.string(), ErrorResponse::class.java)
                     }
                     getReviewWithProductResult.postValue(Event(Resource.Error(errorResponse?.message ?: "")))
-                    Log.e(Contacts.TAG,errorResponse?.message.toString())
+                    Log.e(Constants.TAG,errorResponse?.message.toString())
                 }
             }else{
                 getReviewWithProductResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
@@ -99,7 +99,7 @@ class DetailProductViewModel(private val application: Application)  : AndroidVie
                 else -> {
                     getReviewWithProductResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
                         R.string.conversion_error))))
-                    Log.e(Contacts.TAG, t.localizedMessage?.toString() ?: "")
+                    Log.e(Constants.TAG, t.localizedMessage?.toString() ?: "")
                 }
             }
         }

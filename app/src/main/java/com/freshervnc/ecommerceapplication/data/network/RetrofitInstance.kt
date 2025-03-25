@@ -1,6 +1,6 @@
 package com.freshervnc.ecommerceapplication.data.network
 
-import com.freshervnc.ecommerceapplication.utils.Contacts
+import com.freshervnc.ecommerceapplication.utils.Constants
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -19,7 +19,7 @@ object RetrofitInstance {
             .addInterceptor(logging)
             .build()
         Retrofit.Builder()
-            .baseUrl(Contacts.BASE_URL)
+            .baseUrl(Constants.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()
@@ -39,7 +39,7 @@ object RetrofitInstance {
             .addInterceptor(logging)
             .build()
         Retrofit.Builder()
-            .baseUrl(Contacts.BASE_URL)
+            .baseUrl(Constants.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()

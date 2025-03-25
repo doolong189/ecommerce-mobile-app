@@ -7,46 +7,34 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.adapter.ChatAdapter
 import com.freshervnc.ecommerceapplication.common.BaseFragment
 import com.freshervnc.ecommerceapplication.data.enity.CreateChatMessageRequest
 import com.freshervnc.ecommerceapplication.data.enity.CreateChatMessageResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetChatMessageRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetChatMessageResponse
-import com.freshervnc.ecommerceapplication.data.enity.GetMessageRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetNeedTokenRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetUserInfoRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetUserInfoResponse
 import com.freshervnc.ecommerceapplication.data.enity.PushNotificationRequest
 import com.freshervnc.ecommerceapplication.databinding.FragmentChatBinding
 import com.freshervnc.ecommerceapplication.model.Chat
-import com.freshervnc.ecommerceapplication.model.Message
 import com.freshervnc.ecommerceapplication.ui.notification.NotificationViewModel
 import com.freshervnc.ecommerceapplication.ui.user.UserViewModel
-import com.freshervnc.ecommerceapplication.utils.Contacts
+import com.freshervnc.ecommerceapplication.utils.Constants
 import com.freshervnc.ecommerceapplication.utils.Event
 import com.freshervnc.ecommerceapplication.utils.PreferencesUtils
 import com.freshervnc.ecommerceapplication.utils.Resource
 import io.socket.client.IO
 import io.socket.client.Socket
-import kotlinx.coroutines.launch
-import okhttp3.OkHttpClient
-import okhttp3.Request
 import okhttp3.WebSocket
-import okhttp3.WebSocketListener
 import org.json.JSONException
 import org.json.JSONObject
-import java.util.Date
-import java.util.UUID
 
 class ChatFragment : BaseFragment() {
     override var isVisibleActionBar: Boolean = false
@@ -105,9 +93,9 @@ class ChatFragment : BaseFragment() {
 
     private fun chatSocket(){
         try {
-            socket = IO.socket("${Contacts.BASE_URL_SOCKET}?userId=${senderId}&partnerId=${receiverId}")
+            socket = IO.socket("${Constants.BASE_URL_SOCKET}?userId=${senderId}&partnerId=${receiverId}")
             socket?.connect()
-            Log.e(Contacts.TAG,"socket connect")
+            Log.e(Constants.TAG,"socket connect")
         } catch (e : Exception) {
             e.printStackTrace()
         }

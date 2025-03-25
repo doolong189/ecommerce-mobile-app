@@ -5,12 +5,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.adapter.NotificationAdapter
 import com.freshervnc.ecommerceapplication.common.BaseFragment
@@ -21,11 +19,10 @@ import com.freshervnc.ecommerceapplication.data.enity.GetNotificationResponse
 import com.freshervnc.ecommerceapplication.data.enity.PushNotificationRequest
 import com.freshervnc.ecommerceapplication.data.enity.PushNotificationResponse
 import com.freshervnc.ecommerceapplication.databinding.FragmentNotificationBinding
-import com.freshervnc.ecommerceapplication.utils.Contacts
+import com.freshervnc.ecommerceapplication.utils.Constants
 import com.freshervnc.ecommerceapplication.utils.Event
 import com.freshervnc.ecommerceapplication.utils.PreferencesUtils
 import com.freshervnc.ecommerceapplication.utils.Resource
-import com.freshervnc.ecommerceapplication.utils.SwipeHelper
 
 
 class NotificationFragment : BaseFragment() {
@@ -51,7 +48,7 @@ class NotificationFragment : BaseFragment() {
 
     override fun initView() {
         preferences = PreferencesUtils(requireContext())
-        Log.e(Contacts.TAG,"${preferences.token}")
+        Log.e(Constants.TAG,"${preferences.token}")
         viewModel.pushNotification(PushNotificationRequest(
             registrationToken = "fDMbIwE2TZyLxK7qu9bZIr:APA91bEjd0jQMs8zdnXJ0_WKGCO7-KeyHxiW-cy_m-QiMJcMeHwdxrmYabzT72-QnqRf425g5NBqEQpej7jHLu2kIMeaMvLQ3rAxw3rovXFNkhvxl0cmVv8",
             title = "Test Push Title ${count+1}",

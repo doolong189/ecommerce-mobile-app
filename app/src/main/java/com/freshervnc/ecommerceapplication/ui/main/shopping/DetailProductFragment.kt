@@ -2,18 +2,14 @@ package com.freshervnc.ecommerceapplication.ui.main.shopping
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.freshervnc.ecommerceapplication.R
-import com.freshervnc.ecommerceapplication.adapter.ProductAdapter
 import com.freshervnc.ecommerceapplication.adapter.ReviewAdapter
 import com.freshervnc.ecommerceapplication.common.BaseFragment
 import com.freshervnc.ecommerceapplication.data.enity.AddCartRequest
@@ -25,7 +21,7 @@ import com.freshervnc.ecommerceapplication.data.enity.GetReviewWithProductRespon
 import com.freshervnc.ecommerceapplication.databinding.FragmentDetailProductBinding
 import com.freshervnc.ecommerceapplication.ui.cart.CartViewModel
 import com.freshervnc.ecommerceapplication.ui.main.MainActivity
-import com.freshervnc.ecommerceapplication.utils.Contacts
+import com.freshervnc.ecommerceapplication.utils.Constants
 import com.freshervnc.ecommerceapplication.utils.Event
 import com.freshervnc.ecommerceapplication.utils.PreferencesUtils
 import com.freshervnc.ecommerceapplication.utils.Resource
@@ -144,7 +140,7 @@ class DetailProductFragment : BaseFragment() {
             when ( response ){
                 is Resource.Error -> {
                     binding.pgBar.visibility = View.GONE
-                    Log.e(Contacts.TAG,response.message.toString())
+                    Log.e(Constants.TAG,response.message.toString())
                 }
                 is Resource.Loading -> {
                     binding.pgBar.visibility = View.VISIBLE

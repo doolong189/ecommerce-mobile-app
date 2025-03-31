@@ -1,24 +1,24 @@
 package com.freshervnc.ecommerceapplication.ui.cart
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.app.MyApplication
-import com.freshervnc.ecommerceapplication.data.enity.AddCartRequest
-import com.freshervnc.ecommerceapplication.data.enity.AddCartResponse
+import com.freshervnc.ecommerceapplication.data.enity.CreateCartRequest
+import com.freshervnc.ecommerceapplication.data.enity.CreateCartResponse
 import com.freshervnc.ecommerceapplication.data.enity.DeleteCartRequest
 import com.freshervnc.ecommerceapplication.data.enity.DeleteCartResponse
 import com.freshervnc.ecommerceapplication.data.enity.ErrorResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetCartRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetCartResponse
-import com.freshervnc.ecommerceapplication.data.enity.GetOrderRequest
-import com.freshervnc.ecommerceapplication.data.enity.GetOrderResponse
 import com.freshervnc.ecommerceapplication.data.enity.UpdateCartRequest
 import com.freshervnc.ecommerceapplication.data.enity.UpdateCartResponse
 import com.freshervnc.ecommerceapplication.data.repository.ShoppingRepository
+import com.freshervnc.ecommerceapplication.utils.Constants
 import com.freshervnc.ecommerceapplication.utils.Event
 import com.freshervnc.ecommerceapplication.utils.Resource
 import com.freshervnc.ecommerceapplication.utils.Utils
@@ -30,10 +30,10 @@ import java.io.IOException
 class CartViewModel(private val application: Application) : AndroidViewModel(application) {
     private var repository: ShoppingRepository = ShoppingRepository()
 
-    private val addCartResult = MutableLiveData<Event<Resource<AddCartResponse>>>()
+    private val createCartResult = MutableLiveData<Event<Resource<CreateCartResponse>>>()
 
-    fun addCartResult(): LiveData<Event<Resource<AddCartResponse>>> {
-        return addCartResult
+    fun createCartResult(): LiveData<Event<Resource<CreateCartResponse>>> {
+        return createCartResult
     }
 
     private val getCartResult = MutableLiveData<Event<Resource<GetCartResponse>>>()
@@ -52,24 +52,24 @@ class CartViewModel(private val application: Application) : AndroidViewModel(app
         return deleteCartResult
     }
 
-    fun addCart(request: AddCartRequest): Job = viewModelScope.launch {
-        addCartResult.postValue(Event(Resource.Loading()))
+    fun createCart(request: CreateCartRequest): Job = viewModelScope.launch {
+        createCartResult.postValue(Event(Resource.Loading()))
         try {
             if (Utils.hasInternetConnection(getApplication<MyApplication>())) {
                 val response = repository.addCart(request)
                 if (response.isSuccessful) {
                     response.body()?.let { resultResponse ->
-                        addCartResult.postValue(Event(Resource.Success(resultResponse)))
+                        createCartResult.postValue(Event(Resource.Success(resultResponse)))
                     }
                 } else {
                     val errorResponse = response.errorBody()?.let {
                         val gson = Gson()
                         gson.fromJson(it.string(), ErrorResponse::class.java)
                     }
-                    addCartResult.postValue(Event(Resource.Error(errorResponse?.message ?: "")))
+                    createCartResult.postValue(Event(Resource.Error(errorResponse?.message ?: "")))
                 }
             } else {
-                addCartResult.postValue(
+                createCartResult.postValue(
                     Event(
                         Resource.Error(
                             getApplication<MyApplication>().getString(
@@ -82,27 +82,15 @@ class CartViewModel(private val application: Application) : AndroidViewModel(app
         } catch (t: Throwable) {
             when (t) {
                 is IOException -> {
-                    addCartResult.postValue(
-                        Event(
-                            Resource.Error(
-                                getApplication<MyApplication>().getString(
+                    createCartResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
                                     R.string.network_failure
-                                )
-                            )
-                        )
-                    )
+                                ))))
                 }
 
                 else -> {
-                    addCartResult.postValue(
-                        Event(
-                            Resource.Error(
-                                getApplication<MyApplication>().getString(
+                    createCartResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
                                     R.string.conversion_error
-                                )
-                            )
-                        )
-                    )
+                                ))))
                 }
             }
         }

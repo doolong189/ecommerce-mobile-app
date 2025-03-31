@@ -3,6 +3,6 @@ package com.freshervnc.ecommerceapplication.data.enity
 import androidx.annotation.Keep
 
 @Keep
-class AddCartResponse (
+class CreateCartResponse (
     val message : String? = null
 )

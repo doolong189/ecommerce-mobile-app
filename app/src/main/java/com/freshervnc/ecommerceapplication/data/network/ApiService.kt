@@ -1,7 +1,7 @@
 package com.freshervnc.ecommerceapplication.data.network
 
-import com.freshervnc.ecommerceapplication.data.enity.AddCartRequest
-import com.freshervnc.ecommerceapplication.data.enity.AddCartResponse
+import com.freshervnc.ecommerceapplication.data.enity.CreateCartRequest
+import com.freshervnc.ecommerceapplication.data.enity.CreateCartResponse
 import com.freshervnc.ecommerceapplication.data.enity.AddNotificationRequest
 import com.freshervnc.ecommerceapplication.data.enity.AddNotificationResponse
 import com.freshervnc.ecommerceapplication.data.enity.CreateChatMessageRequest
@@ -96,8 +96,8 @@ interface ApiService {
     @POST("ntf/getDetailNotification")
     suspend fun getDetailNotification(@Body request : GetDetailNotificationRequest) : Response<GetDetailNotificationResponse>
 
-    @POST("cart/addCart")
-    suspend fun addCart(@Body request : AddCartRequest) : Response<AddCartResponse>
+    @POST("cart/createCart")
+    suspend fun addCart(@Body request : CreateCartRequest) : Response<CreateCartResponse>
 
     @POST("cart/getCart")
     suspend fun getCart(@Body request : GetCartRequest) : Response<GetCartResponse>

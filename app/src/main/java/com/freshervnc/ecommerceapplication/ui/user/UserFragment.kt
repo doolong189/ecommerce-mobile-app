@@ -54,27 +54,6 @@ class UserFragment : BaseFragment() {
     override fun setAction() {
         val navi = requireActivity().supportFragmentManager.fragments[0] as NavHostFragment
         binding.userBtnEditProfile.setOnClickListener { }
-
-        binding.userBtnChangePassword.setOnClickListener {
-            navi.navController.navigate(R.id.passwordFragment)
-        }
-
-        binding.userBtnStore.setOnClickListener {
-
-        }
-
-        binding.userBtnCart.setOnClickListener {
-            startActivity(Intent(requireContext(),CartActivity::class.java))
-        }
-
-        binding.userBtnBillOder.setOnClickListener {
-            navi.navController.navigate(R.id.orderFragment)
-        }
-
-        binding.userBtnHelp.setOnClickListener { }
-
-        binding.userBtnSetting.setOnClickListener {  }
-        binding.userBtnLogOut.setOnClickListener {  }
     }
 
     override fun setObserve() {

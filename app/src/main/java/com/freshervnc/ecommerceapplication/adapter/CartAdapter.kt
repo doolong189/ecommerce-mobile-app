@@ -1,6 +1,7 @@
 package com.freshervnc.ecommerceapplication.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -41,13 +42,16 @@ class CartAdapter() : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
         fun onBind(item: ProductOfCart) {
             binding.run {
                 Glide.with(binding.root.context)
-                    .load(item.image)
-                    .placeholder(R.drawable.logo_app)
+                    .load(item.image?.get(0))
+                    .placeholder(R.drawable.image_def)
                     .into(itemCartImgView)
                 itemCartTvName.text = item.name
                 itemCartTvPrice.text = "${Utils.formatPrice(item.price!!)} đ"
                 itemCartTvQuantity.text = "${item.quantity}"
-
+                if (item.discount > 0) {
+                    tvDiscount.visibility = View.VISIBLE
+                    tvDiscount.text = "${item.discount} %"
+                }
                 itemCartImgAdd.setOnClickListener {
                     item.quantity = item.quantity!! + 1
                     binding.itemCartTvQuantity.text = item.quantity.toString()
@@ -55,7 +59,6 @@ class CartAdapter() : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
                         it(item, item.quantity!!)
                     }
                 }
-
                 itemCartImgSub.setOnClickListener {
                     if (item.quantity == 0) {
                         item.quantity = 0

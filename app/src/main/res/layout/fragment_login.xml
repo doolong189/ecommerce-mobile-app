@@ -71,7 +71,7 @@
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
                android:layout_margin="15dp"
-               android:background="@drawable/bg_button_save"
+               android:background="@drawable/bg4"
                android:padding="15dp"
                android:text="@string/login"
                android:textColor="#FFF"

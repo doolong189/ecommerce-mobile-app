@@ -1,5 +1,6 @@
 package com.freshervnc.ecommerceapplication.ui.main.shopping
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,6 +10,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView.Orientation
 import com.bumptech.glide.Glide
 import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.adapter.CategoryAdapter
@@ -18,6 +21,8 @@ import com.freshervnc.ecommerceapplication.data.enity.GetCategoryResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetProductRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetProductResponse
 import com.freshervnc.ecommerceapplication.databinding.FragmentShoppingBinding
+import com.freshervnc.ecommerceapplication.ui.cart.CartActivity
+import com.freshervnc.ecommerceapplication.ui.notification.NotificationActivity
 import com.freshervnc.ecommerceapplication.utils.Event
 import com.freshervnc.ecommerceapplication.utils.PreferencesUtils
 import com.freshervnc.ecommerceapplication.utils.Resource
@@ -49,7 +54,7 @@ class ShoppingFragment : BaseFragment() {
     override fun initView() {
         preferences = PreferencesUtils(requireContext())
 
-        binding.rcCategory.layoutManager = GridLayoutManager(requireContext(), 3)
+        binding.rcCategory.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL , false)
         binding.rcCategory.run { adapter = CategoryAdapter().also { categoryAdapter = it } }
 
         binding.rcProduct.layoutManager = GridLayoutManager(requireContext(), 2)
@@ -64,16 +69,24 @@ class ShoppingFragment : BaseFragment() {
             .load(preferences.image)
             .placeholder(R.drawable.logo_app)
             .into(binding.image)
+        binding.username.text = preferences.userName
     }
 
     override fun setAction() {
         categoryAdapter.onClickItemCategory { id, position ->
-            Log.e("zzzz","category click item")
         }
 
         productAdapter.onClickItemProduct { id, position ->
             val bundle = Bundle().apply { putString("productId", id._id) }
             findNavController().navigate(R.id.action_shoppingFragment_to_detailProductFragment , bundle)
+        }
+
+        binding.icCart.setOnClickListener {
+            startActivity(Intent(requireContext(), CartActivity::class.java))
+        }
+
+        binding.icNotification.setOnClickListener {
+            startActivity(Intent(requireContext(), NotificationActivity::class.java))
         }
     }
 
@@ -116,10 +129,10 @@ class ShoppingFragment : BaseFragment() {
                     }
                 }
                 is Resource.Loading -> {
-                    binding.progressBar.visibility = View.GONE
+                    binding.progressBar.visibility = View.VISIBLE
                 }
                 is Resource.Error -> {
-                    binding.progressBar.visibility = View.VISIBLE
+                    binding.progressBar.visibility = View.GONE
                 }
             }
         }

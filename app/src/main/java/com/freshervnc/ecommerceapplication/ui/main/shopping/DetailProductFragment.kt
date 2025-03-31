@@ -8,12 +8,15 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.freshervnc.ecommerceapplication.R
+import com.freshervnc.ecommerceapplication.adapter.ImageAdapter
 import com.freshervnc.ecommerceapplication.adapter.ReviewAdapter
 import com.freshervnc.ecommerceapplication.common.BaseFragment
-import com.freshervnc.ecommerceapplication.data.enity.AddCartRequest
-import com.freshervnc.ecommerceapplication.data.enity.AddCartResponse
+import com.freshervnc.ecommerceapplication.data.enity.CreateCartRequest
+import com.freshervnc.ecommerceapplication.data.enity.CreateCartResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetDetailProductRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetDetailProductResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetReviewWithProductRequest
@@ -36,6 +39,7 @@ class DetailProductFragment : BaseFragment() {
     private var quantity = 0
     private lateinit var preferences : PreferencesUtils
     private var reviewAdapter = ReviewAdapter()
+    private var imageAdapter = ImageAdapter()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -56,6 +60,9 @@ class DetailProductFragment : BaseFragment() {
         binding.rcReview.layoutManager = LinearLayoutManager(requireContext())
         binding.rcReview.run { adapter = ReviewAdapter().also { reviewAdapter = it } }
 
+        binding.rcImageProduct.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL , false)
+        binding.rcImageProduct.run { adapter = ImageAdapter().also { imageAdapter = it } }
+
         viewModel.getGetDetailProduct(GetDetailProductRequest(id = productId))
         viewModel.getReviewWithProduct(GetReviewWithProductRequest(id = productId))
     }
@@ -65,9 +72,6 @@ class DetailProductFragment : BaseFragment() {
 
     override fun setAction() {
         val productId = arguments?.getString("productId") ?: ""
-        binding.detailBtnSend.setOnClickListener {
-
-        }
 
         binding.imgSub.setOnClickListener {
             if (quantity <= 0){
@@ -87,7 +91,11 @@ class DetailProductFragment : BaseFragment() {
             if (quantity == 0) {
                 quantity += 1
             }
-            cartViewModel.addCart(AddCartRequest(idProduct = productId, idUser = preferences.userId , quantity = quantity))
+            cartViewModel.createCart(CreateCartRequest(idProduct = productId, idUser = preferences.userId , quantity = quantity))
+        }
+
+        binding.detailImageBack.setOnClickListener {
+            findNavController().popBackStack()
         }
     }
 
@@ -95,8 +103,8 @@ class DetailProductFragment : BaseFragment() {
         viewModel.getGetDetailProductResult().observe(viewLifecycleOwner , Observer {
             getGetDetailProductResult(it)
         })
-        cartViewModel.addCartResult().observe(viewLifecycleOwner, Observer {
-            addCart(it)
+        cartViewModel.createCartResult().observe(viewLifecycleOwner, Observer {
+            createCart(it)
         })
         viewModel.getReviewWithProductResult().observe(viewLifecycleOwner , Observer {
             getReviewWithProductResult(it)
@@ -116,7 +124,8 @@ class DetailProductFragment : BaseFragment() {
                     binding.pgBar.visibility = View.GONE
                     response.data?.data?.let {
                         Glide.with(requireContext())
-                            .load(it.image)
+                            .load(it.image[0])
+                            .placeholder(R.drawable.image_def)
                             .into(binding.detailImageProduct)
                         binding.detailTvNameProduct.text = it.name
                         binding.detailTvPrice.text = "Giá: "+Utils.formatPrice(it.price) + " đ"
@@ -129,6 +138,15 @@ class DetailProductFragment : BaseFragment() {
                             .into(binding.detailImageUser)
                         binding.detailTvNameUser.text = it.idUser?.name
                         binding.detailTvAddress.text = it.idUser?.address
+
+                        //
+                        imageAdapter.submitList(it.image)
+                        imageAdapter.onClickItemImage { item, position ->
+                            Glide.with(requireContext())
+                                .load(item)
+                                .placeholder(R.drawable.image_def)
+                                .into(binding.detailImageProduct)
+                        }
                     }
                 }
             }
@@ -149,13 +167,14 @@ class DetailProductFragment : BaseFragment() {
                     binding.pgBar.visibility = View.GONE
                     response.data?.let {
                         reviewAdapter.submitList(it.review!!)
+                        binding.tvAmountReview.text = "(${it.review!!.size})"
                     }
                 }
             }
         }
     }
 
-    private fun addCart(event : Event<Resource<AddCartResponse>>){
+    private fun createCart(event : Event<Resource<CreateCartResponse>>){
         event.getContentIfNotHandled()?.let { response ->
             when ( response ){
                 is Resource.Error -> {

@@ -18,7 +18,7 @@ class DetailOrderAdapter() : RecyclerView.Adapter<DetailOrderAdapter.DetailOrder
         fun onBind(item: ProductOfOrder) {
             binding.run {
                 Glide.with(binding.root.context)
-                    .load(item.product.image)
+                    .load(item.product.image[0])
                     .placeholder(R.drawable.logo_app)
                     .into(itemDetailImgView)
                 itemDetailTvName.text = item.product.name

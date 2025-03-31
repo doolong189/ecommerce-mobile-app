@@ -25,20 +25,25 @@ class ProductAdapter() : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>(
     class ProductViewHolder(
         private val binding: ItemProductBinding
     ) : RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("SetTextI18n")
         fun onBind(item: Product) {
             binding.run {
                 val itemCategory : Category = item.idCategory!!
-                itemProductTvName.text = item.name
-                itemProductTvPrice.text = Utils.formatPrice(item.price)  + " đ"
-                itemProductTvCategory.visibility = View.VISIBLE
-                itemProductTvCategory.text = itemCategory.name
-                Glide.with(itemView).load(item.image)
-                    .placeholder(R.drawable.ic_launcher_foreground)
-                    .into(itemProductImageView)
+                tvName.text = item.name
+                tvPrice.text = Utils.formatPrice(item.price)  + "đ"
+                tvCategory.text = itemCategory.name
+                Glide.with(itemView)
+                    .load(item.image[0])
+                    .placeholder(R.drawable.image_def)
+                    .into(imageView)
                 itemView.setOnClickListener {
                     onClickItem?.let {
                         it(item, adapterPosition)
                     }
+                }
+                if (item.discount > 0) {
+                    tvDiscount.visibility = View.VISIBLE
+                    tvDiscount.text = "${item.discount} %"
                 }
             }
         }

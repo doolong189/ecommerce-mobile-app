@@ -5,6 +5,7 @@ data class ProductOfCart (
     val name : String? = null,
     val price : Double? = null,
     var quantity : Int? = null,
-    val image : String? = null,
+    val discount : Int,
+    val image : List<String>? = null,
     val idStore : String? = null
 )

@@ -1,6 +1,8 @@
 package com.freshervnc.ecommerceapplication.ui.main.shopping
 
 import android.app.Application
+import android.provider.ContactsContract.Contacts
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -23,6 +25,7 @@ import com.freshervnc.ecommerceapplication.data.enity.GetProductWithCategoryResp
 import com.freshervnc.ecommerceapplication.data.enity.LoginRequest
 import com.freshervnc.ecommerceapplication.data.repository.ShoppingRepository
 import com.freshervnc.ecommerceapplication.ui.launch.login.LoginViewModel
+import com.freshervnc.ecommerceapplication.utils.Constants
 import com.freshervnc.ecommerceapplication.utils.Event
 import com.freshervnc.ecommerceapplication.utils.Resource
 import com.freshervnc.ecommerceapplication.utils.Utils
@@ -98,6 +101,7 @@ class ShoppingViewModel(private val application: Application)  : AndroidViewMode
                 if (response.isSuccessful){
                     response.body()?.let { resultResponse ->
                         getProductResult.postValue(Event(Resource.Success(resultResponse)))
+                        Log.e(Constants.TAG,"${resultResponse.message}")
                     }
                 }else {
                     val errorResponse = response.errorBody()?.let {
@@ -105,6 +109,7 @@ class ShoppingViewModel(private val application: Application)  : AndroidViewMode
                         gson.fromJson(it.string(), ErrorResponse::class.java)
                     }
                     getProductResult.postValue(Event(Resource.Error(errorResponse?.message ?: "")))
+                    Log.e(Constants.TAG,"${errorResponse?.message}")
                 }
             }else{
                 getProductResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(

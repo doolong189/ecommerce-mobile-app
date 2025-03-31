@@ -23,7 +23,7 @@
     <string name="nav_messenger">Tin nhắn</string>
     <string name="nav_shopping">Mua sắm</string>
     <string name="nav_notification">Thông báo</string>
-    <string name="nav_user">Người dùng</string>
+    <string name="nav_user">Tôi</string>
     <string name="text_search">Tìm kiếm...</string>
     <string name="text_location">Vị trí</string>
     <string name="text_scope">Trong vòng 1km</string>
@@ -31,7 +31,7 @@
     <string name="text_product">Sản phẩm</string>
     <string name="update_user_info">Cập nhật thông tin</string>
     <string name="update_password">Thay đổi mật khẩu</string>
-    <string name="my_store">Cửa hàng của tôi</string>
+    <string name="info_user_store">Cửa hàng của tôi</string>
     <string name="sport">Hỗ trợ</string>
     <string name="setting">Cài đặt</string>
     <string name="log_out">Đăng xuất</string>
@@ -71,7 +71,7 @@
     <string name="total_product_price">Tổng giá sản phẩm</string>
     <string name="discount">Giảm giá</string>
     <string name="order_total">Tổng số đơn hàng</string>
-    <string name="my_billoder">Đơn hàng của tôi</string>
+    <string name="info_user_order">Đơn hàng của tôi</string>
     <string name="search">Tìm kiểm ở đây</string>
     <string name="store_name">Cửa hàng</string>
     <string name="active_status_store"><font color='#4CAF50'>Đang mở cửa</font> • Mở lúc 08:00</string>
@@ -112,5 +112,15 @@
     <string name="message_empty">Không có tin nhắn nào!</string>
     <string name="review_product">Đánh giá sản phẩm</string>
     <string name="home">HOME</string>
+    <string name="hello">Xin chào</string>
+    <string name="info_user">Hồ sơ người dùng</string>
+    <string name="sub_info_user">Họ tên, email, địa chỉ</string>
+    <string name="sub_info_user_order">Đơn đang giao, hoàn thành, hủy bỏ</string>
+    <string name="sub_info_user_store">Quản lý các giá trị mặt hàng của bạn</string>
+    <string name="sub_info_user_wallet">Thanh toán, thẻ quà tặng, tín dụng</string>
+    <string name="sub_info_user_logout">Đăng xuất tài khoản</string>
+    <string name="sub_info_user_setting">Bảo mật và thông báo</string>
+    <string name="sub_info_user_support">Giải đáp thắc mắc 24/7</string>
+    <string name="info_user_wallet">Ví</string>
 
 </resources>

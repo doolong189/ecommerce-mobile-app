@@ -55,9 +55,6 @@ class MainActivity : AppCompatActivity() {
 //                    startActivity(Intent(this, NavigationMapboxActivity::class.java))
 //                    startActivity(Intent(this, MapboxActivity::class.java))
                 }
-                R.id.navNotification -> {
-                    startActivity(Intent(this,NotificationActivity::class.java))
-                }
                 R.id.navUser -> {
                     startActivity(Intent(this,UserActivity::class.java))
                 }

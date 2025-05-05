@@ -1,4 +1,4 @@
-package com.freshervnc.ecommerceapplication.service
+package com.freshervnc.ecommerceapplication.common.service
 
 import android.app.NotificationChannel
 import android.app.NotificationManager

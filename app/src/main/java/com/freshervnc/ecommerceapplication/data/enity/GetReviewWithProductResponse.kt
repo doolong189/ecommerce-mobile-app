@@ -1,8 +1,8 @@
 package com.freshervnc.ecommerceapplication.data.enity
 
 import androidx.annotation.Keep
-import com.freshervnc.ecommerceapplication.model.Review
-import com.freshervnc.ecommerceapplication.model.UserInfo
+import com.freshervnc.ecommerceapplication.data.model.Review
+import com.freshervnc.ecommerceapplication.data.model.UserInfo
 
 @Keep
 data class GetReviewWithProductResponse(

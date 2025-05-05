@@ -7,8 +7,8 @@ import com.bumptech.glide.Glide
 import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.databinding.ItemCategoryBinding
 import com.freshervnc.ecommerceapplication.databinding.ItemReviewsBinding
-import com.freshervnc.ecommerceapplication.model.Category
-import com.freshervnc.ecommerceapplication.model.Review
+import com.freshervnc.ecommerceapplication.data.model.Category
+import com.freshervnc.ecommerceapplication.data.model.Review
 
 class ReviewAdapter() : RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder>() {
     private var list: List<Review> = listOf()

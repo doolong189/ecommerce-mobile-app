@@ -1,6 +1,6 @@
 package com.freshervnc.ecommerceapplication.data.enity
 
-import com.freshervnc.ecommerceapplication.model.UserInfo
+import com.freshervnc.ecommerceapplication.data.model.UserInfo
 
 data class GetNeedTokenResponse (
     var message : String? = null,

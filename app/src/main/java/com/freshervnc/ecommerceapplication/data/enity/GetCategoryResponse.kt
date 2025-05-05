@@ -1,7 +1,7 @@
 package com.freshervnc.ecommerceapplication.data.enity
 
 import androidx.annotation.Keep
-import com.freshervnc.ecommerceapplication.model.Category
+import com.freshervnc.ecommerceapplication.data.model.Category
 
 @Keep
 data class GetCategoryResponse(

@@ -17,7 +17,7 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
-        android:name=".app.MyApplication"
+        android:name=".common.app.MyApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fitsSystemWindows="true"
@@ -32,6 +32,9 @@
         tools:ignore="LockedOrientationActivity"
         tools:replace="android:allowBackup,android:label,android:supportsRtl"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.order.OrderActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.mapbox.MapboxActivity"
             android:exported="false" />
@@ -91,7 +94,7 @@
         </activity>
 
         <service
-            android:name=".service.FCMService"
+            android:name=".common.service.FCMService"
             android:enabled="true"
             android:exported="true">
             <intent-filter>

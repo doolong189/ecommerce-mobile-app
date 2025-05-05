@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.freshervnc.ecommerceapplication.R
-import com.freshervnc.ecommerceapplication.app.MyApplication
+import com.freshervnc.ecommerceapplication.common.app.MyApplication
 import com.freshervnc.ecommerceapplication.data.enity.ErrorResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetAllUserRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetAllUserResponse
@@ -17,7 +17,7 @@ import com.freshervnc.ecommerceapplication.data.enity.GetNeedTokenResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetUserInfoRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetUserInfoResponse
 import com.freshervnc.ecommerceapplication.data.repository.UserRepository
-import com.freshervnc.ecommerceapplication.model.UserInfo
+import com.freshervnc.ecommerceapplication.data.model.UserInfo
 import com.freshervnc.ecommerceapplication.utils.Event
 import com.freshervnc.ecommerceapplication.utils.Resource
 import com.freshervnc.ecommerceapplication.utils.Utils

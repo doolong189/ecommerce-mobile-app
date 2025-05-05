@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.databinding.ItemHistoryMessageBinding
-import com.freshervnc.ecommerceapplication.model.Message
+import com.freshervnc.ecommerceapplication.data.model.Message
 import com.freshervnc.ecommerceapplication.utils.Utils
 
 private var onClickItem: ((id: Message, position: Int) -> Unit)? = null

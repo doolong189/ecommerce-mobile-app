@@ -32,7 +32,7 @@ import com.freshervnc.ecommerceapplication.data.enity.GetProductWithCategoryResp
 import com.freshervnc.ecommerceapplication.databinding.ActivityMapEcommerceBinding
 import com.freshervnc.ecommerceapplication.databinding.ViewMapMarkerBinding
 import com.freshervnc.ecommerceapplication.dialog.DialogBottomDetailProduct
-import com.freshervnc.ecommerceapplication.model.Product
+import com.freshervnc.ecommerceapplication.data.model.Product
 import com.freshervnc.ecommerceapplication.ui.main.shopping.ShoppingViewModel
 import com.freshervnc.ecommerceapplication.ui.messaging.MessageActivity
 import com.freshervnc.ecommerceapplication.utils.Event

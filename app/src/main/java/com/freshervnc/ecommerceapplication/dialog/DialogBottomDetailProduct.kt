@@ -13,7 +13,7 @@ import com.freshervnc.ecommerceapplication.data.enity.GetDetailProductResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetProductSimilarRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetProductSimilarResponse
 import com.freshervnc.ecommerceapplication.databinding.BottomDialogInfoProductBinding
-import com.freshervnc.ecommerceapplication.model.Product
+import com.freshervnc.ecommerceapplication.data.model.Product
 import com.freshervnc.ecommerceapplication.ui.main.shopping.ShoppingViewModel
 import com.freshervnc.ecommerceapplication.utils.Event
 import com.freshervnc.ecommerceapplication.utils.PreferencesUtils

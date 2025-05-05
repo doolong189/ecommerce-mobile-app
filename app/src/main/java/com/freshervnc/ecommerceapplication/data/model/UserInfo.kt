@@ -1,4 +1,4 @@
-package com.freshervnc.ecommerceapplication.model
+package com.freshervnc.ecommerceapplication.data.model
 
 data class UserInfo(
     var _id : String ,

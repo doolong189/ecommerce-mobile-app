@@ -7,8 +7,8 @@ import com.bumptech.glide.Glide
 import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.databinding.ItemCategoryBinding
 import com.freshervnc.ecommerceapplication.databinding.ItemImageBinding
-import com.freshervnc.ecommerceapplication.model.Category
-import com.freshervnc.ecommerceapplication.model.ImageModel
+import com.freshervnc.ecommerceapplication.data.model.Category
+import com.freshervnc.ecommerceapplication.data.model.ImageModel
 
 private var onClickItem: ((id: String, position: Int) -> Unit)? = null
 class ImageAdapter() : RecyclerView.Adapter<ImageAdapter.ProductViewHolder>() {

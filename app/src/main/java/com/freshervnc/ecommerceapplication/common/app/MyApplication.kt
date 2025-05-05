@@ -1,9 +1,10 @@
-package com.freshervnc.ecommerceapplication.app
+package com.freshervnc.ecommerceapplication.common.app
 
 import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
+import com.freshervnc.ecommerceapplication.utils.SocketIOManager
 import com.google.firebase.FirebaseApp
 
 class MyApplication : Application() {
@@ -11,14 +12,12 @@ class MyApplication : Application() {
     companion object {
         const val CHANNEL_ID = "CHANNEL_EXAMPLE"
     }
+
     override fun onCreate() {
         super.onCreate()
         createNotificationChannel()
         FirebaseApp.initializeApp(this)
-//        Dash.init(
-//            context = this,
-//            accessToken = getString(R.string.mapbox_access_token)
-//        )
+        SocketIOManager()
     }
 
     private fun createNotificationChannel() {

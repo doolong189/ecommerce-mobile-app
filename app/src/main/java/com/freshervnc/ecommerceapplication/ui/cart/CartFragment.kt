@@ -19,11 +19,12 @@ import com.freshervnc.ecommerceapplication.data.enity.GetCartResponse
 import com.freshervnc.ecommerceapplication.data.enity.UpdateCartRequest
 import com.freshervnc.ecommerceapplication.data.enity.UpdateCartResponse
 import com.freshervnc.ecommerceapplication.databinding.FragmentCartBinding
-import com.freshervnc.ecommerceapplication.model.ProductOfCart
+import com.freshervnc.ecommerceapplication.data.model.ProductOfCart
 import com.freshervnc.ecommerceapplication.ui.order.OrderViewModel
 import com.freshervnc.ecommerceapplication.utils.Event
 import com.freshervnc.ecommerceapplication.utils.PreferencesUtils
 import com.freshervnc.ecommerceapplication.utils.Resource
+import com.freshervnc.ecommerceapplication.utils.SocketIOManager
 import com.freshervnc.ecommerceapplication.utils.Utils
 
 
@@ -34,6 +35,7 @@ class CartFragment : BaseFragment() {
     private val orderViewModel by activityViewModels<OrderViewModel>()
     private lateinit var preferences : PreferencesUtils
     private var cartAdapter = CartAdapter()
+    private var socketIO = SocketIOManager()
     companion object{
         var products: MutableList<ProductOfCart>? = mutableListOf()
     }
@@ -62,8 +64,11 @@ class CartFragment : BaseFragment() {
     }
 
     override fun setAction() {
+        socketIO.connect()
         binding.cartBtnCheckOut.setOnClickListener {
-            orderViewModel.createOrder(CreateOrderRequest(idClient = preferences.userId, idShipper = "", products = products)) }
+//            orderViewModel.createOrder(CreateOrderRequest(idClient = preferences.userId, idShipper = "", products = products))
+            socketIO.sendMessage("abc")
+        }
         cartAdapter.onClickItemSubQuantity { item, position ->
             if (item.quantity!! >= 0 ){
                 viewModel.updateCart(UpdateCartRequest(idUser = preferences.userId , idProduct = item.id , quantity = -1))
@@ -98,13 +103,18 @@ class CartFragment : BaseFragment() {
                 is Resource.Success -> {
                     binding.cartPgBar.visibility = View.GONE
                     response.data?.let {
-                        cartAdapter.submitList(it.response.products!!)
-                        binding.cartTvTotalNumberProduct.text = "${it.response.totalNumber}"
-                        binding.cartTvTotalNumber.text = ""
-                        binding.cartTvDiscount.text = "${it.response.discount} %"
-                        binding.cartTvTotalPrice.text = "${Utils.formatPrice(it.response.totalPrice!!)} đ"
-                        products!!.clear()
-                        products!!.addAll(it.response.products)
+                        if (it.response.products?.isEmpty() == true) {
+                            binding.lnCartEmpty.visibility = View.VISIBLE
+                        }else{
+                            binding.lnCartEmpty.visibility = View.GONE
+                            cartAdapter.submitList(it.response.products!!)
+                            binding.cartTvTotalNumberProduct.text = "${it.response.totalNumber}"
+                            binding.cartTvTotalNumber.text = ""
+                            binding.cartTvDiscount.text = "${it.response.discount} %"
+                            binding.cartTvTotalPrice.text = "${Utils.formatPrice(it.response.totalPrice!!)} đ"
+                            products!!.clear()
+                            products!!.addAll(it.response.products)
+                        }
                     }
                 }
                 is Resource.Loading -> {
@@ -112,7 +122,6 @@ class CartFragment : BaseFragment() {
                 }
                 is Resource.Error -> {
                     binding.cartPgBar.visibility = View.GONE
-                    binding.lnCartEmpty.visibility = View.VISIBLE
                 }
             }
         }

@@ -11,7 +11,7 @@ import android.provider.Settings
 import android.util.TypedValue
 import androidx.annotation.Dimension
 import androidx.annotation.RequiresApi
-import com.freshervnc.ecommerceapplication.app.MyApplication
+import com.freshervnc.ecommerceapplication.common.app.MyApplication
 import java.text.DecimalFormat
 import java.time.Instant
 import java.time.ZoneId

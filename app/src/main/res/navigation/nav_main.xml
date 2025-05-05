@@ -12,10 +12,18 @@
         <action
             android:id="@+id/action_shoppingFragment_to_detailProductFragment"
             app:destination="@id/detailProductFragment" />
+        <action
+            android:id="@+id/action_shoppingFragment_to_menuFragment2"
+            app:destination="@id/menuFragment2" />
     </fragment>
     <fragment
         android:id="@+id/detailProductFragment"
         android:name="com.freshervnc.ecommerceapplication.ui.main.shopping.DetailProductFragment"
         android:label="fragment_detail_product"
         tools:layout="@layout/fragment_detail_product" />
+    <fragment
+        android:id="@+id/menuFragment2"
+        android:name="com.freshervnc.ecommerceapplication.ui.main.menu.MenuFragment"
+        android:label="fragment_menu"
+        tools:layout="@layout/fragment_menu" />
 </navigation>

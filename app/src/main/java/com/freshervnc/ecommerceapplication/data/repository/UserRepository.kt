@@ -7,7 +7,7 @@ import com.freshervnc.ecommerceapplication.data.enity.GetUserInfoRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetUserInfoResponse
 import com.freshervnc.ecommerceapplication.data.enity.LoginRequest
 import com.freshervnc.ecommerceapplication.data.network.RetrofitInstance
-import com.freshervnc.ecommerceapplication.model.UserInfo
+import com.freshervnc.ecommerceapplication.data.model.UserInfo
 
 class UserRepository {
 

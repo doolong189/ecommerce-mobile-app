@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.freshervnc.ecommerceapplication.R
-import com.freshervnc.ecommerceapplication.app.MyApplication
+import com.freshervnc.ecommerceapplication.common.app.MyApplication
 import com.freshervnc.ecommerceapplication.data.enity.ErrorResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetAllUserRequest
 import com.freshervnc.ecommerceapplication.data.enity.LoginRequest

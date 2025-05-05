@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -20,6 +21,8 @@ import com.freshervnc.ecommerceapplication.common.BaseFragment
 import com.freshervnc.ecommerceapplication.data.enity.GetCategoryResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetProductRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetProductResponse
+import com.freshervnc.ecommerceapplication.data.enity.GetProductWithCategoryRequest
+import com.freshervnc.ecommerceapplication.data.enity.GetProductWithCategoryResponse
 import com.freshervnc.ecommerceapplication.databinding.FragmentShoppingBinding
 import com.freshervnc.ecommerceapplication.ui.cart.CartActivity
 import com.freshervnc.ecommerceapplication.ui.notification.NotificationActivity
@@ -73,7 +76,8 @@ class ShoppingFragment : BaseFragment() {
     }
 
     override fun setAction() {
-        categoryAdapter.onClickItemCategory { id, position ->
+        categoryAdapter.onClickItemCategory { item, position ->
+            viewModel.getProductWithCategory(GetProductWithCategoryRequest(idCategory = item._id , idUser = preferences.userId))
         }
 
         productAdapter.onClickItemProduct { id, position ->
@@ -96,6 +100,9 @@ class ShoppingFragment : BaseFragment() {
         })
         viewModel.getProductResult().observe(viewLifecycleOwner, Observer {
             getProductResult(it)
+        })
+        viewModel.getProductWithCategoryResult().observe(viewLifecycleOwner , Observer{
+            getProductWithCategoryResult(it)
         })
     }
 
@@ -138,4 +145,25 @@ class ShoppingFragment : BaseFragment() {
         }
     }
 
+    private fun getProductWithCategoryResult(event : Event<Resource<GetProductWithCategoryResponse>>){
+        event.getContentIfNotHandled()?.let { response ->
+            when(response){
+                is Resource.Success -> {
+                    binding.progressBar.visibility = View.GONE
+                    response.data?.let {
+                        productAdapter.submitList(it.products!!)
+                    }
+                }
+                is Resource.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                }
+                is Resource.Error -> {
+                    binding.progressBar.visibility = View.GONE
+                    response.message?.let { message ->
+                        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+    }
 }

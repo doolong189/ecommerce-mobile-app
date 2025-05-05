@@ -7,8 +7,8 @@ import com.bumptech.glide.Glide
 import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.databinding.ItemCategoryBinding
 import com.freshervnc.ecommerceapplication.databinding.ItemNotificationBinding
-import com.freshervnc.ecommerceapplication.model.Category
-import com.freshervnc.ecommerceapplication.model.Notification
+import com.freshervnc.ecommerceapplication.data.model.Category
+import com.freshervnc.ecommerceapplication.data.model.Notification
 private var onClickItem: ((id: Notification, position: Int) -> Unit)? = null
 
 class NotificationAdapter() : RecyclerView.Adapter<NotificationAdapter.NotificationViewHolder>() {
@@ -28,6 +28,19 @@ class NotificationAdapter() : RecyclerView.Adapter<NotificationAdapter.Notificat
                     onClickItem?.let {
                         it(item, adapterPosition)
                     }
+                }
+                if (item.type == "3"){
+                    Glide.with(binding.root.context)
+                        .load(item.image)
+                        .placeholder(R.drawable.ntf_shopping)
+                        .into(binding.itemNotificationIcType)
+                }else if(item.type == "2"){
+                    Glide.with(binding.root.context)
+                        .load(item.image)
+                        .placeholder(R.drawable.ntf_chat)
+                        .into(binding.itemNotificationIcType)
+                }else{
+
                 }
             }
         }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_order"
+    app:startDestination="@id/orderFragment2">
+
+    <fragment
+        android:id="@+id/orderFragment2"
+        android:name="com.freshervnc.ecommerceapplication.ui.order.OrderFragment"
+        android:label="fragment_order"
+        tools:layout="@layout/fragment_order" >
+        <action
+            android:id="@+id/action_orderFragment2_to_detailOrderFragment2"
+            app:destination="@id/detailOrderFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailOrderFragment2"
+        android:name="com.freshervnc.ecommerceapplication.ui.order.DetailOrderFragment"
+        android:label="fragment_detail_order"
+        tools:layout="@layout/fragment_detail_order" />
+</navigation>

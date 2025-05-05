@@ -1,11 +1,12 @@
 package com.freshervnc.ecommerceapplication.data.enity
 
 import androidx.annotation.Keep
-import com.freshervnc.ecommerceapplication.model.UserInfo
 
 @Keep
-data class AddNotificationRequest(
+data class CreateNotificationRequest(
     val title : String? = "",
     val body : String? = "",
-    val idUser : String? = ""
+    val image : String? = "",
+    val idUser : String? = "",
+    val type : String? = ""
 )

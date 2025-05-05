@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.freshervnc.ecommerceapplication.R
-import com.freshervnc.ecommerceapplication.model.UserInfo
+import com.freshervnc.ecommerceapplication.data.model.UserInfo
 
 
 class UserAdapter (

@@ -15,6 +15,7 @@ import com.freshervnc.ecommerceapplication.ui.main.shopping.ShoppingFragment
 import com.freshervnc.ecommerceapplication.ui.mapbox.MapboxActivity
 import com.freshervnc.ecommerceapplication.ui.messaging.MessageActivity
 import com.freshervnc.ecommerceapplication.ui.notification.NotificationActivity
+import com.freshervnc.ecommerceapplication.ui.order.OrderActivity
 import com.freshervnc.ecommerceapplication.ui.user.UserActivity
 
 class MainActivity : AppCompatActivity() {
@@ -47,13 +48,12 @@ class MainActivity : AppCompatActivity() {
                     val navController = findNavController(R.id.nav_host_fragment)
                     navController.navigate(R.id.shoppingFragment)
                 }
-                R.id.navMessenger ->{
-                    startActivity(Intent(this,MessageActivity::class.java))
+                R.id.navCategory ->{
+                    val navController = findNavController(R.id.nav_host_fragment)
+                    navController.navigate(R.id.menuFragment2)
                 }
-                R.id.navFindMap -> {
-                    startActivity(Intent(this, MapEcommerceActivity::class.java))
-//                    startActivity(Intent(this, NavigationMapboxActivity::class.java))
-//                    startActivity(Intent(this, MapboxActivity::class.java))
+                R.id.navOrder -> {
+                    startActivity(Intent(this,OrderActivity::class.java))
                 }
                 R.id.navUser -> {
                     startActivity(Intent(this,UserActivity::class.java))

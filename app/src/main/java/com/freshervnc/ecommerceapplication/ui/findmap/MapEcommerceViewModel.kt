@@ -6,10 +6,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.freshervnc.ecommerceapplication.R
-import com.freshervnc.ecommerceapplication.app.MyApplication
+import com.freshervnc.ecommerceapplication.common.app.MyApplication
 import com.freshervnc.ecommerceapplication.data.enity.ErrorResponse
 import com.freshervnc.ecommerceapplication.data.repository.MapRepository
-import com.freshervnc.ecommerceapplication.model.DirectionsResponse
+import com.freshervnc.ecommerceapplication.data.model.DirectionsResponse
 import com.freshervnc.ecommerceapplication.utils.Event
 import com.freshervnc.ecommerceapplication.utils.Resource
 import com.freshervnc.ecommerceapplication.utils.Utils

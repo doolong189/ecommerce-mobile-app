@@ -6,9 +6,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.freshervnc.ecommerceapplication.R
-import com.freshervnc.ecommerceapplication.app.MyApplication
-import com.freshervnc.ecommerceapplication.data.enity.AddNotificationRequest
-import com.freshervnc.ecommerceapplication.data.enity.AddNotificationResponse
+import com.freshervnc.ecommerceapplication.common.app.MyApplication
+import com.freshervnc.ecommerceapplication.data.enity.CreateNotificationRequest
+import com.freshervnc.ecommerceapplication.data.enity.CreateNotificationResponse
 import com.freshervnc.ecommerceapplication.data.enity.ErrorResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetNotificationRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetNotificationResponse
@@ -26,14 +26,16 @@ import java.io.IOException
 class NotificationViewModel(private val application: Application)  : AndroidViewModel(application) {
     private var repository : NotificationRepository = NotificationRepository()
     private val pushNotificationResult = MutableLiveData<Event<Resource<PushNotificationResponse>>>()
-    private val addNotificationResult = MutableLiveData<Event<Resource<AddNotificationResponse>>>()
+    private val createNotificationResult = MutableLiveData<Event<Resource<CreateNotificationResponse>>>()
     private val getNotificationResult = MutableLiveData<Event<Resource<GetNotificationResponse>>>()
+
+    val imageUrl = ""
     fun pushNotificationResult(): LiveData<Event<Resource<PushNotificationResponse>>> {
         return pushNotificationResult
     }
 
-    fun addNotificationResult(): LiveData<Event<Resource<AddNotificationResponse>>>{
-        return addNotificationResult
+    fun createNotificationResult(): LiveData<Event<Resource<CreateNotificationResponse>>>{
+        return createNotificationResult
     }
 
     fun getNotificationResult() : LiveData<Event<Resource<GetNotificationResponse>>>{
@@ -74,34 +76,34 @@ class NotificationViewModel(private val application: Application)  : AndroidView
         }
     }
 
-    fun addNotification(request : AddNotificationRequest) : Job = viewModelScope.launch{
-        addNotificationResult.postValue(Event(Resource.Loading()))
+    fun createNotification(request : CreateNotificationRequest) : Job = viewModelScope.launch{
+        createNotificationResult.postValue(Event(Resource.Loading()))
         try {
             if (Utils.hasInternetConnection(getApplication<MyApplication>())) {
-                val response = repository.addNotification(request)
+                val response = repository.createNotification(request)
                 if (response.isSuccessful){
                     response.body()?.let { resultResponse ->
-                        addNotificationResult.postValue(Event(Resource.Success(resultResponse)))
+                        createNotificationResult.postValue(Event(Resource.Success(resultResponse)))
                     }
                 }else {
                     val errorResponse = response.errorBody()?.let {
                         val gson = Gson()
                         gson.fromJson(it.string(), ErrorResponse::class.java)
                     }
-                        addNotificationResult.postValue(Event(Resource.Error(errorResponse?.message ?: "")))
+                    createNotificationResult.postValue(Event(Resource.Error(errorResponse?.message ?: "")))
                 }
             }else{
-                addNotificationResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
+                createNotificationResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
                     R.string.no_internet_connection))))
             }
         }catch (t: Throwable){
             when (t) {
                 is IOException -> {
-                    addNotificationResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
+                    createNotificationResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
                         R.string.network_failure))))
                 }
                 else -> {
-                    addNotificationResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
+                    createNotificationResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
                         R.string.conversion_error))))
                 }
             }

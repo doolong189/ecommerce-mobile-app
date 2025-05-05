@@ -8,8 +8,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.databinding.ItemOrderBinding
-import com.freshervnc.ecommerceapplication.model.Notification
-import com.freshervnc.ecommerceapplication.model.Order
+import com.freshervnc.ecommerceapplication.data.model.Notification
+import com.freshervnc.ecommerceapplication.data.model.Order
 import com.freshervnc.ecommerceapplication.utils.Utils
 private var onClickItem: ((id: Order, position: Int) -> Unit)? = null
 

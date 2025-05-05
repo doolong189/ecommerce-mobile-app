@@ -1,31 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/navShopping"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:title="@string/nav_shopping"
-        android:icon="@drawable/baseline_shopping_bag_24"
+        android:title=""
+        android:icon="@drawable/home"
         />
     <item
-        android:id="@+id/navMessenger"
+        android:id="@+id/navCategory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:title="@string/nav_messenger"
-        android:icon="@drawable/baseline_message_24"
+        android:title=""
+        android:icon="@drawable/category"
         />
     <item
-        android:id="@+id/navFindMap"
+        android:id="@+id/navOrder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:title="@string/nav_search"
-        android:icon="@drawable/baseline_location_on_24"
+        android:title=""
+        android:icon="@drawable/bag"
         />
     <item
         android:id="@+id/navUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:title="@string/nav_user"
-        android:icon="@drawable/baseline_person_24"
+        android:title=""
+        android:icon="@drawable/user"
         />
 </menu>

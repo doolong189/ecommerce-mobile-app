@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.freshervnc.ecommerceapplication.R
-import com.freshervnc.ecommerceapplication.app.MyApplication
+import com.freshervnc.ecommerceapplication.common.app.MyApplication
 import com.freshervnc.ecommerceapplication.data.enity.CreateChatMessageRequest
 import com.freshervnc.ecommerceapplication.data.enity.CreateChatMessageResponse
 import com.freshervnc.ecommerceapplication.data.enity.ErrorResponse
@@ -21,8 +21,8 @@ import com.freshervnc.ecommerceapplication.data.enity.PushNotificationResponse
 import com.freshervnc.ecommerceapplication.data.repository.ChatMessageRepository
 import com.freshervnc.ecommerceapplication.data.repository.NotificationRepository
 import com.freshervnc.ecommerceapplication.data.repository.UserRepository
-import com.freshervnc.ecommerceapplication.model.Chat
-import com.freshervnc.ecommerceapplication.model.Message
+import com.freshervnc.ecommerceapplication.data.model.Chat
+import com.freshervnc.ecommerceapplication.data.model.Message
 import com.freshervnc.ecommerceapplication.utils.Event
 import com.freshervnc.ecommerceapplication.utils.Resource
 import com.freshervnc.ecommerceapplication.utils.Utils
@@ -43,10 +43,6 @@ import javax.inject.Inject
 class ChatViewModel(private val application: Application) : AndroidViewModel(application) {
     private var chatMessageRepository = ChatMessageRepository()
     private val createMessageResult = MutableLiveData<Event<Resource<CreateChatMessageResponse>>>()
-
-    private val _chats = MutableLiveData<MutableList<Chat>>(mutableListOf())
-    val chats: LiveData<MutableList<Chat>> get() = _chats
-
     fun createMessageResult() : LiveData<Event<Resource<CreateChatMessageResponse>>>{
         return createMessageResult
     }
@@ -84,9 +80,6 @@ class ChatViewModel(private val application: Application) : AndroidViewModel(app
         }
     }
 
-    fun addMessage(newChat : Chat) {
-        val updatedList = _chats.value ?: mutableListOf()
-        updatedList.add(newChat)
-        _chats.value = updatedList
-    }
+    var imageUrl = ""
+    var receiverId = ""
 }

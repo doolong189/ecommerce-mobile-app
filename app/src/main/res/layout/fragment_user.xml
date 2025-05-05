@@ -36,7 +36,7 @@
                         android:id="@+id/user_imgUser"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
-                        android:src="@drawable/baseline_person_24"
+                        android:src="@drawable/user"
                         />
                     <TextView
                         android:id="@+id/user_tvName"
@@ -64,12 +64,13 @@
                         android:gravity="center_vertical"
                         android:layout_margin="5dp"
                         android:background="@drawable/bg5"
+                        android:padding="10dp"
                         >
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:padding="5dp"
-                            android:src="@drawable/image_def"
+                        <ImageView
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:padding="7dp"
+                            android:src="@drawable/user"
                             android:background="@drawable/transparent_circle"/>
                         <LinearLayout
                             android:layout_width="0dp"
@@ -117,11 +118,11 @@
                             android:gravity="center_vertical"
                             android:layout_margin="5dp"
                             >
-                            <de.hdodenhof.circleimageview.CircleImageView
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:padding="5dp"
-                                android:src="@drawable/image_def"
+                            <ImageView
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:padding="7dp"
+                                android:src="@drawable/orders"
                                 android:background="@drawable/transparent_circle"/>
                             <LinearLayout
                                 android:layout_width="0dp"
@@ -160,11 +161,11 @@
                             android:gravity="center_vertical"
                             android:layout_margin="5dp"
                             >
-                            <de.hdodenhof.circleimageview.CircleImageView
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:padding="5dp"
-                                android:src="@drawable/image_def"
+                            <ImageView
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:padding="7dp"
+                                android:src="@drawable/store"
                                 android:background="@drawable/transparent_circle"/>
                             <LinearLayout
                                 android:layout_width="0dp"
@@ -196,6 +197,52 @@
                                 android:layout_margin="5dp"
                                 />
                         </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_margin="5dp"
+                            >
+                            <ImageView
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:padding="7dp"
+                                android:src="@drawable/chat"
+                                android:background="@drawable/transparent_circle"/>
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center_vertical"
+                                android:orientation="vertical"
+                                android:layout_margin="5dp"
+                                >
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/info_user_chat"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold"
+                                    />
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/sub_info_user_chat"
+                                    android:textSize="11sp"
+                                    android:textStyle="bold"
+                                    />
+                            </LinearLayout>
+                            <ImageView
+                                android:id="@+id/user_btnMessage"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/baseline_arrow_forward_ios_24"
+                                android:layout_margin="5dp"
+                                />
+                        </LinearLayout>
+
                     </LinearLayout>
 
                     <LinearLayout
@@ -212,54 +259,11 @@
                             android:gravity="center_vertical"
                             android:layout_margin="5dp"
                             >
-                            <de.hdodenhof.circleimageview.CircleImageView
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:padding="5dp"
-                                android:src="@drawable/image_def"
-                                android:background="@drawable/transparent_circle"/>
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="center_vertical"
-                                android:orientation="vertical"
-                                android:layout_margin="5dp"
-                                >
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/info_user_wallet"
-                                    android:textSize="16sp"
-                                    android:textStyle="bold"
-                                    />
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/sub_info_user_wallet"
-                                    android:textSize="11sp"
-                                    android:textStyle="bold"
-                                    />
-                            </LinearLayout>
                             <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/baseline_arrow_forward_ios_24"
-                                android:layout_margin="5dp"
-                                />
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center_vertical"
-                            android:layout_margin="5dp"
-                            >
-                            <de.hdodenhof.circleimageview.CircleImageView
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:padding="5dp"
-                                android:src="@drawable/image_def"
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:padding="7dp"
+                                android:src="@drawable/settings"
                                 android:background="@drawable/transparent_circle"/>
                             <LinearLayout
                                 android:layout_width="0dp"
@@ -298,11 +302,11 @@
                             android:gravity="center_vertical"
                             android:layout_margin="5dp"
                             >
-                            <de.hdodenhof.circleimageview.CircleImageView
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:padding="5dp"
-                                android:src="@drawable/image_def"
+                            <ImageView
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:padding="7dp"
+                                android:src="@drawable/support"
                                 android:background="@drawable/transparent_circle"/>
                             <LinearLayout
                                 android:layout_width="0dp"
@@ -345,13 +349,15 @@
                         android:gravity="center_vertical"
                         android:layout_margin="5dp"
                         android:background="@drawable/bg5"
+                        android:padding="10dp"
                         >
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:padding="5dp"
-                            android:src="@drawable/image_def"
-                            android:background="@drawable/transparent_circle"/>
+                        <ImageView
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:padding="7dp"
+                            android:src="@drawable/logout"
+                            android:background="@drawable/transparent_circle"
+                            />
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"

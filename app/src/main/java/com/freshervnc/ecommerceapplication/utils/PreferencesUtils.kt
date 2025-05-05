@@ -2,7 +2,7 @@ package com.freshervnc.ecommerceapplication.utils
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.freshervnc.ecommerceapplication.model.UserInfo
+import com.freshervnc.ecommerceapplication.data.model.UserInfo
 import com.google.gson.Gson
 
 class PreferencesUtils(context: Context) {

@@ -8,9 +8,9 @@ import com.bumptech.glide.Glide
 import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.databinding.ItemCartBinding
 import com.freshervnc.ecommerceapplication.databinding.ItemCategoryBinding
-import com.freshervnc.ecommerceapplication.model.Cart
-import com.freshervnc.ecommerceapplication.model.Category
-import com.freshervnc.ecommerceapplication.model.ProductOfCart
+import com.freshervnc.ecommerceapplication.data.model.Cart
+import com.freshervnc.ecommerceapplication.data.model.Category
+import com.freshervnc.ecommerceapplication.data.model.ProductOfCart
 import com.freshervnc.ecommerceapplication.utils.Utils
 
 private var onClickItemAddQuantity: ((id: ProductOfCart, quantity: Int) -> Unit)? = null

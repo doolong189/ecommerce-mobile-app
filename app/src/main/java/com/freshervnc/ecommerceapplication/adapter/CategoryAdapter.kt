@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.databinding.ItemCategoryBinding
-import com.freshervnc.ecommerceapplication.model.Category
+import com.freshervnc.ecommerceapplication.data.model.Category
 
 
 private var onClickItem: ((id: Category, position: Int) -> Unit)? = null

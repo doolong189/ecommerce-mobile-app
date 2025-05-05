@@ -1,7 +1,7 @@
 package com.freshervnc.ecommerceapplication.data.network
 
 
-import com.freshervnc.ecommerceapplication.model.DirectionsResponse
+import com.freshervnc.ecommerceapplication.data.model.DirectionsResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET

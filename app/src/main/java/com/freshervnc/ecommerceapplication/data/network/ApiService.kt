@@ -2,10 +2,10 @@ package com.freshervnc.ecommerceapplication.data.network
 
 import com.freshervnc.ecommerceapplication.data.enity.CreateCartRequest
 import com.freshervnc.ecommerceapplication.data.enity.CreateCartResponse
-import com.freshervnc.ecommerceapplication.data.enity.AddNotificationRequest
-import com.freshervnc.ecommerceapplication.data.enity.AddNotificationResponse
+import com.freshervnc.ecommerceapplication.data.enity.CreateNotificationResponse
 import com.freshervnc.ecommerceapplication.data.enity.CreateChatMessageRequest
 import com.freshervnc.ecommerceapplication.data.enity.CreateChatMessageResponse
+import com.freshervnc.ecommerceapplication.data.enity.CreateNotificationRequest
 import com.freshervnc.ecommerceapplication.data.enity.CreateOrderRequest
 import com.freshervnc.ecommerceapplication.data.enity.CreateOrderResponse
 import com.freshervnc.ecommerceapplication.data.enity.CreateReviewRequest
@@ -87,8 +87,8 @@ interface ApiService {
     @POST("ntf/pushNotification")
     suspend fun pushNotification(@Body request : PushNotificationRequest) : Response<PushNotificationResponse>
 
-    @POST("ntf/addNotification")
-    suspend fun addNotification(@Body request : AddNotificationRequest) : Response<AddNotificationResponse>
+    @POST("ntf/createNotification")
+    suspend fun createNotification(@Body request : CreateNotificationRequest) : Response<CreateNotificationResponse>
 
     @POST("ntf/getNotification")
     suspend fun getNotification(@Body request : GetNotificationRequest) : Response<GetNotificationResponse>
@@ -117,7 +117,7 @@ interface ApiService {
     @POST("order/getOrderDetail")
     suspend fun getDetailOrders(@Body request : GetDetailOrderRequest) : Response<GetDetailOrderResponse>
 
-    @POST("user/updateToken")
+    @POST("user/getNeedToken")
     suspend fun getNeedToken(@Body request : GetNeedTokenRequest) : Response<GetNeedTokenResponse>
 
     @POST("chat-message/createChatMessage")

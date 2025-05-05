@@ -18,8 +18,11 @@ import com.freshervnc.ecommerceapplication.data.enity.GetAllUserRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetAllUserResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetHistoryChatMessageRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetHistoryChatMessageResponse
+import com.freshervnc.ecommerceapplication.data.enity.GetNeedTokenRequest
 import com.freshervnc.ecommerceapplication.databinding.FragmentMessageBinding
-import com.freshervnc.ecommerceapplication.model.UserInfo
+import com.freshervnc.ecommerceapplication.data.model.UserInfo
+import com.freshervnc.ecommerceapplication.ui.notification.NotificationViewModel
+import com.freshervnc.ecommerceapplication.ui.user.UserViewModel
 import com.freshervnc.ecommerceapplication.utils.Event
 import com.freshervnc.ecommerceapplication.utils.PreferencesUtils
 import com.freshervnc.ecommerceapplication.utils.Resource
@@ -33,6 +36,7 @@ class MessageFragment : BaseFragment() {
     private lateinit var preferences : PreferencesUtils
     private var userAdapter = UserAdapter()
     private var historyMessageAdapter = HistoryMessageAdapter()
+    private val userViewModel by activityViewModels<UserViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -112,7 +116,6 @@ class MessageFragment : BaseFragment() {
             when ( response ){
                 is Resource.Error -> {
                     binding.progressBar.visibility = View.GONE
-
                 }
                 is Resource.Loading -> {
                     binding.progressBar.visibility = View.VISIBLE

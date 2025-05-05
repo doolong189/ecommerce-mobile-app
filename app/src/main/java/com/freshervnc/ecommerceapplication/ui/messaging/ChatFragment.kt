@@ -16,14 +16,16 @@ import com.freshervnc.ecommerceapplication.adapter.ChatAdapter
 import com.freshervnc.ecommerceapplication.common.BaseFragment
 import com.freshervnc.ecommerceapplication.data.enity.CreateChatMessageRequest
 import com.freshervnc.ecommerceapplication.data.enity.CreateChatMessageResponse
+import com.freshervnc.ecommerceapplication.data.enity.CreateNotificationRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetChatMessageRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetChatMessageResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetNeedTokenRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetUserInfoRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetUserInfoResponse
 import com.freshervnc.ecommerceapplication.data.enity.PushNotificationRequest
+import com.freshervnc.ecommerceapplication.data.enity.PushNotificationResponse
 import com.freshervnc.ecommerceapplication.databinding.FragmentChatBinding
-import com.freshervnc.ecommerceapplication.model.Chat
+import com.freshervnc.ecommerceapplication.data.model.Chat
 import com.freshervnc.ecommerceapplication.ui.notification.NotificationViewModel
 import com.freshervnc.ecommerceapplication.ui.user.UserViewModel
 import com.freshervnc.ecommerceapplication.utils.Constants
@@ -49,11 +51,9 @@ class ChatFragment : BaseFragment() {
     var senderId : String = ""
     var messageId : String = ""
     var token : String = ""
-    private lateinit var webSocket: WebSocket
     private var socket: Socket? = null
     var chatList: ArrayList<Chat> = arrayListOf()
-//    lateinit var chatAdapter: ChatAdapter
-
+    var message : String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,7 +78,7 @@ class ChatFragment : BaseFragment() {
         binding.rcChat.run {adapter = ChatAdapter(requireContext()).also { chatAdapter = it }}
 
         userViewModel.getUserInfo(GetUserInfoRequest(receiverId))
-        userViewModel.getNeedToken(GetNeedTokenRequest(id = receiverId , token = preferencesUtils.token.toString()))
+        userViewModel.getNeedToken(GetNeedTokenRequest(id = preferencesUtils.userId.toString() , token = preferencesUtils.token.toString()))
         messageViewModel.getChatMessage(GetChatMessageRequest(messageId))
         chatSocket()
     }
@@ -102,7 +102,27 @@ class ChatFragment : BaseFragment() {
 
         binding.iconSend.setOnClickListener {
             if(binding.edChating.text.toString().isNotEmpty()){
-                socket?.emit("message",binding.edChating.text.toString(), senderId);
+                socket?.emit("message",binding.edChating.text.toString(), senderId)
+                notificationViewModel.pushNotification(
+                    PushNotificationRequest(
+                        registrationToken = token,
+                        title = preferencesUtils.userName,
+                        body = binding.edChating.text.toString(),
+                        image = viewModel.imageUrl,
+                        type = TYPE_NOTIFICATION
+                    )
+                )
+                viewModel.createMessage(
+                    CreateChatMessageRequest(
+                        messageId = senderId + receiverId,
+                        messageImage = "",
+                        messageText = binding.edChating.text.toString(),
+                        senderId = senderId,
+                        receiverId = receiverId,
+                        senderChatId = senderId,
+                        timestamp = System.currentTimeMillis()
+                    )
+                )
                 binding.edChating.setText("")
             }
         }
@@ -112,24 +132,15 @@ class ChatFragment : BaseFragment() {
                 val data = args[0] as JSONObject
                 try {
                     val username = data.getString("id")
-                    val message = data.getString("message")
+                    message = data.getString("message")
                     val m = Chat(
                         messageImage = "",
                         messageText = message,
                         senderId = username,
                         timestamp = System.currentTimeMillis())
                     chatList.add(m)
-                    viewModel.createMessage(
-                        CreateChatMessageRequest(
-                            messageId = senderId + receiverId,
-                            messageImage = "",
-                            messageText = message,
-                            senderId = senderId,
-                            receiverId = receiverId,
-                            senderChatId = senderId,
-                            timestamp = System.currentTimeMillis()
-                        )
-                    )
+                    chatAdapter.submitList(chatList)
+                    binding.rcChat.scrollToPosition(chatList.size - 1)
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
@@ -158,7 +169,7 @@ class ChatFragment : BaseFragment() {
             createMessageResult(it)
         })
         notificationViewModel.pushNotificationResult().observe(viewLifecycleOwner , Observer{
-
+            pushNotificationResult(it)
         })
 //        viewModel.chats.observe(this) { messages ->
 //            chatAdapter.submitList(messages)
@@ -214,7 +225,7 @@ class ChatFragment : BaseFragment() {
         event.getContentIfNotHandled()?.let { response ->
             when ( response ){
                 is Resource.Error -> {
-
+                   Log.e(Constants.TAG,"${response.message}")
                 }
                 is Resource.Loading -> {
 
@@ -222,13 +233,33 @@ class ChatFragment : BaseFragment() {
                 is Resource.Success -> {
                     chatAdapter.submitList(chatList)
                     binding.rcChat.scrollToPosition(chatList.size - 1)
-                    notificationViewModel.pushNotification(PushNotificationRequest(
-                        registrationToken = preferencesUtils.token,
-                        title = preferencesUtils.userName,
-                        body = binding.edChating.text.toString())
-                    )
                 }
             }
+        }
+    }
+
+    private fun pushNotificationResult(event: Event<Resource<PushNotificationResponse>>) {
+        event.getContentIfNotHandled()?.let { response ->
+            when (response) {
+                is Resource.Success -> {
+                    response.data.let {
+                        notificationViewModel.createNotification(
+                            CreateNotificationRequest(
+                                title = it?.notification?.title,
+                                body = it?.notification?.body,
+                                image = it?.notification?.image,
+                                idUser = preferencesUtils.userId,
+                                type = it?.notification?.type
+                            )
+                        )
+                    }
+                }
+                is Resource.Loading -> {
+                }
+                is Resource.Error -> {
+                }
+            }
+
         }
     }
 
@@ -236,5 +267,9 @@ class ChatFragment : BaseFragment() {
     override fun onDestroy() {
         super.onDestroy()
         socket?.disconnect()
+    }
+
+    companion object{
+        val TYPE_NOTIFICATION = "3"
     }
 }

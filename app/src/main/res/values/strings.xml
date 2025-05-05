@@ -20,8 +20,8 @@
     <string name="email_address">Nhập địa chỉ email của bạn</string>
     <string name="note_message">*Chúng tôi sẽ gửi một tin nhắn cho bạn để đặt hoặc lấy lại mật khẩu mới</string>
     <string name="submit">Gửi</string>
-    <string name="nav_messenger">Tin nhắn</string>
-    <string name="nav_shopping">Mua sắm</string>
+    <string name="nav_category">Hạng mục</string>
+    <string name="nav_home">Trang chính</string>
     <string name="nav_notification">Thông báo</string>
     <string name="nav_user">Tôi</string>
     <string name="text_search">Tìm kiếm...</string>
@@ -31,7 +31,8 @@
     <string name="text_product">Sản phẩm</string>
     <string name="update_user_info">Cập nhật thông tin</string>
     <string name="update_password">Thay đổi mật khẩu</string>
-    <string name="info_user_store">Cửa hàng của tôi</string>
+    <string name="info_user_store">Cửa hàng</string>
+    <string name="info_user_chat">Tin nhắn</string>
     <string name="sport">Hỗ trợ</string>
     <string name="setting">Cài đặt</string>
     <string name="log_out">Đăng xuất</string>
@@ -40,7 +41,7 @@
     <string name="no_internet_connection">Không có kết nối mạng</string>
     <string name="network_failure">Lỗi mạng</string>
     <string name="conversion_error">Conversion Error</string>
-    <string name="nav_search">Tìm kiếm</string>
+    <string name="nav_order">Đơn hàng</string>
     <string name="username">Tên người dùng</string>
     <string name="last_message">Tin nhắn cuối</string>
     <string name="default_time">24-hour HH:mm</string>
@@ -117,10 +118,12 @@
     <string name="sub_info_user">Họ tên, email, địa chỉ</string>
     <string name="sub_info_user_order">Đơn đang giao, hoàn thành, hủy bỏ</string>
     <string name="sub_info_user_store">Quản lý các giá trị mặt hàng của bạn</string>
+    <string name="sub_info_user_chat">Lịch sử tin nhắn của bạn</string>
     <string name="sub_info_user_wallet">Thanh toán, thẻ quà tặng, tín dụng</string>
     <string name="sub_info_user_logout">Đăng xuất tài khoản</string>
     <string name="sub_info_user_setting">Bảo mật và thông báo</string>
     <string name="sub_info_user_support">Giải đáp thắc mắc 24/7</string>
-    <string name="info_user_wallet">Ví</string>
+    <string name="info_user_wallet">Ví tiền</string>
+    <string name="phone">Số điện thoại</string>
 
 </resources>

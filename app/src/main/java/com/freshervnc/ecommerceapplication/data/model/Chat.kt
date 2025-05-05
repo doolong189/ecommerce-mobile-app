@@ -1,6 +1,6 @@
-package com.freshervnc.ecommerceapplication.model
+package com.freshervnc.ecommerceapplication.data.model
 
-class Chat(
+data class Chat(
     var messageImage: String = "",
     var messageText: String = "",
     var senderId: String = "",

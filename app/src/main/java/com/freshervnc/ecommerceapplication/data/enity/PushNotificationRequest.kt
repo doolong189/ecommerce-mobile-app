@@ -6,5 +6,7 @@ import androidx.annotation.Keep
 data class PushNotificationRequest(
     val registrationToken : String? = "",
     val title : String? = "",
-    val body : String? = ""
+    val body : String? = "",
+    val image : String? = "",
+    val type : String? = ""
 )

@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.databinding.ItemReceiverBinding
 import com.freshervnc.ecommerceapplication.databinding.ItemSenderBinding
-import com.freshervnc.ecommerceapplication.model.Chat
+import com.freshervnc.ecommerceapplication.data.model.Chat
 import com.freshervnc.ecommerceapplication.utils.PreferencesUtils
 import com.freshervnc.ecommerceapplication.utils.Utils
 

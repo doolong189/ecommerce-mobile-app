@@ -19,6 +19,7 @@ import com.freshervnc.ecommerceapplication.data.enity.GetUserInfoRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetUserInfoResponse
 import com.freshervnc.ecommerceapplication.databinding.FragmentUserBinding
 import com.freshervnc.ecommerceapplication.ui.cart.CartActivity
+import com.freshervnc.ecommerceapplication.ui.messaging.MessageActivity
 import com.freshervnc.ecommerceapplication.utils.Event
 import com.freshervnc.ecommerceapplication.utils.PreferencesUtils
 import com.freshervnc.ecommerceapplication.utils.Resource
@@ -54,6 +55,9 @@ class UserFragment : BaseFragment() {
     override fun setAction() {
         val navi = requireActivity().supportFragmentManager.fragments[0] as NavHostFragment
         binding.userBtnEditProfile.setOnClickListener { }
+        binding.userBtnMessage.setOnClickListener {
+            startActivity(Intent(requireContext(),MessageActivity::class.java))
+        }
     }
 
     override fun setObserve() {

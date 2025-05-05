@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.databinding.ItemDetailOrderBinding
-import com.freshervnc.ecommerceapplication.model.Product
-import com.freshervnc.ecommerceapplication.model.ProductOfOrder
+import com.freshervnc.ecommerceapplication.data.model.Product
+import com.freshervnc.ecommerceapplication.data.model.ProductOfOrder
 import com.freshervnc.ecommerceapplication.utils.Utils
 
 class DetailOrderAdapter() : RecyclerView.Adapter<DetailOrderAdapter.DetailOrderViewHolder>() {

@@ -111,37 +111,21 @@
                android:orientation="horizontal"
                android:padding="10dp">
 
-               <com.google.android.material.card.MaterialCardView
-                   android:layout_width="50dp"
-                   android:layout_height="50dp"
-                   android:layout_margin="5dp"
-                   android:background="@drawable/ic_google"
+               <ImageView
+                   android:layout_width="@dimen/icon_dp"
+                   android:layout_height="@dimen/icon_dp"
+                   android:layout_margin="@dimen/dp_5"
                    android:src="@drawable/ic_google"
-                   app:cardCornerRadius="50dp"
-                   >
-                   <ImageView
-                       android:layout_width="match_parent"
-                       android:layout_height="match_parent"
-                       android:layout_margin="5dp"
-                       android:src="@drawable/ic_google"
-                       android:padding="5dp"/>
-               </com.google.android.material.card.MaterialCardView>
+                   android:background="@drawable/bg"
+                   android:padding="@dimen/dp_10"/>
 
-               <com.google.android.material.card.MaterialCardView
-                   android:layout_width="50dp"
-                   android:layout_height="50dp"
-                   android:layout_margin="5dp"
-                   android:background="@drawable/ic_google"
-                   android:src="@drawable/ic_google"
-                   app:cardCornerRadius="50dp"
-                   >
-                   <ImageView
-                       android:layout_width="match_parent"
-                       android:layout_height="match_parent"
-                       android:layout_margin="5dp"
-                       android:src="@drawable/ic_facebook"
-                       android:padding="5dp"/>
-               </com.google.android.material.card.MaterialCardView>
+               <ImageView
+                   android:layout_width="@dimen/icon_dp"
+                   android:layout_height="@dimen/icon_dp"
+                   android:layout_margin="@dimen/dp_5"
+                   android:src="@drawable/ic_facebook"
+                   android:background="@drawable/bg"
+                   android:padding="@dimen/dp_10"/>
            </LinearLayout>
 
            <LinearLayout

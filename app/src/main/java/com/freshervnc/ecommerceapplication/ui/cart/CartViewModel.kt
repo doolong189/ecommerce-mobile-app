@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.freshervnc.ecommerceapplication.R
-import com.freshervnc.ecommerceapplication.app.MyApplication
+import com.freshervnc.ecommerceapplication.common.app.MyApplication
 import com.freshervnc.ecommerceapplication.data.enity.CreateCartRequest
 import com.freshervnc.ecommerceapplication.data.enity.CreateCartResponse
 import com.freshervnc.ecommerceapplication.data.enity.DeleteCartRequest
@@ -111,7 +111,9 @@ class CartViewModel(private val application: Application) : AndroidViewModel(app
                         gson.fromJson(it.string(), ErrorResponse::class.java)
                     }
                     getCartResult.postValue(Event(Resource.Error(errorResponse?.message ?: "")))
+                    Log.e(Constants.TAG,"${errorResponse?.message}")
                 }
+                Log.e(Constants.TAG,"${response.body()?.message}")
             } else {
                 getCartResult.postValue(Event(Resource.Error(getApplication<MyApplication>().getString(
                                 R.string.no_internet_connection

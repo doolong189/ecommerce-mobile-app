@@ -9,8 +9,8 @@ import com.bumptech.glide.Glide
 import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.databinding.ItemCategoryBinding
 import com.freshervnc.ecommerceapplication.databinding.ItemProductBinding
-import com.freshervnc.ecommerceapplication.model.Category
-import com.freshervnc.ecommerceapplication.model.Product
+import com.freshervnc.ecommerceapplication.data.model.Category
+import com.freshervnc.ecommerceapplication.data.model.Product
 import com.freshervnc.ecommerceapplication.utils.Utils
 
 private var onClickItem: ((id: Product, position: Int) -> Unit)? = null

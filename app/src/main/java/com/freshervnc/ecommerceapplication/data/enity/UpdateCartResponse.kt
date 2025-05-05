@@ -1,7 +1,7 @@
 package com.freshervnc.ecommerceapplication.data.enity
 
 import androidx.annotation.Keep
-import com.freshervnc.ecommerceapplication.model.ResponseCart
+import com.freshervnc.ecommerceapplication.data.model.ResponseCart
 
 @Keep
 data class UpdateCartResponse (

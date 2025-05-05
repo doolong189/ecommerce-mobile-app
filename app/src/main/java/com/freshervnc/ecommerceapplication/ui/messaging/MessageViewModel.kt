@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.freshervnc.ecommerceapplication.R
-import com.freshervnc.ecommerceapplication.app.MyApplication
+import com.freshervnc.ecommerceapplication.common.app.MyApplication
 import com.freshervnc.ecommerceapplication.data.enity.ErrorResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetAllUserRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetAllUserResponse
@@ -17,8 +17,8 @@ import com.freshervnc.ecommerceapplication.data.enity.GetHistoryChatMessageReque
 import com.freshervnc.ecommerceapplication.data.enity.GetHistoryChatMessageResponse
 import com.freshervnc.ecommerceapplication.data.repository.ChatMessageRepository
 import com.freshervnc.ecommerceapplication.data.repository.UserRepository
-import com.freshervnc.ecommerceapplication.model.Chat
-import com.freshervnc.ecommerceapplication.model.UserInfo
+import com.freshervnc.ecommerceapplication.data.model.Chat
+import com.freshervnc.ecommerceapplication.data.model.UserInfo
 import com.freshervnc.ecommerceapplication.utils.Event
 import com.freshervnc.ecommerceapplication.utils.PreferencesUtils
 import com.freshervnc.ecommerceapplication.utils.Resource
@@ -34,52 +34,15 @@ import java.io.IOException
 
 class MessageViewModel (private val application: Application)  : AndroidViewModel(application) {
     private var messageRepository : ChatMessageRepository = ChatMessageRepository()
-    private var preferences: PreferencesUtils = PreferencesUtils(application)
-    private val _messagesList = MutableLiveData<List<Chat>>()
-
     private val getChatMessageResult = MutableLiveData<Event<Resource<GetChatMessageResponse>>>()
     private val getHistoryChatMessagesResult = MutableLiveData<Event<Resource<GetHistoryChatMessageResponse>>>()
+
     fun getChatMessageResult() : LiveData<Event<Resource<GetChatMessageResponse>>>{
         return getChatMessageResult
     }
 
     fun getHistoryChatMessagesResult() : LiveData<Event<Resource<GetHistoryChatMessageResponse>>>{
         return getHistoryChatMessagesResult
-    }
-
-    fun fetchHistoryMessage(users : List<UserInfo>){
-        val senderId = preferences.userId!!
-        var senderRoom = ""
-        for (item in users){
-            senderRoom = senderId + item._id
-            FirebaseDatabase.getInstance().reference
-                .child("Chats")
-                .child(senderRoom)
-                .orderByChild("lastMsgTime")
-                .addValueEventListener(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        val messagesList = mutableListOf<Chat>()
-                        if (snapshot.exists()) {
-                            for (messageSnapshot in snapshot.children) {
-                                val lastMsg = messageSnapshot.child("lastMsg").getValue(String::class.java)
-                                val time = messageSnapshot.child("lastMsgTime").getValue(Long::class.java) ?: 0L
-                                if (lastMsg != null) {
-                                    messagesList.add(
-                                        Chat(
-                                            messageText = lastMsg,
-                                            timestamp = time
-                                        )
-                                    )
-                                    println("log123 ${messagesList}")
-                                }
-                            }
-                            messagesList.sortByDescending { it.timestamp }
-                            _messagesList.postValue(messagesList)
-                        }
-                    }
-                    override fun onCancelled(error: DatabaseError) {}
-                })
-        }
     }
 
     fun getChatMessage(request : GetChatMessageRequest) : Job = viewModelScope.launch {

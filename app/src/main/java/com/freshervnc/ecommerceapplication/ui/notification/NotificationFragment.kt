@@ -13,12 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.adapter.NotificationAdapter
-import com.freshervnc.ecommerceapplication.common.BaseFragment
+import com.freshervnc.ecommerceapplication.common.base.BaseFragment
 import com.freshervnc.ecommerceapplication.data.enity.CreateNotificationRequest
 import com.freshervnc.ecommerceapplication.data.enity.CreateNotificationResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetNotificationRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetNotificationResponse
-import com.freshervnc.ecommerceapplication.data.enity.PushNotificationRequest
 import com.freshervnc.ecommerceapplication.data.enity.PushNotificationResponse
 import com.freshervnc.ecommerceapplication.databinding.FragmentNotificationBinding
 import com.freshervnc.ecommerceapplication.utils.Constants

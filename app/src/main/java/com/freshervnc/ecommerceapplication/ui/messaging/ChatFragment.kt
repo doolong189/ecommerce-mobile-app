@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.freshervnc.ecommerceapplication.adapter.ChatAdapter
-import com.freshervnc.ecommerceapplication.common.BaseFragment
+import com.freshervnc.ecommerceapplication.common.base.BaseFragment
 import com.freshervnc.ecommerceapplication.data.enity.CreateChatMessageRequest
 import com.freshervnc.ecommerceapplication.data.enity.CreateChatMessageResponse
 import com.freshervnc.ecommerceapplication.data.enity.CreateNotificationRequest
@@ -34,7 +34,6 @@ import com.freshervnc.ecommerceapplication.utils.PreferencesUtils
 import com.freshervnc.ecommerceapplication.utils.Resource
 import io.socket.client.IO
 import io.socket.client.Socket
-import okhttp3.WebSocket
 import org.json.JSONException
 import org.json.JSONObject
 

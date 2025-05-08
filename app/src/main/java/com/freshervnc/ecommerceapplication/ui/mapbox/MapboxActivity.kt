@@ -6,13 +6,10 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import android.view.MenuItem
-import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.EditText
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView.HORIZONTAL
 import com.mapbox.maps.extension.style.expressions.generated.Expression
 import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.adapter.CategoryAdapter
-import com.freshervnc.ecommerceapplication.common.BaseLocationActivity
+import com.freshervnc.ecommerceapplication.common.base.BaseLocationActivity
 import com.freshervnc.ecommerceapplication.common.LocationPermissionHelper
 import com.freshervnc.ecommerceapplication.data.enity.GetCategoryResponse
 import com.freshervnc.ecommerceapplication.databinding.ActivityMapboxBinding

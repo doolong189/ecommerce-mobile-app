@@ -31,6 +31,24 @@
 
             </LinearLayout>
 
+            <RelativeLayout
+                android:layout_width="@dimen/dp_35"
+                android:layout_height="@dimen/dp_35"
+                android:layout_margin="10dp"
+                >
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="@dimen/dp_50"
+                    android:layout_height="@dimen/dp_50"
+                    android:src="@drawable/user"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/baseline_camera_alt_24"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    />
+            </RelativeLayout>
+
             <EditText
                 android:id="@+id/edName"
                 android:layout_width="match_parent"

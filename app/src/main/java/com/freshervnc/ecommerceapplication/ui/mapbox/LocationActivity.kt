@@ -14,7 +14,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import com.mapbox.maps.extension.style.expressions.generated.Expression
 import com.freshervnc.ecommerceapplication.R
-import com.freshervnc.ecommerceapplication.common.BaseLocationActivity
+import com.freshervnc.ecommerceapplication.common.base.BaseLocationActivity
 import com.freshervnc.ecommerceapplication.common.LocationPermissionHelper
 import com.freshervnc.ecommerceapplication.databinding.ActivityLocationBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton

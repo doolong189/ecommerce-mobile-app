@@ -1,8 +1,5 @@
 package com.freshervnc.ecommerceapplication.data.enity
 
-import androidx.annotation.Keep
-
-@Keep
 data class CreateChatMessageRequest(
     val messageId : String? = "",
     val messageImage : String? = "",

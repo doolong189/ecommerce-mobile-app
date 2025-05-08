@@ -1,15 +1,10 @@
 package com.freshervnc.ecommerceapplication.ui.cart
 
 import android.os.Bundle
-import android.view.MenuItem
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.freshervnc.ecommerceapplication.R
-import com.freshervnc.ecommerceapplication.common.BaseActivity
+import com.freshervnc.ecommerceapplication.common.base.BaseActivity
 
 class CartActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

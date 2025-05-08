@@ -33,7 +33,25 @@
     </fragment>
     <fragment
         android:id="@+id/forgotPasswordFragment"
-        android:name="com.freshervnc.ecommerceapplication.ui.launch.forgotpassword.ForgotPasswordFragment"
+        android:name="com.freshervnc.ecommerceapplication.ui.launch.password.ForgotPasswordFragment"
         android:label="fragment_forgot_password"
-        tools:layout="@layout/fragment_forgot_password" />
+        tools:layout="@layout/fragment_forgot_password" >
+        <action
+            android:id="@+id/action_forgotPasswordFragment_to_verificationOTPFragment"
+            app:destination="@id/verificationOTPFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/verificationOTPFragment"
+        android:name="com.freshervnc.ecommerceapplication.ui.launch.verification.VerificationOtpFragment"
+        android:label="fragment_verification_o_t_p"
+        tools:layout="@layout/fragment_verification_o_t_p" >
+        <action
+            android:id="@+id/action_verificationOTPFragment_to_createPasswordFragment"
+            app:destination="@id/createPasswordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createPasswordFragment"
+        android:name="com.freshervnc.ecommerceapplication.ui.launch.password.CreatePasswordFragment"
+        android:label="fragment_create_password"
+        tools:layout="@layout/fragment_create_password" />
 </navigation>

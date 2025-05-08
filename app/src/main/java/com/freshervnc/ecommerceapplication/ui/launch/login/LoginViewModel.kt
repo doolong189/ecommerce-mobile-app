@@ -25,7 +25,7 @@ import java.io.IOException
 
 class LoginViewModel (private val application: Application)  : AndroidViewModel(application) {
     private var repository : UserRepository = UserRepository()
-    private val getLoginResult = MutableLiveData <Event<Resource<LoginResponse>>>()
+    private val getLoginResult = MutableLiveData<Event<Resource<LoginResponse>>>()
     fun getLoginResult(): LiveData<Event<Resource<LoginResponse>>> {
         return getLoginResult
     }
@@ -63,16 +63,4 @@ class LoginViewModel (private val application: Application)  : AndroidViewModel(
             }
         }
     }
-
-
-    class LoginViewModelFactory(val application : Application) : ViewModelProvider.Factory{
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return if (modelClass.isAssignableFrom(LoginViewModel::class.java)){
-                LoginViewModel(application) as T
-            }else{
-                throw IllegalArgumentException("viewmodel not found")
-            }
-        }
-    }
-
 }

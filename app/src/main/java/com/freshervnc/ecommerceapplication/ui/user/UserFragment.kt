@@ -2,23 +2,17 @@ package com.freshervnc.ecommerceapplication.ui.user
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.freshervnc.ecommerceapplication.R
-import com.freshervnc.ecommerceapplication.common.BaseFragment
-import com.freshervnc.ecommerceapplication.data.enity.GetAllUserRequest
+import com.freshervnc.ecommerceapplication.common.base.BaseFragment
 import com.freshervnc.ecommerceapplication.data.enity.GetUserInfoRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetUserInfoResponse
 import com.freshervnc.ecommerceapplication.databinding.FragmentUserBinding
-import com.freshervnc.ecommerceapplication.ui.cart.CartActivity
 import com.freshervnc.ecommerceapplication.ui.messaging.MessageActivity
 import com.freshervnc.ecommerceapplication.utils.Event
 import com.freshervnc.ecommerceapplication.utils.PreferencesUtils
@@ -54,7 +48,9 @@ class UserFragment : BaseFragment() {
 
     override fun setAction() {
         val navi = requireActivity().supportFragmentManager.fragments[0] as NavHostFragment
-        binding.userBtnEditProfile.setOnClickListener { }
+        binding.userBtnEditProfile.setOnClickListener {
+
+        }
         binding.userBtnMessage.setOnClickListener {
             startActivity(Intent(requireContext(),MessageActivity::class.java))
         }

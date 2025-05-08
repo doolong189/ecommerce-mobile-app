@@ -104,5 +104,8 @@ dependencies {
     implementation("com.mapbox.navigationcore:android:3.8.0-beta.1")
     implementation("com.mapbox.navigationcore:ui-components:3.8.0-beta.1")
     implementation("com.google.android.gms:play-services-location:21.0.1")
+    implementation("com.google.android.gms:play-services-auth:18.0.0")
+    implementation("com.facebook.android:facebook-android-sdk:[4,5)")
+
 
 }

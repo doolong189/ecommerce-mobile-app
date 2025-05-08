@@ -1,4 +1,4 @@
-package com.freshervnc.ecommerceapplication.common
+package com.freshervnc.ecommerceapplication.common.base
 
 import android.content.Context
 import android.graphics.Bitmap

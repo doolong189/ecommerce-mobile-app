@@ -11,17 +11,22 @@
     <string name="username_or_email">Tên đăng nhập hoặc email</string>
     <string name="password">Mật khẩu</string>
     <string name="login">Đăng nhập</string>
-    <string name="or">Hoặc</string>
+    <string name="or_login_with">Hoặc đăng nhập bằng</string>
+    <string name="or_register_with">Hoặc đăng ký bằng</string>
     <string name="create_account">Đăng ký</string>
     <string name="name">Họ tên</string>
     <string name="confirm_password">Xác nhận mật khẩu</string>
     <string name="forgot_password">Quên \nmật khẩu?</string>
     <string name="create_your_account">Tạo \ntài khoản</string>
+    <string name="verification_otp">Xác nhận \nmã otp</string>
     <string name="email_address">Nhập địa chỉ email của bạn</string>
     <string name="note_message">*Chúng tôi sẽ gửi một tin nhắn cho bạn để đặt hoặc lấy lại mật khẩu mới</string>
+    <string name="note_otp">*Bạn kiểm tra tin nhắn trong hộp thư đã được gửi đến email</string>
     <string name="submit">Gửi</string>
     <string name="nav_category">Hạng mục</string>
     <string name="nav_home">Trang chính</string>
+    <string name="nav_messenger">Tin nhắn</string>
+    <string name="nav_shopping">Mua sắm</string>
     <string name="nav_notification">Thông báo</string>
     <string name="nav_user">Tôi</string>
     <string name="text_search">Tìm kiếm...</string>
@@ -31,7 +36,7 @@
     <string name="text_product">Sản phẩm</string>
     <string name="update_user_info">Cập nhật thông tin</string>
     <string name="update_password">Thay đổi mật khẩu</string>
-    <string name="info_user_store">Cửa hàng</string>
+    <string name="info_user_store">Cửa hàng của tôi</string>
     <string name="info_user_chat">Tin nhắn</string>
     <string name="sport">Hỗ trợ</string>
     <string name="setting">Cài đặt</string>
@@ -41,6 +46,7 @@
     <string name="no_internet_connection">Không có kết nối mạng</string>
     <string name="network_failure">Lỗi mạng</string>
     <string name="conversion_error">Conversion Error</string>
+    <string name="nav_search">Tìm kiếm</string>
     <string name="nav_order">Đơn hàng</string>
     <string name="username">Tên người dùng</string>
     <string name="last_message">Tin nhắn cuối</string>
@@ -125,5 +131,8 @@
     <string name="sub_info_user_support">Giải đáp thắc mắc 24/7</string>
     <string name="info_user_wallet">Ví tiền</string>
     <string name="phone">Số điện thoại</string>
+    <string name="facebook_app_id">629383743411294</string>
+    <string name="fb_login_protocol_scheme">fb629383743411294</string>
+    <string name="facebook_client_token">ec2571fadd7ce2b07bd84f1ea104a640</string>
 
 </resources>

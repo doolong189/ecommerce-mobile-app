@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.adapter.OrderAdapter
-import com.freshervnc.ecommerceapplication.common.BaseFragment
+import com.freshervnc.ecommerceapplication.common.base.BaseFragment
 import com.freshervnc.ecommerceapplication.data.enity.GetOrderRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetOrderResponse
 import com.freshervnc.ecommerceapplication.databinding.FragmentCompletedOrderBinding
@@ -58,7 +58,7 @@ class CompletedOrderFragment : BaseFragment() {
     override fun setAction() {
         orderAdapter.onClickItemOrder { id, position ->
             val bundle = Bundle().apply { putString("orderId", id._id) }
-            findNavController().navigate(R.id.action_orderFragment_to_detailOrderFragment,bundle)
+            findNavController().navigate(R.id.action_orderFragment2_to_detailOrderFragment2,bundle)
         }
     }
 

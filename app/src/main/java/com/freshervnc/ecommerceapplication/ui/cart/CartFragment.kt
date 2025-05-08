@@ -1,7 +1,6 @@
 package com.freshervnc.ecommerceapplication.ui.cart
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.freshervnc.ecommerceapplication.adapter.CartAdapter
-import com.freshervnc.ecommerceapplication.common.BaseFragment
-import com.freshervnc.ecommerceapplication.data.enity.CreateOrderRequest
+import com.freshervnc.ecommerceapplication.common.base.BaseFragment
 import com.freshervnc.ecommerceapplication.data.enity.CreateOrderResponse
 import com.freshervnc.ecommerceapplication.data.enity.DeleteCartRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetCartRequest
@@ -67,7 +65,7 @@ class CartFragment : BaseFragment() {
         socketIO.connect()
         binding.cartBtnCheckOut.setOnClickListener {
 //            orderViewModel.createOrder(CreateOrderRequest(idClient = preferences.userId, idShipper = "", products = products))
-            socketIO.sendMessage("abc")
+            socketIO.sendMessage("shopping")
         }
         cartAdapter.onClickItemSubQuantity { item, position ->
             if (item.quantity!! >= 0 ){

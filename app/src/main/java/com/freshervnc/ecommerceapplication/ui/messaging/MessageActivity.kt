@@ -1,14 +1,12 @@
 package com.freshervnc.ecommerceapplication.ui.messaging
 
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.freshervnc.ecommerceapplication.R
-import com.freshervnc.ecommerceapplication.common.BaseActivity
+import com.freshervnc.ecommerceapplication.common.base.BaseActivity
 import com.freshervnc.ecommerceapplication.databinding.ActivityMessageBinding
 import com.freshervnc.ecommerceapplication.ui.findmap.MapEcommerceActivity
 

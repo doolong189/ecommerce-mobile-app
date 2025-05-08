@@ -1,17 +1,17 @@
-package com.freshervnc.ecommerceapplication.ui.password
+package com.freshervnc.ecommerceapplication.ui.launch.password
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.freshervnc.ecommerceapplication.common.BaseFragment
-import com.freshervnc.ecommerceapplication.databinding.FragmentPasswordBinding
+import com.freshervnc.ecommerceapplication.common.base.BaseFragment
+import com.freshervnc.ecommerceapplication.databinding.FragmentChangePasswordBinding
 
 
-class PasswordFragment : BaseFragment() {
+class ChangePasswordFragment : BaseFragment() {
     override var isVisibleActionBar: Boolean = false
-    private lateinit var binding : FragmentPasswordBinding
+    private lateinit var binding : FragmentChangePasswordBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +23,7 @@ class PasswordFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentPasswordBinding.inflate(layoutInflater, container, false)
+        binding = FragmentChangePasswordBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
     override fun initView() {

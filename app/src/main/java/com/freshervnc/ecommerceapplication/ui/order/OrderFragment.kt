@@ -4,14 +4,13 @@ import android.graphics.Typeface
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.Gravity
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.freshervnc.ecommerceapplication.R
-import com.freshervnc.ecommerceapplication.common.BaseFragment
+import com.freshervnc.ecommerceapplication.common.base.BaseFragment
 import com.freshervnc.ecommerceapplication.databinding.FragmentOrderBinding
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -42,9 +41,7 @@ class OrderFragment : BaseFragment() {
     override fun setView() {
         binding.orderViewPager2.isUserInputEnabled = false
         binding.orderViewPager2.adapter = OrderAdapter(requireActivity())
-
         tabLayoutMediator = TabLayoutMediator(binding.orderTabLayout, binding.orderViewPager2) { tab, position ->
-            // Tạo một TextView tùy chỉnh cho mỗi tab
             val tabTextView = TextView(requireContext()).apply {
                 text = when (position) {
                     0 -> getString(R.string.process_order)

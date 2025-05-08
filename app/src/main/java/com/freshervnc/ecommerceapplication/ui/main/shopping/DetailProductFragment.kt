@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide
 import com.freshervnc.ecommerceapplication.R
 import com.freshervnc.ecommerceapplication.adapter.ImageAdapter
 import com.freshervnc.ecommerceapplication.adapter.ReviewAdapter
-import com.freshervnc.ecommerceapplication.common.BaseFragment
+import com.freshervnc.ecommerceapplication.common.base.BaseFragment
 import com.freshervnc.ecommerceapplication.data.enity.CreateCartRequest
 import com.freshervnc.ecommerceapplication.data.enity.CreateCartResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetDetailProductRequest

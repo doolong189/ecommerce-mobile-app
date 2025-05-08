@@ -12,6 +12,8 @@ import com.freshervnc.ecommerceapplication.data.enity.CreateReviewRequest
 import com.freshervnc.ecommerceapplication.data.enity.CreateReviewResponse
 import com.freshervnc.ecommerceapplication.data.enity.DeleteCartRequest
 import com.freshervnc.ecommerceapplication.data.enity.DeleteCartResponse
+import com.freshervnc.ecommerceapplication.data.enity.GenerateOtpRequest
+import com.freshervnc.ecommerceapplication.data.enity.GenerateOtpResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetAllUserRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetAllUserResponse
 import com.freshervnc.ecommerceapplication.data.enity.GetCartRequest
@@ -51,6 +53,8 @@ import com.freshervnc.ecommerceapplication.data.enity.RegisterRequest
 import com.freshervnc.ecommerceapplication.data.enity.RegisterResponse
 import com.freshervnc.ecommerceapplication.data.enity.UpdateCartRequest
 import com.freshervnc.ecommerceapplication.data.enity.UpdateCartResponse
+import com.freshervnc.ecommerceapplication.data.enity.VerifyOtpRequest
+import com.freshervnc.ecommerceapplication.data.enity.VerifyOtpResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -64,6 +68,7 @@ interface ApiService {
     @POST("/user/login")
     suspend fun getLogin(@Body request : LoginRequest) : Response<LoginResponse>
 
+    @POST("user/register")
     suspend fun getRegisterAccount(@Body request : RegisterRequest) : Response<RegisterResponse>
 
     @GET("category/getCategory")
@@ -134,4 +139,10 @@ interface ApiService {
 
     @POST("review/getReviewWithProduct")
     suspend fun getReviewWithProduct(@Body request : GetReviewWithProductRequest) : Response<GetReviewWithProductResponse>
+
+    @POST("auth/generateOTP")
+    suspend fun generateOTP(@Body request : GenerateOtpRequest) : Response<GenerateOtpResponse>
+
+    @POST("auth/verifyOTP")
+    suspend fun verifyOTP(@Body request : VerifyOtpRequest) : Response<VerifyOtpResponse>
 }

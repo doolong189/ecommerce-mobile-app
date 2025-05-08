@@ -26,6 +26,11 @@ class SocketIOManager() {
         }
     }
 
+    fun join(userId : String){
+        socket?.emit("join",userId)
+        Log.e(Constants.TAG,"join")
+    }
+
     fun sendMessage(message: String) {
         socket?.emit("message",message)
         Log.e(Constants.TAG,"send message")

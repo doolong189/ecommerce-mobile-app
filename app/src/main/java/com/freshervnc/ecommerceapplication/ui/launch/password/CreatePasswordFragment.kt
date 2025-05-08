@@ -1,4 +1,4 @@
-package com.freshervnc.ecommerceapplication.ui.launch.forgotpassword
+package com.freshervnc.ecommerceapplication.ui.launch.password
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,7 +8,8 @@ import android.view.ViewGroup
 import com.freshervnc.ecommerceapplication.R
 
 
-class ForgotPasswordFragment : Fragment() {
+class CreatePasswordFragment : Fragment() {
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +21,8 @@ class ForgotPasswordFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_forgot_password, container, false)
+        return inflater.inflate(R.layout.fragment_create_password, container, false)
     }
+
 
 }

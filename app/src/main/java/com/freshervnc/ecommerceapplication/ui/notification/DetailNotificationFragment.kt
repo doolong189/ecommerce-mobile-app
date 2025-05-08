@@ -1,14 +1,12 @@
 package com.freshervnc.ecommerceapplication.ui.notification
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import com.freshervnc.ecommerceapplication.R
-import com.freshervnc.ecommerceapplication.common.BaseFragment
+import com.freshervnc.ecommerceapplication.common.base.BaseFragment
 import com.freshervnc.ecommerceapplication.data.enity.GetDetailNotificationRequest
 import com.freshervnc.ecommerceapplication.data.enity.GetDetailNotificationResponse
 import com.freshervnc.ecommerceapplication.databinding.FragmentDetailNotificationBinding

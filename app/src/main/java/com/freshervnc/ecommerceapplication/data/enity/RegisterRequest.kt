@@ -1,8 +1,6 @@
 package com.freshervnc.ecommerceapplication.data.enity
 
-import androidx.annotation.Keep
 
-@Keep
 data class RegisterRequest(
     val name: String? = "",
     var address : String? = "" ,
@@ -10,6 +8,6 @@ data class RegisterRequest(
     var email:String? = "",
     var phone:String? = "",
     var image: String? = "" ,
-    val loc: List<Double>?  ,
+    val loc: List<Double>? = listOf(0.0,0.0),
     val token : String? = ""
 )

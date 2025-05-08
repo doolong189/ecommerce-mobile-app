@@ -3,12 +3,14 @@ package com.freshervnc.ecommerceapplication.ui.launch.splash
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.freshervnc.ecommerceapplication.R
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.messaging.FirebaseMessaging
 
 
 class SplashFragment : Fragment() {
@@ -31,6 +33,15 @@ class SplashFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.d("FCM", "Fetching FCM registration token failed", task.exception)
+                return@addOnCompleteListener
+            }
+            // Get new FCM registration token
+            val token = task.result
+            Log.d("FCM", "FCM Token: $token")
+        }
         Handler(Looper.getMainLooper()).postDelayed({
             findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
         }, 2000)

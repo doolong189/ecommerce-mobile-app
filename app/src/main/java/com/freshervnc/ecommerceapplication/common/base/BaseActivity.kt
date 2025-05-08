@@ -1,4 +1,4 @@
-package com.freshervnc.ecommerceapplication.common
+package com.freshervnc.ecommerceapplication.common.base
 
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity

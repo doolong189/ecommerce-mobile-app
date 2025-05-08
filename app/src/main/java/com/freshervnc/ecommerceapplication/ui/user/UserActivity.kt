@@ -1,14 +1,11 @@
 package com.freshervnc.ecommerceapplication.ui.user
 
 import android.os.Bundle
-import android.view.MenuItem
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.freshervnc.ecommerceapplication.R
-import com.freshervnc.ecommerceapplication.common.BaseActivity
+import com.freshervnc.ecommerceapplication.common.base.BaseActivity
 
 class UserActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

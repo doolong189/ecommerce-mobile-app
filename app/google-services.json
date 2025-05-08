@@ -31,7 +31,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "876732120875-v2ia8s94kuvjvdahf90ofjakq12rj36t.apps.googleusercontent.com",
+              "client_id": "876732120875-39mcfftq5460eiflo6rllv5kmtr74cqt.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
@@ -40,20 +40,12 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:876732120875:android:2a120c1a51cc165653cf6e",
+        "mobilesdk_app_id": "1:876732120875:android:0e73f2ccb3b4681853cf6e",
         "android_client_info": {
-          "package_name": "com.hoanglong180903.shoppingease"
+          "package_name": "com.hoanglong180903.driver"
         }
       },
       "oauth_client": [
-        {
-          "client_id": "876732120875-pqab26o0kh0lhlja3chppoi6s9bekatc.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.hoanglong180903.shoppingease",
-            "certificate_hash": "401a31ac51e717e590183bde22d87bd21ee4e020"
-          }
-        },
         {
           "client_id": "876732120875-v2ia8s94kuvjvdahf90ofjakq12rj36t.apps.googleusercontent.com",
           "client_type": 3
@@ -71,55 +63,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "876732120875-v2ia8s94kuvjvdahf90ofjakq12rj36t.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:876732120875:android:c8cc671cc74a8ab853cf6e",
-        "android_client_info": {
-          "package_name": "hoanglong180903.myproject.socialhub"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "876732120875-000l8d8eudsrddqjvd7rom9v5sjcck2h.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "hoanglong180903.myproject.socialhub",
-            "certificate_hash": "49be2215e4d965e24f714f55be700e51b461105c"
-          }
-        },
-        {
-          "client_id": "876732120875-8963b82hs1ffv3qe44ggd0rkqaaqg6le.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "hoanglong180903.myproject.socialhub",
-            "certificate_hash": "e70e30ce7159fd2c41fd3045aae24babfb92f500"
-          }
-        },
-        {
-          "client_id": "876732120875-v2ia8s94kuvjvdahf90ofjakq12rj36t.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyANlLgaSyaoK2YPS0P11n4Ny_HIXRZtFG8"
-        },
-        {
-          "current_key": "AIzaSyBQvFy4hVLtx8x5fbckRwyDz2hdanIPD18"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "876732120875-v2ia8s94kuvjvdahf90ofjakq12rj36t.apps.googleusercontent.com",
+              "client_id": "876732120875-39mcfftq5460eiflo6rllv5kmtr74cqt.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
